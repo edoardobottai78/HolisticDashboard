@@ -1,0 +1,125 @@
+{
+  "mese": "Aprile 2026",
+  "mese_precedente": "Marzo 2026",
+  "aggiornato_il": "2026-04-27",
+
+  "score_olistico": 67,
+  "score_fisico": 78,
+  "score_mentale": 61,
+  "score_nutrizionale": 82,
+  "score_sonno": 13,
+
+  "score_olistico_prec": 64,
+  "score_fisico_prec": 75,
+  "score_mentale_prec": 63,
+  "score_nutrizionale_prec": 76,
+
+  "biocharge_medio": 74,
+  "hrv_medio": 52,
+  "hrv_medio_prec": 48,
+  "deep_sleep_pct": 13.2,
+  "deep_sleep_pct_prec": 15.3,
+  "ore_sonno_media": 7.1,
+  "score_sonno_zepp": 71,
+  "peso_fine_mese": 82.1,
+  "delta_peso": -0.2,
+  "slancio_hume_medio": 68,
+  "score_hume_medio": 72,
+  "fatigue_prevalente": "Moderata",
+  "fatigue_score": 3,
+
+  "sessioni_allenamento": 18,
+  "sessioni_allenamento_target": 20,
+  "tipo_sport_prevalente": "CrossFit",
+  "durata_allenamento_media": 52,
+  "durata_allenamento_totale": 936,
+  "calorie_allenamento_totali": null,
+  "calorie_allenamento_medie": null,
+  "fc_media_allenamento": null,
+  "fc_max_allenamento": null,
+  "steps_giorno_media": 8240,
+
+  "mood_giorni": [0.6,0.35,0.65,0.5,0.35,0.7,0.45,0.4,0.6,0.8,0.55,0.4,0.6,0.45,0.7,0.6,0.45,0.4,0.75,0.35,0.65,0.5,0.3,0.7,0.8,0.5,0.5,0.6],
+  "mood_tipo": ["pos","pos","pos","neu","dif","pos","pos","neu","pos","pos","pos","dif","neu","pos","pos","pos","dif","pos","pos","neu","pos","pos","dif","pos","pos","pos","neu","pos"],
+  "mood_prevalente": "Calmo",
+  "mood_positivi": 19,
+  "mood_neutri": 5,
+  "mood_difficili": 4,
+  "rating_medio": 7.4,
+  "energia_mattutina_media": 6.8,
+  "sessioni_journal": 24,
+  "sessioni_journal_totali": 27,
+  "consistency_journal": 89,
+  "protocollo_attivo": "Equilibrio",
+  "protocollo_fase": "Fase 2",
+  "esercizio_prevalente": "Stress Bucket",
+
+  "habit_vitamins": 24,
+  "habit_stretching": 21,
+  "habit_reading": 17,
+  "habit_fotografia": 9,
+  "habit_giorni_totali": 27,
+  "habit_vitamins_ultimi7": [1,1,1,0,1,1,1],
+  "habit_stretching_ultimi7": [1,1,0,1,1,0,1],
+  "habit_reading_ultimi7": [1,0,1,1,0,1,1],
+  "habit_fotografia_ultimi7": [0,0,1,0,1,1,0],
+
+  "protocollo_sessioni": [
+    {"nome": "Stress Bucket", "count": 8, "pct": 33},
+    {"nome": "Riflessione guidata", "count": 7, "pct": 29},
+    {"nome": "Mindfulness 4-7-8", "count": 6, "pct": 25},
+    {"nome": "Gratitudine strutturata", "count": 3, "pct": 13}
+  ],
+  "mindfulness_delta_rating": 1.2,
+
+  "parole_frequenti": [
+    {"parola": "calmo", "tipo": "pos", "peso": 2},
+    {"parola": "focalizzato", "tipo": "pos", "peso": 1},
+    {"parola": "stanco", "tipo": "neg", "peso": 1},
+    {"parola": "grato", "tipo": "pos", "peso": 1},
+    {"parola": "riflessivo", "tipo": "neu", "peso": 1},
+    {"parola": "teso", "tipo": "neg", "peso": 2},
+    {"parola": "energico", "tipo": "pos", "peso": 1},
+    {"parola": "incerto", "tipo": "neu", "peso": 1},
+    {"parola": "presente", "tipo": "pos", "peso": 1},
+    {"parola": "agitato", "tipo": "neg", "peso": 1},
+    {"parola": "soddisfatto", "tipo": "pos", "peso": 1},
+    {"parola": "distante", "tipo": "neu", "peso": 1},
+    {"parola": "centrato", "tipo": "pos", "peso": 1},
+    {"parola": "frustrato", "tipo": "neg", "peso": 1}
+  ],
+
+  "kcal_medie_giornaliere": 2240,
+  "kcal_target": 2280,
+  "delta_calorico_medio": -42,
+  "giorni_surplus": 11,
+  "giorni_deficit": 16,
+  "proteine_medie": 168,
+  "proteine_target": 180,
+  "carboidrati_medi": 245,
+  "grassi_medi": 72,
+  "giorni_warning_proteine": 4,
+  "giorni_pasto_libero": 3,
+  "consistency_nutrizione": 86,
+  "piano_prevalente": "Standard",
+  "piani_distribuzione": [
+    {"nome": "Standard", "pct": 52, "giorni": 14, "note": "mantenimento"},
+    {"nome": "Bulk", "pct": 30, "giorni": 8, "note": "+300kcal"},
+    {"nome": "Riposo", "pct": 18, "giorni": 5, "note": "-200kcal"}
+  ],
+
+  "sintesi_ai": "Mese positivo su nutrizione e performance fisica, frenato dal deficit di sonno profondo persistente. Pattern chiave: le sessioni CrossFit ad alta intensità correlano con deep sleep più basso nelle 48 ore successive. Nutrizione solida con consistency all'86% e proteine sopra target per 23 giorni su 27. Focus prioritario per maggio: protocollo recupero notturno.",
+
+  "alert_critico": "Deep Sleep al 13.2% — sotto il target critico del 20%. Nei giorni successivi a sessioni intense, considera attività leggera o riposo attivo.",
+
+  "temi_mese": "Il mese è stato caratterizzato da un processo di consolidamento più che di cambiamento. Emerge una maggiore consapevolezza della relazione tra stanchezza fisica e stato mentale — un pattern che hai riconosciuto attivamente nelle sessioni sera, nominandolo esplicitamente più volte.\n\nNelle sessioni di metà settimana emerge regolarmente un senso di tensione che non hai ricondotto a eventi specifici, ma a un accumulo. La difficoltà nel \"staccare\" da ciò che rimane irrisolto nelle giornate dense è un tema ricorrente, soprattutto mercoledì e giovedì.\n\nCecilia appare nelle sessioni come elemento di stabilità nei momenti più difficili. Il riferimento è costante nelle giornate con rating basso — segnale che il supporto relazionale è un fattore protettivo rilevante per il tuo equilibrio emotivo.",
+
+  "temi_quote_1": "Oggi mi sentivo a pezzi fisicamente ma stranamente chiaro nella testa. Come se il corpo cedesse e la mente si liberasse.",
+  "temi_quote_2": "Non riesco a identificare cosa mi pesa. È come un rumore di fondo che non si spegne.",
+
+  "riflessioni_protocollo": "In 8 sessioni di Stress Bucket hai identificato ricorrentemente 3 fonti: carico lavorativo, qualità del sonno e insoddisfazione su obiettivi creativi. L'esercizio ha prodotto consapevolezza più che risoluzione — che è esattamente il suo scopo in questa fase del protocollo.\n\nLe sessioni Mindfulness mostrano rating post-sessione in media +1.2 punti più alto rispetto alle sessioni di sola riflessione guidata. Il respiro 4-7-8 è la tecnica che riporti come più efficace nel breve termine per abbassare la tensione percepita.\n\nNelle sessioni \"Cosa manca\" è emerso un bisogno di più spazio creativo e di momenti di silenzio non strutturato. La fotografia appare come il canale naturale non ancora sviluppato sistematicamente — ogni volta che hai dedicato tempo a questa attività, il rating serale è risultato più alto.",
+
+  "riflessioni_quote": "Dopo il respiro mi sento quasi come resettato. Non so spiegarlo ma funziona meglio di tutto il resto.",
+
+  "azioni_prioritarie": "Il primo intervento a più alto impatto è introdurre un rituale pre-sonno strutturato: nessuno schermo 45 minuti prima, stretching guidato 10 minuti, respiro 4-7-8 come chiusura fissa. Dati biometrici e sessioni journal convergono su questo come priorità assoluta.\n\nDedicare almeno 3 sessioni/settimana alla fotografia come pratica consapevole. Dai tuoi scritti emerge che è un canale di accesso a stati mentali positivi non replicabile con altre attività — ha un effetto misurabile sul rating serale.\n\nConsistency journal all'89%. Obiettivo maggio: 95%. Mancano circa 2 sessioni al mese per chiudere il gap. Una routine solida a questo livello rende le analisi qualitative molto più accurate."
+}

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0A0A0B">
+<title>Holistic Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0A0B;
+  --surface: #16161A;
+  --surface2: #1C1C22;
+  --surface3: #222228;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.12);
+  --text1: #F0F0F0;
+  --text2: #A0A0C0;
+  --text3: #6060A0;
+  --text4: #4A4A6A;
+  --lime: #C8F53A;
+  --lime-dim: rgba(200,245,58,0.12);
+  --lime-border: rgba(200,245,58,0.2);
+  --amber: #F5A623;
+  --red: #F53A3A;
+  --blue: #3AA8F5;
+  --ok: #C8F53A;
+  --warn: #F5A623;
+  --crit: #F53A3A;
+  --info: #3AA8F5;
+  --font-display: 'Barlow Condensed', Impact, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --radius: 10px;
+  --radius-lg: 12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text1);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overscroll-behavior: none;
+}
+
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.app-header {
+  padding: 16px 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-logo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--lime);
+  letter-spacing: 0.04em;
+}
+.app-meta {
+  font-size: 11px;
+  color: var(--text4);
+}
+
+/* TAB BAR */
+.tab-bar {
+  display: flex;
+  background: #111114;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+.tb {
+  flex: 1;
+  padding: 11px 2px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text4);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  border-bottom: 2px solid transparent;
+  transition: color 0.18s, border-color 0.18s;
+  font-family: var(--font-body);
+}
+.tb.on { color: var(--lime); border-bottom-color: var(--lime); }
+
+/* PANELS */
+.panel { display: none; padding: 14px 16px; flex: 1; }
+.panel.on { display: block; }
+.subpanel { display: none; flex: 1; }
+.subpanel.on { display: flex; flex-direction: column; }
+
+/* SECTION LABEL */
+.sec {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text2);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 16px 0 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.sec:first-child { margin-top: 0; }
+
+/* ALERT */
+.alert-crit {
+  background: #1A0808;
+  border: 1px solid #4A1515;
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.alert-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.alert-txt { font-size: 12px; color: #F09090; line-height: 1.55; }
+.alert-txt strong { color: var(--red); font-weight: 500; }
+
+/* KPI GRID */
+.kpi2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.kpi3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+.kv {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1;
+}
+.kl { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.ks { font-size: 11px; color: var(--text4); margin-top: 2px; }
+.kv-ok { color: var(--ok); }
+.kv-warn { color: var(--warn); }
+.kv-crit { color: var(--crit); }
+.kv-info { color: var(--info); }
+
+/* SCORE 4 */
+.score4 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.sc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.sc-n {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+}
+.sc-l { font-size: 11px; color: var(--text4); margin-top: 5px; }
+.sc-bar { height: 3px; border-radius: 2px; background: var(--surface3); margin-top: 8px; }
+.sc-fill { height: 100%; border-radius: 2px; }
+.sc-d { font-size: 11px; margin-top: 5px; }
+
+/* OLISTICO BIG */
+.olist-big {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.ob-n {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--amber);
+}
+.ob-i { flex: 1; }
+.ob-l { font-size: 10px; color: var(--text4); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.ob-m { font-size: 13px; color: var(--text1); font-weight: 500; }
+.ob-bar { height: 4px; background: var(--surface3); border-radius: 2px; margin-top: 8px; }
+
+/* SINTESI */
+.sint {
+  background: #13131A;
+  border: 1px solid var(--lime-border);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 8px;
+}
+.sint-l { font-size: 10px; color: var(--lime); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; font-weight: 500; }
+.sint-t { font-size: 12px; color: #B0B0C8; line-height: 1.65; }
+
+/* METRIC LIST */
+.mlist {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.mr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.mr:last-child { border-bottom: none; }
+.mdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.mn { font-size: 12px; color: var(--text2); flex: 1; }
+.mv { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--text1); }
+.mu { font-size: 10px; color: var(--text4); margin-left: 1px; }
+.mv-txt { font-size: 13px; color: #C0C0D0; }
+.mv-empty { font-size: 13px; color: #3A3A5A; }
+
+/* BADGE */
+.badge { font-size: 9px; font-weight: 500; padding: 2px 7px; border-radius: 20px; white-space: nowrap; }
+.b-ok { background: rgba(200,245,58,0.12); color: #A8D830; }
+.b-warn { background: rgba(245,166,35,0.15); color: #F5C060; }
+.b-crit { background: rgba(245,58,58,0.12); color: #F57070; }
+.b-info { background: rgba(58,168,245,0.12); color: #70C0F5; }
+.b-neu { background: rgba(255,255,255,0.06); color: var(--text3); }
+
+/* SPARKLINE */
+.spark { flex-shrink: 0; opacity: 0.75; }
+
+/* PATTERN CARD */
+.pat-card {
+  border-left: 3px solid var(--lime);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background: var(--surface);
+}
+.pat-card.warn { border-left-color: var(--warn); }
+.pat-card.crit { border-left-color: var(--crit); }
+.pt { font-size: 12px; color: var(--text1); font-weight: 500; margin-bottom: 3px; }
+.pb { font-size: 12px; color: var(--text3); line-height: 1.6; }
+
+/* MENTE — blocchi affiancati */
+.mente-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mblock {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.mblock-qual { border-color: var(--lime-border); background: #13131A; }
+.mblock-head { padding: 12px; }
+.mblock-score-row { display: flex; gap: 6px; margin-bottom: 8px; }
+.mscore {
+  flex: 1;
+  background: #111116;
+  border-radius: 8px;
+  padding: 8px 6px;
+  text-align: center;
+}
+.ms-num { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1; }
+.ms-lbl { font-size: 9px; color: var(--text4); margin-top: 2px; }
+.mblock-title { font-size: 11px; font-weight: 500; color: var(--text2); margin-bottom: 2px; }
+.mblock-sub { font-size: 10px; color: var(--text4); }
+.mblock-title-qual { color: var(--lime); }
+.mblock-sub-qual { color: rgba(200,245,58,0.4); }
+.msec-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 11px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.15s;
+}
+.msec-btn:hover { background: rgba(255,255,255,0.03); }
+.msec-btn:active { background: rgba(255,255,255,0.06); }
+.msec-btn-qual { border-top-color: rgba(200,245,58,0.08); }
+.msec-btn-qual:hover { background: rgba(200,245,58,0.03); }
+.msec-label { font-size: 11px; color: var(--text2); }
+.msec-label-qual { font-size: 11px; color: var(--lime); }
+.msec-arrow { font-size: 14px; color: var(--text4); }
+.msec-arrow-qual { font-size: 14px; color: rgba(200,245,58,0.4); }
+
+/* SUBPANEL */
+.sp-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: #111114;
+  flex-shrink: 0;
+}
+.sp-back {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 11px;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+.sp-back:active { background: rgba(255,255,255,0.14); }
+.sp-back-qual {
+  background: rgba(200,245,58,0.1);
+  border-color: var(--lime-border);
+  color: var(--lime);
+}
+.sp-back-qual:active { background: rgba(200,245,58,0.18); }
+.sp-title { font-size: 13px; font-weight: 500; color: var(--text1); }
+.sp-body { padding: 14px 16px; overflow-y: auto; flex: 1; }
+
+/* MOOD */
+.mood-strip { display: flex; gap: 3px; margin-bottom: 6px; }
+.md { flex: 1; height: 32px; border-radius: 4px; }
+.mood-leg { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.ml-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text3); }
+.ml-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* WORD CLOUD */
+.wcloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+}
+.ww { font-size: 12px; padding: 4px 10px; border-radius: 20px; }
+.wp { background: rgba(200,245,58,0.1); color: #B8E840; }
+.wn { background: rgba(245,58,58,0.1); color: #F08080; }
+.wu { background: rgba(255,255,255,0.06); color: #7080A0; }
+.wb { font-size: 14px; font-weight: 500; }
+
+/* HABIT */
+.hgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.hcard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+.hn { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+.hs { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--lime); line-height: 1; }
+.hu { font-size: 10px; color: var(--text4); }
+.hdots { display: flex; gap: 3px; margin-top: 6px; }
+.hd { width: 8px; height: 8px; border-radius: 2px; }
+
+/* QUALITATIVO */
+.qs-block { margin-bottom: 20px; }
+.qs-block:last-child { margin-bottom: 0; }
+.qs-title { font-size: 10px; color: var(--lime); font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+.qs-text { font-size: 13px; color: #C0C0D8; line-height: 1.78; }
+.qs-para { margin-top: 10px; }
+.qs-para:first-child { margin-top: 0; }
+.qs-quote {
+  border-left: 2px solid rgba(200,245,58,0.3);
+  padding: 8px 12px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #707080;
+  font-style: italic;
+  line-height: 1.65;
+  background: rgba(200,245,58,0.03);
+  border-radius: 0 6px 6px 0;
+}
+
+/* NUTRIZIONE */
+.macro3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.mc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 8px;
+  text-align: center;
+}
+.mc-v { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1; }
+.mc-l { font-size: 10px; color: var(--text4); margin-top: 3px; }
+.mc-bar { height: 3px; border-radius: 2px; background: var(--surface3); margin-top: 6px; }
+
+/* PIANI CHART */
+.piani-chart {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 8px;
+}
+.pc-bars { display: flex; gap: 8px; height: 90px; align-items: flex-end; margin-bottom: 10px; }
+.pc-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.pc-bar { width: 100%; border-radius: 4px 4px 0 0; }
+.pc-pct { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text1); }
+.pc-divider { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 8px; }
+.pc-legend { display: flex; flex-direction: column; gap: 5px; }
+.pc-leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text3); }
+.pc-leg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* LOADING */
+#loading {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  gap: 12px;
+}
+.load-logo { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--lime); letter-spacing: 0.06em; }
+.load-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); opacity: 0.5; animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1)} }
+
+/* ERROR */
+#error-msg {
+  display: none;
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.6;
+}
+
+@media (max-width: 380px) {
+  .sc-n { font-size: 32px; }
+  .ob-n { font-size: 60px; }
+}
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="load-logo">HOLISTIC</div>
+  <div class="load-dot"></div>
+</div>
+
+<div id="error-msg">
+  <p>Impossibile caricare i dati.<br>Verifica che <code>data.json</code> sia presente nel repo.</p>
+</div>
+
+<div class="app" id="app" style="display:none">
+
+  <div class="app-header">
+    <div class="app-logo">HOLISTIC</div>
+    <div class="app-meta" id="app-meta">—</div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tb on" onclick="showTab('ov')">Overview</button>
+    <button class="tb" onclick="showTab('rec')">Recovery</button>
+    <button class="tb" onclick="showTab('spt')">Sport</button>
+    <button class="tb" onclick="showTab('men')">Mente</button>
+    <button class="tb" onclick="showTab('nut')">Nutriz.</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="panel on" id="tab-ov">
+    <div id="ov-alert" class="alert-crit" style="display:none">
+      <div class="alert-dot"></div>
+      <div class="alert-txt" id="ov-alert-txt"></div>
+    </div>
+    <div class="olist-big">
+      <div class="ob-n" id="ov-olistico">—</div>
+      <div class="ob-i">
+        <div class="ob-l" id="ov-mese">—</div>
+        <div class="ob-m" id="ov-stato">—</div>
+        <div class="ob-bar"><div id="ov-bar" style="height:4px;border-radius:2px;background:var(--amber)"></div></div>
+      </div>
+    </div>
+    <div class="score4">
+      <div class="sc">
+        <div class="sc-n kv-ok" id="ov-fisico">—</div>
+        <div class="sc-l">Fisico</div>
+        <div class="sc-bar"><div class="sc-fill" id="ov-fisico-bar" style="background:var(--ok)"></div></div>
+        <div class="sc-d" id="ov-fisico-d" style="color:var(--ok)"></div>
+      </div>
+      <div class="sc">
+        <div class="sc-n kv-warn" id="ov-mentale">—</div>
+        <div class="sc-l">Mentale</div>
+        <div class="sc-bar"><div class="sc-fill" id="ov-mentale-bar" style="background:var(--warn)"></div></div>
+        <div class="sc-d" id="ov-mentale-d" style="color:var(--warn)"></div>
+      </div>
+      <div class="sc">
+        <div class="sc-n kv-info" id="ov-nutri">—</div>
+        <div class="sc-l">Nutrizionale</div>
+        <div class="sc-bar"><div class="sc-fill" id="ov-nutri-bar" style="background:var(--info)"></div></div>
+        <div class="sc-d" id="ov-nutri-d" style="color:var(--ok)"></div>
+      </div>
+      <div class="sc">
+        <div class="sc-n kv-crit" id="ov-sleep">—</div>
+        <div class="sc-l">Deep Sleep %</div>
+        <div class="sc-bar"><div class="sc-fill" id="ov-sleep-bar" style="background:var(--crit)"></div></div>
+        <div class="sc-d" id="ov-sleep-d" style="color:var(--crit)"></div>
+      </div>
+    </div>
+    <div class="sint">
+      <div class="sint-l">Sintesi AI</div>
+      <div class="sint-t" id="ov-sintesi">—</div>
+    </div>
+  </div>
+
+  <!-- RECOVERY -->
+  <div class="panel" id="tab-rec">
+    <div class="kpi2">
+      <div class="kpi"><div class="kv kv-warn" id="rec-biocharge">—</div><div class="kl">Biocharge medio</div><div class="ks">target ≥80</div></div>
+      <div class="kpi"><div class="kv kv-ok" id="rec-hrv">—</div><div class="kl">HRV medio</div><div class="ks" id="rec-hrv-d">—</div></div>
+    </div>
+    <div class="kpi2">
+      <div class="kpi"><div class="kv kv-crit" id="rec-sleep">—</div><div class="kl">Deep Sleep</div><div class="ks">target 20–25%</div></div>
+      <div class="kpi"><div class="kv kv-info" id="rec-ore">—</div><div class="kl">Ore sonno media</div><div class="ks">accettabile</div></div>
+    </div>
+    <div class="sec">Metriche dettaglio</div>
+    <div class="mlist">
+      <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score sonno Zepp</div><div class="mv" id="rec-score-zepp">—</div><span class="mu">/100</span></div>
+      <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Peso fine mese</div><div class="mv" id="rec-peso">—</div><span class="mu">kg</span><span class="badge b-ok" style="margin-left:auto">on target</span></div>
+      <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Slancio Hume medio</div><div class="mv" id="rec-slancio">—</div><span class="mu">/100</span><span class="badge b-warn" style="margin-left:auto">nella media</span></div>
+      <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score Hume settimanale</div><div class="mv" id="rec-hume">—</div><span class="mu">/100</span></div>
+      <div class="mr"><div class="mdot" style="background:#8080A0"></div><div class="mn">Fatigue prevalente</div><div class="mv-txt" id="rec-fatigue">—</div><span class="badge b-warn" style="margin-left:auto" id="rec-fatigue-score">—</span></div>
+    </div>
+    <div class="pat-card crit" id="rec-pattern">
+      <div class="pt">Pattern rilevato</div>
+      <div class="pb">Nei 3 giorni successivi a sessioni CrossFit intense, deep sleep scende in media del 18%. Considera deload o attività aerobica leggera come recovery attivo.</div>
+    </div>
+  </div>
+
+  <!-- SPORT -->
+  <div class="panel" id="tab-spt">
+    <div class="kpi2">
+      <div class="kpi"><div class="kv kv-warn" id="spt-sessioni">—</div><div class="kl">Sessioni</div><div class="ks" id="spt-sessioni-sub">—</div></div>
+      <div class="kpi"><div class="kv kv-info" id="spt-durata">—<span style="font-size:16px">min</span></div><div class="kl">Durata media</div><div class="ks">per sessione</div></div>
+    </div>
+    <div class="kpi2">
+      <div class="kpi"><div class="kv kv-ok" id="spt-steps">—</div><div class="kl">Steps / giorno</div><div class="ks">media mensile</div></div>
+      <div class="kpi"><div class="kv kv-info" id="spt-volume">—<span style="font-size:16px">h</span></div><div class="kl">Volume totale</div><div class="ks" id="spt-volume-sub">—</div></div>
+    </div>
+    <div class="sec">Dati Zepp SPORT_DATA</div>
+    <div class="mlist" id="spt-list"></div>
+    <div class="pat-card">
+      <div class="pt">Consistenza</div>
+      <div class="pb" id="spt-consistency-text">—</div>
+    </div>
+  </div>
+
+  <!-- MENTE -->
+  <div class="panel" id="tab-men">
+    <div class="mente-row">
+      <div class="mblock">
+        <div class="mblock-head">
+          <div class="mblock-score-row">
+            <div class="mscore"><div class="ms-num" style="color:var(--warn)" id="men-score-n">—</div><div class="ms-lbl">Score</div></div>
+            <div class="mscore"><div class="ms-num" style="color:var(--ok)" id="men-rating-n">—</div><div class="ms-lbl">Rating</div></div>
+          </div>
+          <div class="mblock-title">Quantitativo</div>
+          <div class="mblock-sub">Dati e metriche</div>
+        </div>
+        <button class="msec-btn" onclick="openSub('mood')"><span class="msec-label">Mood & Parole</span><span class="msec-arrow">›</span></button>
+        <button class="msec-btn" onclick="openSub('habit')"><span class="msec-label">Habit streak</span><span class="msec-arrow">›</span></button>
+        <button class="msec-btn" onclick="openSub('proto')"><span class="msec-label">Protocolli</span><span class="msec-arrow">›</span></button>
+      </div>
+      <div class="mblock mblock-qual">
+        <div class="mblock-head">
+          <div style="width:34px;height:34px;border-radius:8px;background:rgba(200,245,58,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:8px">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="#C8F53A" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="mblock-title mblock-title-qual">Qualitativo</div>
+          <div class="mblock-sub mblock-sub-qual">Lettura profonda</div>
+        </div>
+        <button class="msec-btn msec-btn-qual" onclick="openSub('temi')"><span class="msec-label-qual">Temi del mese</span><span class="msec-arrow-qual">›</span></button>
+        <button class="msec-btn msec-btn-qual" onclick="openSub('riflex')"><span class="msec-label-qual">Dal protocollo</span><span class="msec-arrow-qual">›</span></button>
+        <button class="msec-btn msec-btn-qual" onclick="openSub('prio')"><span class="msec-label-qual">Priorità maggio</span><span class="msec-arrow-qual">›</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NUTRIZIONE -->
+  <div class="panel" id="tab-nut">
+    <div class="kpi2">
+      <div class="kpi"><div class="kv kv-ok" id="nut-score">—</div><div class="kl">Score nutrizionale</div><div class="ks" id="nut-score-d">—</div></div>
+      <div class="kpi"><div class="kv kv-info" id="nut-kcal">—</div><div class="kl">Kcal medie / giorno</div><div class="ks" id="nut-kcal-sub">—</div></div>
+    </div>
+    <div class="sec">Macronutrienti medi giornalieri</div>
+    <div class="macro3">
+      <div class="mc"><div class="mc-v" style="color:var(--ok)" id="nut-prot">—</div><div class="mc-l">Proteine</div><div class="mc-bar"><div id="nut-prot-bar" style="height:3px;border-radius:2px;background:var(--ok)"></div></div></div>
+      <div class="mc"><div class="mc-v" style="color:var(--info)" id="nut-carb">—</div><div class="mc-l">Carboidrati</div><div class="mc-bar"><div id="nut-carb-bar" style="height:3px;border-radius:2px;background:var(--info)"></div></div></div>
+      <div class="mc"><div class="mc-v" style="color:var(--warn)" id="nut-fat">—</div><div class="mc-l">Grassi</div><div class="mc-bar"><div id="nut-fat-bar" style="height:3px;border-radius:2px;background:var(--warn)"></div></div></div>
+    </div>
+    <div class="sec">Distribuzione piani alimentari</div>
+    <div class="piani-chart">
+      <div class="pc-bars" id="nut-bars"></div>
+      <div class="pc-divider"></div>
+      <div class="pc-legend" id="nut-legend"></div>
+    </div>
+    <div class="sec">Delta e consistenza</div>
+    <div class="mlist" id="nut-list"></div>
+  </div>
+
+  <!-- SUBPANELS -->
+  <div class="subpanel" id="sub-mood">
+    <div class="sp-header">
+      <button class="sp-back" onclick="closeSub('mood')">← Chiudi</button>
+      <span class="sp-title">Mood & Parole</span>
+    </div>
+    <div class="sp-body">
+      <div class="sec" style="margin-top:0">Mood — 28 giorni</div>
+      <div class="mood-strip" id="mood-strip"></div>
+      <div class="mood-leg" id="mood-leg"></div>
+      <div class="mlist">
+        <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Energia mattutina media</div><div class="mv" id="sub-energia">—</div><span class="mu">/10</span></div>
+        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Rating medio serale</div><div class="mv" id="sub-rating">—</div><span class="mu">/10</span></div>
+        <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Mood prevalente</div><div class="mv-txt" id="sub-mood-prev">—</div><span class="badge b-ok" style="margin-left:auto">positivo</span></div>
+      </div>
+      <div class="sec">Parole più frequenti nelle sessioni</div>
+      <div class="wcloud" id="wcloud"></div>
+    </div>
+  </div>
+
+  <div class="subpanel" id="sub-habit">
+    <div class="sp-header">
+      <button class="sp-back" onclick="closeSub('habit')">← Chiudi</button>
+      <span class="sp-title">Habit Streak</span>
+    </div>
+    <div class="sp-body">
+      <div class="sec" style="margin-top:0">Streak del mese</div>
+      <div class="hgrid" id="habit-grid"></div>
+      <div class="sec">Consistenza abitudini</div>
+      <div class="mlist" id="habit-list"></div>
+      <div class="pat-card warn" id="habit-pattern" style="margin-top:8px;display:none">
+        <div class="pt">Fotografia sotto target</div>
+        <div class="pb">Solo <span id="habit-foto-n">—</span> giorni su <span id="habit-tot">—</span>. Dai tuoi scritti emerge che è il canale creativo con più impatto sul benessere. Obiettivo maggio: 3 sessioni/settimana.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subpanel" id="sub-proto">
+    <div class="sp-header">
+      <button class="sp-back" onclick="closeSub('proto')">← Chiudi</button>
+      <span class="sp-title">Protocolli</span>
+    </div>
+    <div class="sp-body">
+      <div class="sec" style="margin-top:0">Protocollo attivo</div>
+      <div class="mlist">
+        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Protocollo</div><div class="mv-txt" id="proto-nome">—</div><span class="badge b-ok" id="proto-fase" style="margin-left:auto">—</span></div>
+        <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Sessioni completate</div><div class="mv" id="proto-sess">—</div><span class="badge b-ok" id="proto-pct" style="margin-left:auto">—</span></div>
+        <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Esercizio prevalente</div><div class="mv-txt" id="proto-esercizio">—</div><span class="badge b-info" id="proto-esercizio-n" style="margin-left:auto">—</span></div>
+        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Consistency journal</div><div class="mv" id="proto-consistency">—</div><span class="mu">%</span><span class="badge b-ok" style="margin-left:auto">ottima</span></div>
+      </div>
+      <div class="sec">Distribuzione esercizi</div>
+      <div class="mlist" id="proto-list"></div>
+      <div class="pat-card" style="margin-top:8px">
+        <div class="pt">Mindfulness — impatto misurato</div>
+        <div class="pb">Rating post-sessione Mindfulness in media +<span id="proto-mindful-delta">—</span> punti rispetto alle altre modalità. Il respiro 4-7-8 è la tecnica con il maggiore effetto percepito a breve termine.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subpanel" id="sub-temi">
+    <div class="sp-header">
+      <button class="sp-back sp-back-qual" onclick="closeSub('temi')">← Chiudi</button>
+      <span class="sp-title">Temi ricorrenti del mese</span>
+    </div>
+    <div class="sp-body" id="sub-temi-body"></div>
+  </div>
+
+  <div class="subpanel" id="sub-riflex">
+    <div class="sp-header">
+      <button class="sp-back sp-back-qual" onclick="closeSub('riflex')">← Chiudi</button>
+      <span class="sp-title">Riflessioni dal protocollo</span>
+    </div>
+    <div class="sp-body" id="sub-riflex-body"></div>
+  </div>
+
+  <div class="subpanel" id="sub-prio">
+    <div class="sp-header">
+      <button class="sp-back sp-back-qual" onclick="closeSub('prio')">← Chiudi</button>
+      <span class="sp-title">Azioni prioritarie</span>
+    </div>
+    <div class="sp-body" id="sub-prio-body"></div>
+  </div>
+
+</div>
+
+<script>
+let D = {};
+let activeTab = 'ov';
+
+async function loadData() {
+  try {
+    const r = await fetch('data.json?v=' + Date.now());
+    if (!r.ok) throw new Error('fetch failed');
+    D = await r.json();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    render();
+  } catch(e) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error-msg').style.display = 'block';
+  }
+}
+
+function fmt(v, unit) {
+  if (v === null || v === undefined) return '—';
+  return unit ? v + unit : String(v);
+}
+
+function delta(curr, prev, unit) {
+  if (prev === null || prev === undefined) return '';
+  const d = curr - prev;
+  const sign = d > 0 ? '+' : '';
+  return sign + (unit === '%' ? d.toFixed(1) + 'pp' : d + (unit || ''));
+}
+
+function scoreColor(v) {
+  if (v === null) return 'var(--text4)';
+  if (v >= 75) return 'var(--ok)';
+  if (v >= 60) return 'var(--warn)';
+  return 'var(--crit)';
+}
+
+function set(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+function render() {
+  // META
+  document.getElementById('app-meta').textContent = D.mese || '—';
+
+  // ALERT
+  if (D.deep_sleep_pct < 20 && D.alert_critico) {
+    const al = document.getElementById('ov-alert');
+    al.style.display = 'flex';
+    document.getElementById('ov-alert-txt').innerHTML = D.alert_critico;
+  }
+
+  // OVERVIEW
+  set('ov-olistico', D.score_olistico);
+  document.getElementById('ov-mese').textContent = 'Score olistico — ' + D.mese;
+  document.getElementById('ov-stato').textContent = D.score_olistico >= 75 ? 'Buono — continua così' : D.score_olistico >= 60 ? 'Nella media — margini di miglioramento' : 'Attenzione — interventi necessari';
+  document.getElementById('ov-bar').style.width = D.score_olistico + '%';
+  document.getElementById('ov-olistico').style.color = scoreColor(D.score_olistico);
+
+  set('ov-fisico', D.score_fisico);
+  document.getElementById('ov-fisico-bar').style.width = D.score_fisico + '%';
+  const dfisico = D.score_fisico - D.score_fisico_prec;
+  document.getElementById('ov-fisico-d').textContent = (dfisico >= 0 ? '+' : '') + dfisico + ' vs ' + D.mese_precedente.split(' ')[0];
+  document.getElementById('ov-fisico-d').style.color = dfisico >= 0 ? 'var(--ok)' : 'var(--warn)';
+
+  set('ov-mentale', D.score_mentale);
+  document.getElementById('ov-mentale-bar').style.width = D.score_mentale + '%';
+  const dmentale = D.score_mentale - D.score_mentale_prec;
+  document.getElementById('ov-mentale-d').textContent = (dmentale >= 0 ? '+' : '') + dmentale + ' vs ' + D.mese_precedente.split(' ')[0];
+  document.getElementById('ov-mentale-d').style.color = dmentale >= 0 ? 'var(--ok)' : 'var(--warn)';
+
+  set('ov-nutri', D.score_nutrizionale);
+  document.getElementById('ov-nutri-bar').style.width = D.score_nutrizionale + '%';
+  const dnutri = D.score_nutrizionale - D.score_nutrizionale_prec;
+  document.getElementById('ov-nutri-d').textContent = (dnutri >= 0 ? '+' : '') + dnutri + ' vs ' + D.mese_precedente.split(' ')[0];
+  document.getElementById('ov-nutri-d').style.color = dnutri >= 0 ? 'var(--ok)' : 'var(--warn)';
+
+  set('ov-sleep', D.deep_sleep_pct);
+  document.getElementById('ov-sleep-bar').style.width = Math.min(D.deep_sleep_pct * 2, 100) + '%';
+  const dsleep = (D.deep_sleep_pct - D.deep_sleep_pct_prec).toFixed(1);
+  document.getElementById('ov-sleep-d').textContent = (dsleep >= 0 ? '+' : '') + dsleep + 'pp vs ' + D.mese_precedente.split(' ')[0];
+
+  set('ov-sintesi', D.sintesi_ai);
+
+  // RECOVERY
+  set('rec-biocharge', D.biocharge_medio);
+  set('rec-hrv', D.hrv_medio + 'ms');
+  const dhrv = D.hrv_medio - D.hrv_medio_prec;
+  document.getElementById('rec-hrv-d').textContent = (dhrv >= 0 ? '+' : '') + dhrv + 'ms vs mese prec.';
+  set('rec-sleep', D.deep_sleep_pct + '%');
+  set('rec-ore', D.ore_sonno_media + 'h');
+  set('rec-score-zepp', D.score_sonno_zepp);
+  set('rec-peso', D.peso_fine_mese);
+  set('rec-slancio', D.slancio_hume_medio);
+  set('rec-hume', D.score_hume_medio);
+  set('rec-fatigue', D.fatigue_prevalente);
+  set('rec-fatigue-score', D.fatigue_score + '/5');
+
+  // SPORT
+  set('spt-sessioni', D.sessioni_allenamento);
+  document.getElementById('spt-sessioni-sub').textContent = 'target ' + D.sessioni_allenamento_target + '/mese';
+  set('spt-durata', D.durata_allenamento_media);
+  const steps = D.steps_giorno_media >= 1000 ? (D.steps_giorno_media / 1000).toFixed(1) + 'k' : D.steps_giorno_media;
+  set('spt-steps', steps);
+  const vol = (D.durata_allenamento_totale / 60).toFixed(1);
+  set('spt-volume', vol);
+  document.getElementById('spt-volume-sub').textContent = D.durata_allenamento_totale + ' min/mese';
+
+  const sptColors = { sport: 'var(--info)', durata: 'var(--ok)', calorie: 'var(--warn)', fc_media: 'var(--warn)', fc_max: 'var(--crit)' };
+  const sptRows = [
+    { dot: 'var(--info)', name: 'Sport prevalente', val: D.tipo_sport_prevalente, badge: D.sessioni_allenamento + ' sess.', bc: 'b-info', empty: false },
+    { dot: 'var(--ok)', name: 'Durata totale mese', val: D.durata_allenamento_totale + ' min', badge: vol + 'h', bc: 'b-ok', empty: false },
+    { dot: 'var(--warn)', name: 'Calorie totali', val: D.calorie_allenamento_totali, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.calorie_allenamento_totali === null },
+    { dot: 'var(--warn)', name: 'FC media allenamento', val: D.fc_media_allenamento, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.fc_media_allenamento === null },
+    { dot: 'var(--crit)', name: 'FC max allenamento', val: D.fc_max_allenamento, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.fc_max_allenamento === null },
+  ];
+  document.getElementById('spt-list').innerHTML = sptRows.map(r => `
+    <div class="mr">
+      <div class="mdot" style="background:${r.dot}"></div>
+      <div class="mn">${r.name}</div>
+      ${r.empty ? `<div class="mv-empty">—</div>` : `<div class="${typeof r.val === 'string' ? 'mv-txt' : 'mv'}">${r.val}</div>`}
+      <span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span>
+    </div>`).join('');
+
+  const pct = Math.round(D.sessioni_allenamento / D.sessioni_allenamento_target * 100);
+  document.getElementById('spt-consistency-text').textContent =
+    D.sessioni_allenamento + '/' + D.sessioni_allenamento_target + ' sessioni target completate (' + pct + '%). Nessuna settimana sotto le 4 sessioni.';
+
+  // MENTE scores
+  set('men-score-n', D.score_mentale);
+  set('men-rating-n', D.rating_medio);
+
+  // MOOD subpanel
+  const moodColors = { pos: 'rgba(200,245,58,', neu: 'rgba(245,166,35,', dif: 'rgba(245,58,58,' };
+  const moodAlpha = [0.6,0.35,0.65,0.5,0.35,0.7,0.45,0.4,0.6,0.8,0.55,0.4,0.6,0.45,0.7,0.6,0.45,0.4,0.75,0.35,0.65,0.5,0.3,0.7,0.8,0.5,0.5,0.6];
+  document.getElementById('mood-strip').innerHTML = (D.mood_tipo || []).map((t, i) =>
+    `<div class="md" style="background:${moodColors[t]}${moodAlpha[i] || 0.5})"></div>`).join('');
+  document.getElementById('mood-leg').innerHTML = `
+    <div class="ml-item"><div class="ml-sq" style="background:rgba(200,245,58,0.6)"></div>Positivo — ${D.mood_positivi} giorni</div>
+    <div class="ml-item"><div class="ml-sq" style="background:rgba(245,166,35,0.5)"></div>Neutro — ${D.mood_neutri} giorni</div>
+    <div class="ml-item"><div class="ml-sq" style="background:rgba(245,58,58,0.4)"></div>Difficile — ${D.mood_difficili} giorni</div>`;
+  set('sub-energia', D.energia_mattutina_media);
+  set('sub-rating', D.rating_medio);
+  set('sub-mood-prev', D.mood_prevalente);
+
+  // WORD CLOUD
+  document.getElementById('wcloud').innerHTML = (D.parole_frequenti || []).map(w =>
+    `<span class="ww w${w.tipo}${w.peso > 1 ? ' wb' : ''}">${w.parola}</span>`).join('');
+
+  // HABIT
+  const habits = [
+    { nome: 'Vitamins', key: 'vitamins', dots7: 'habit_vitamins_ultimi7' },
+    { nome: 'Stretching', key: 'stretching', dots7: 'habit_stretching_ultimi7' },
+    { nome: 'Reading', key: 'reading', dots7: 'habit_reading_ultimi7' },
+    { nome: 'Fotografia', key: 'fotografia', dots7: 'habit_fotografia_ultimi7' },
+  ];
+  document.getElementById('habit-grid').innerHTML = habits.map(h => {
+    const val = D['habit_' + h.key] || 0;
+    const dots = (D[h.dots7] || []).map(d =>
+      `<div class="hd" style="background:${d ? 'var(--lime)' : 'var(--surface3)'}"></div>`).join('');
+    return `<div class="hcard"><div class="hn">${h.nome}</div><div class="hs">${val} <span class="hu">gg</span></div><div class="hdots">${dots}</div></div>`;
+  }).join('');
+
+  const tot = D.habit_giorni_totali || 27;
+  const habColors = (pct) => pct >= 75 ? 'b-ok' : pct >= 55 ? 'b-warn' : 'b-crit';
+  document.getElementById('habit-list').innerHTML = habits.map(h => {
+    const val = D['habit_' + h.key] || 0;
+    const p = Math.round(val / tot * 100);
+    return `<div class="mr"><div class="mdot" style="background:${p >= 75 ? 'var(--ok)' : p >= 55 ? 'var(--warn)' : 'var(--crit)'}"></div><div class="mn">${h.nome}</div><div class="mv">${val}<span class="mu">/${tot}gg</span></div><span class="badge ${habColors(p)}" style="margin-left:auto">${p}%</span></div>`;
+  }).join('');
+
+  const fotoVal = D.habit_fotografia || 0;
+  if (fotoVal / tot < 0.5) {
+    document.getElementById('habit-pattern').style.display = 'block';
+    set('habit-foto-n', fotoVal);
+    set('habit-tot', tot);
+  }
+
+  // PROTOCOLLI
+  set('proto-nome', D.protocollo_attivo);
+  set('proto-fase', D.protocollo_fase);
+  set('proto-sess', D.sessioni_journal + '/' + D.sessioni_journal_totali);
+  set('proto-pct', D.consistency_journal + '%');
+  set('proto-esercizio', D.esercizio_prevalente);
+  const prevSess = (D.protocollo_sessioni || []).find(s => s.nome === D.esercizio_prevalente);
+  set('proto-esercizio-n', prevSess ? prevSess.count + ' sess.' : '—');
+  set('proto-consistency', D.consistency_journal);
+  set('proto-mindful-delta', D.mindfulness_delta_rating);
+
+  const dotColors = ['var(--warn)', 'var(--info)', 'var(--ok)', '#8080A0'];
+  document.getElementById('proto-list').innerHTML = (D.protocollo_sessioni || []).map((s, i) =>
+    `<div class="mr"><div class="mdot" style="background:${dotColors[i]}"></div><div class="mn">${s.nome}</div><div class="mv">${s.count}<span class="mu">sess.</span></div><span class="badge b-info" style="margin-left:auto">${s.pct}%</span></div>`).join('');
+
+  // QUALITATIVO — render testo con paragrafi e quote
+  function renderQual(text, quote, bodyId) {
+    const el = document.getElementById(bodyId);
+    if (!el || !text) return;
+    const paras = text.split('\n\n').filter(p => p.trim());
+    let html = paras.map(p => `<p class="qs-text qs-para">${p}</p>`).join('');
+    if (quote) html += `<div class="qs-quote">"${quote}"</div>`;
+    el.innerHTML = html;
+  }
+
+  // Temi
+  const temiBody = document.getElementById('sub-temi-body');
+  if (temiBody && D.temi_mese) {
+    const paras = D.temi_mese.split('\n\n').filter(p => p.trim());
+    let html = '';
+    paras.forEach((p, i) => {
+      const titles = ['Tema centrale', 'Tensione ricorrente', 'Relazioni e supporto'];
+      html += `<div class="qs-block"><div class="qs-title">${titles[i] || ''}</div><div class="qs-text">${p}</div>`;
+      if (i === 0 && D.temi_quote_1) html += `<div class="qs-quote">"${D.temi_quote_1}"</div>`;
+      if (i === 1 && D.temi_quote_2) html += `<div class="qs-quote">"${D.temi_quote_2}"</div>`;
+      html += '</div>';
+    });
+    temiBody.innerHTML = html;
+  }
+
+  // Riflessioni
+  const riflexBody = document.getElementById('sub-riflex-body');
+  if (riflexBody && D.riflessioni_protocollo) {
+    const paras = D.riflessioni_protocollo.split('\n\n').filter(p => p.trim());
+    const titles = ['Stress Bucket — sintesi', 'Mindfulness + respiro 4-7-8', 'Cosa manca — pattern'];
+    let html = paras.map((p, i) => {
+      let block = `<div class="qs-block"><div class="qs-title">${titles[i] || ''}</div><div class="qs-text">${p}</div>`;
+      if (i === 1 && D.riflessioni_quote) block += `<div class="qs-quote">"${D.riflessioni_quote}"</div>`;
+      return block + '</div>';
+    }).join('');
+    riflexBody.innerHTML = html;
+  }
+
+  // Priorità
+  const prioBody = document.getElementById('sub-prio-body');
+  if (prioBody && D.azioni_prioritarie) {
+    const paras = D.azioni_prioritarie.split('\n\n').filter(p => p.trim());
+    const titles = ['1 — Priorità critica: sonno', '2 — Sviluppo creativo', '3 — Consistenza journal'];
+    prioBody.innerHTML = paras.map((p, i) =>
+      `<div class="qs-block"><div class="qs-title">${titles[i] || ''}</div><div class="qs-text">${p}</div></div>`).join('');
+  }
+
+  // NUTRIZIONE
+  set('nut-score', D.score_nutrizionale);
+  const dnutri2 = D.score_nutrizionale - D.score_nutrizionale_prec;
+  document.getElementById('nut-score-d').textContent = (dnutri2 >= 0 ? '+' : '') + dnutri2 + ' vs mese prec.';
+  set('nut-kcal', D.kcal_medie_giornaliere.toLocaleString('it-IT'));
+  document.getElementById('nut-kcal-sub').textContent = 'target ' + D.kcal_target.toLocaleString('it-IT');
+  set('nut-prot', D.proteine_medie + 'g');
+  set('nut-carb', D.carboidrati_medi + 'g');
+  set('nut-fat', D.grassi_medi + 'g');
+  const protPct = Math.round(D.proteine_medie / D.proteine_target * 100);
+  document.getElementById('nut-prot-bar').style.width = Math.min(protPct, 100) + '%';
+  document.getElementById('nut-carb-bar').style.width = '70%';
+  document.getElementById('nut-fat-bar').style.width = '65%';
+
+  // PIANI CHART
+  const pianiColors = ['var(--ok)', 'var(--info)', 'var(--warn)'];
+  document.getElementById('nut-bars').innerHTML = (D.piani_distribuzione || []).map((p, i) =>
+    `<div class="pc-bar-wrap"><div class="pc-pct" style="color:${pianiColors[i]}">${p.pct}%</div><div class="pc-bar" style="height:${p.pct}px;background:${pianiColors[i]};opacity:0.85"></div></div>`).join('');
+  document.getElementById('nut-legend').innerHTML = (D.piani_distribuzione || []).map((p, i) =>
+    `<div class="pc-leg-item"><div class="pc-leg-dot" style="background:${pianiColors[i]}"></div>${p.nome} · ~${p.giorni} giorni · ${p.note}</div>`).join('');
+
+  // NUTRIZIONE LIST
+  const delta_cal = D.delta_calorico_medio;
+  const nutRows = [
+    { dot: 'var(--ok)', name: 'Delta calorico medio', val: (delta_cal > 0 ? '+' : '') + delta_cal + ' kcal', badge: Math.abs(delta_cal) < 100 ? 'in target' : 'fuori target', bc: Math.abs(delta_cal) < 100 ? 'b-ok' : 'b-warn' },
+    { dot: 'var(--info)', name: 'Giorni surplus', val: D.giorni_surplus + ' gg', badge: Math.round(D.giorni_surplus / tot * 100) + '%', bc: 'b-info' },
+    { dot: 'var(--crit)', name: 'Giorni deficit', val: D.giorni_deficit + ' gg', badge: 'prevalente', bc: 'b-info' },
+    { dot: 'var(--warn)', name: 'Warning proteine', val: D.giorni_warning_proteine + ' gg', badge: '<140g', bc: 'b-warn' },
+    { dot: 'var(--ok)', name: 'Consistency nutrizionale', val: D.consistency_nutrizione + '%', badge: 'ottima', bc: 'b-ok' },
+  ];
+  document.getElementById('nut-list').innerHTML = nutRows.map(r =>
+    `<div class="mr"><div class="mdot" style="background:${r.dot}"></div><div class="mn">${r.name}</div><div class="mv-txt">${r.val}</div><span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span></div>`).join('');
+}
+
+function showTab(id) {
+  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b => b.classList.remove('on'));
+  document.getElementById('tab-' + id).classList.add('on');
+  activeTab = id;
+  event.currentTarget.classList.add('on');
+}
+
+function openSub(id) {
+  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
+  document.getElementById('sub-' + id).classList.add('on');
+}
+
+function closeSub(id) {
+  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
+  document.getElementById('tab-men').classList.add('on');
+}
+
+loadData();
+</script>
+</body>
+</html>
