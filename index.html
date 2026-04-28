@@ -254,6 +254,41 @@ html, body {
 /* SPARKLINE */
 .spark { flex-shrink: 0; opacity: 0.75; }
 
+/* TREND CARD */
+.trend-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.trend-info { flex: 1; min-width: 0; }
+.trend-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+.trend-val { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1; }
+.trend-delta { font-size: 10px; margin-top: 3px; }
+.trend-spark { flex-shrink: 0; }
+
+/* TREND GRID — 2 colonne */
+.trend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.trend-mini {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 10px;
+}
+.trend-mini-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.trend-mini-val { font-family: var(--font-display); font-size: 18px; font-weight: 700; line-height: 1; }
+.trend-mini-delta { font-size: 9px; margin-top: 2px; }
+.trend-mini-spark { margin-top: 5px; }
+
 /* PATTERN CARD */
 .pat-card {
   border-left: 3px solid var(--lime);
@@ -606,6 +641,11 @@ html, body {
       <div class="sint-l">Sintesi AI</div>
       <div class="sint-t" id="ov-sintesi">—</div>
     </div>
+    <!-- TREND SCORE OLISTICO -->
+    <div id="ov-trend-block" style="display:none">
+      <div class="sec">Trend score olistico</div>
+      <div id="ov-trend-spark-wrap" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px"></div>
+    </div>
   </div>
 
   <!-- RECOVERY -->
@@ -629,6 +669,11 @@ html, body {
     <div class="pat-card crit" id="rec-pattern">
       <div class="pt">Pattern rilevato</div>
       <div class="pb">Nei 3 giorni successivi a sessioni CrossFit intense, deep sleep scende in media del 18%. Considera deload o attività aerobica leggera come recovery attivo.</div>
+    </div>
+    <!-- TREND RECOVERY -->
+    <div id="rec-trend-block" style="display:none">
+      <div class="sec">Trend metriche recovery</div>
+      <div class="trend-grid" id="rec-trend-grid"></div>
     </div>
   </div>
 
@@ -681,9 +726,12 @@ html, body {
         <button class="msec-btn msec-btn-qual" onclick="openSub('prio')"><span class="msec-label-qual">Priorità maggio</span><span class="msec-arrow-qual">›</span></button>
       </div>
     </div>
+    <!-- TREND MENTE -->
+    <div id="men-trend-block" style="display:none;margin-top:8px">
+      <div class="sec" style="margin-top:0">Trend mentale</div>
+      <div class="trend-grid" id="men-trend-grid"></div>
+    </div>
   </div>
-
-  <!-- NUTRIZIONE -->
   <div class="panel" id="tab-nut">
     <div class="kpi2">
       <div class="kpi"><div class="kv kv-ok" id="nut-score">—</div><div class="kl">Score nutrizionale</div><div class="ks" id="nut-score-d">—</div></div>
@@ -729,6 +777,11 @@ html, body {
     </div>
     <div class="sec-collapsible collapsed" id="sec-vitamine">
       <div class="mlist" id="nut-vitamine-list" style="margin-top:0"></div>
+    </div>
+    <!-- TREND NUTRIZIONE -->
+    <div id="nut-trend-block" style="display:none">
+      <div class="sec">Trend nutrizionale</div>
+      <div class="trend-grid" id="nut-trend-grid"></div>
     </div>
   </div>
 
@@ -836,14 +889,28 @@ html, body {
 
 <script>
 let D = {};
+let H = null; // history data — null se non disponibile
 let activeTab = 'ov';
 const sportColors = ['var(--info)', 'var(--ok)', 'var(--warn)', 'var(--crit)', '#8080A0'];
 
 async function loadData() {
   try {
-    const r = await fetch('data.json?v=' + Date.now());
-    if (!r.ok) throw new Error('fetch failed');
-    D = await r.json();
+    const v = '?v=' + Date.now();
+    const [rData, rHistory] = await Promise.all([
+      fetch('data.json' + v),
+      fetch('history.json' + v).catch(() => null)
+    ]);
+    if (!rData.ok) throw new Error('data.json fetch failed');
+    D = await rData.json();
+
+    // history.json è opzionale — graceful degradation se mancante
+    if (rHistory && rHistory.ok) {
+      try {
+        const hRaw = await rHistory.json();
+        H = (hRaw.mesi && hRaw.mesi.length >= 2) ? hRaw.mesi : null;
+      } catch(e) { H = null; }
+    }
+
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
     render();
@@ -882,6 +949,114 @@ function complianceColor(pct) {
   if (pct >= 60) return 'var(--warn)';
   return 'var(--crit)';
 }
+
+// ── SPARKLINE ENGINE ────────────────────────────────────────────────
+// Disegna una sparkline SVG inline a partire da un array di valori numerici.
+// w/h = dimensioni SVG, color = stroke color, fillOpacity = area fill
+function sparkline(values, { w = 80, h = 32, color = 'var(--lime)', fillOpacity = 0.15, showDots = true } = {}) {
+  if (!values || values.length < 2) return '';
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const pad = 3;
+  const xs = values.map((_, i) => pad + (i / (values.length - 1)) * (w - pad * 2));
+  const ys = values.map(v => pad + (1 - (v - min) / range) * (h - pad * 2));
+  const pts = xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ');
+  const polyline = `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  const area = `<polygon points="${xs[0].toFixed(1)},${(h-pad).toFixed(1)} ${pts} ${xs[xs.length-1].toFixed(1)},${(h-pad).toFixed(1)}" fill="${color}" fill-opacity="${fillOpacity}"/>`;
+  const lastDot = showDots ? `<circle cx="${xs[xs.length-1].toFixed(1)}" cy="${ys[ys.length-1].toFixed(1)}" r="2.5" fill="${color}"/>` : '';
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">${area}${polyline}${lastDot}</svg>`;
+}
+
+// Sparkline wide con etichette mesi sull'asse X
+function sparklineWide(values, labels, { w = 360, h = 56, color = 'var(--lime)' } = {}) {
+  if (!values || values.length < 2) return '';
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const padX = 8, padY = 6, labelH = 14;
+  const drawH = h - labelH;
+  const xs = values.map((_, i) => padX + (i / (values.length - 1)) * (w - padX * 2));
+  const ys = values.map(v => padY + (1 - (v - min) / range) * (drawH - padY * 2));
+  const pts = xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ');
+  const area = `<polygon points="${xs[0].toFixed(1)},${(drawH - padY).toFixed(1)} ${pts} ${xs[xs.length-1].toFixed(1)},${(drawH - padY).toFixed(1)}" fill="${color}" fill-opacity="0.1"/>`;
+  const line = `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  const dots = xs.map((x, i) => `<circle cx="${x.toFixed(1)}" cy="${ys[i].toFixed(1)}" r="2.5" fill="${color}"/>`).join('');
+  const lbls = labels.map((l, i) => `<text x="${xs[i].toFixed(1)}" y="${h}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.3)" font-family="DM Sans,system-ui">${l}</text>`).join('');
+  const vals = values.map((v, i) => `<text x="${xs[i].toFixed(1)}" y="${(ys[i] - 5).toFixed(1)}" text-anchor="middle" font-size="9" fill="${color}" font-family="DM Sans,system-ui" opacity="0.8">${v}</text>`).join('');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;max-width:${w}px;overflow:visible">${area}${line}${dots}${vals}${lbls}</svg>`;
+}
+
+// Costruisce una trend-mini card con sparkline
+function trendMiniCard(label, values, labels, color, unit = '') {
+  if (!values || values.length < 2) return '';
+  const last = values[values.length - 1];
+  const prev = values[values.length - 2];
+  const diff = (last - prev);
+  const diffStr = (diff >= 0 ? '+' : '') + (Number.isInteger(diff) ? diff : diff.toFixed(1)) + (unit ? unit : '');
+  const diffColor = diff >= 0 ? 'var(--ok)' : 'var(--crit)';
+  const spark = sparkline(values, { w: 72, h: 28, color, showDots: true });
+  return `<div class="trend-mini">
+    <div class="trend-mini-label">${label}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div class="trend-mini-val" style="color:${color}">${last}${unit}</div>
+        <div class="trend-mini-delta" style="color:${diffColor}">${diffStr} vs mese prec.</div>
+      </div>
+      <div class="trend-mini-spark">${spark}</div>
+    </div>
+  </div>`;
+}
+
+// Renderizza tutti i blocchi trend se H è disponibile
+function renderTrends() {
+  if (!H || H.length < 2) return;
+  const labels = H.map(m => m.mese_breve);
+
+  // ── OVERVIEW: score olistico wide ──
+  const ovBlock = document.getElementById('ov-trend-block');
+  const ovWrap = document.getElementById('ov-trend-spark-wrap');
+  if (ovBlock && ovWrap) {
+    const vals = H.map(m => m.score_olistico);
+    ovWrap.innerHTML = sparklineWide(vals, labels, { color: 'var(--amber)' });
+    ovBlock.style.display = 'block';
+  }
+
+  // ── RECOVERY: HRV, deep sleep, peso ──
+  const recBlock = document.getElementById('rec-trend-block');
+  const recGrid = document.getElementById('rec-trend-grid');
+  if (recBlock && recGrid) {
+    recGrid.innerHTML =
+      trendMiniCard('HRV medio', H.map(m => m.hrv_medio), labels, 'var(--ok)', 'ms') +
+      trendMiniCard('Deep Sleep', H.map(m => m.deep_sleep_pct), labels, 'var(--crit)', '%') +
+      trendMiniCard('Peso', H.map(m => m.peso), labels, 'var(--info)', 'kg') +
+      trendMiniCard('Score fisico', H.map(m => m.score_fisico), labels, 'var(--ok)');
+    recBlock.style.display = 'block';
+  }
+
+  // ── MENTE: consistency journal, rating medio ──
+  const menBlock = document.getElementById('men-trend-block');
+  const menGrid = document.getElementById('men-trend-grid');
+  if (menBlock && menGrid) {
+    menGrid.innerHTML =
+      trendMiniCard('Consistency', H.map(m => m.consistency_journal), labels, 'var(--lime)', '%') +
+      trendMiniCard('Rating medio', H.map(m => m.rating_medio), labels, 'var(--warn)') +
+      trendMiniCard('Score mentale', H.map(m => m.score_mentale), labels, 'var(--warn)');
+    menBlock.style.display = 'block';
+  }
+
+  // ── NUTRIZIONE: acqua, compliance vitamine ──
+  const nutBlock = document.getElementById('nut-trend-block');
+  const nutGrid = document.getElementById('nut-trend-grid');
+  if (nutBlock && nutGrid) {
+    nutGrid.innerHTML =
+      trendMiniCard('Acqua media', H.map(m => m.acqua_media_l), labels, 'var(--info)', 'L') +
+      trendMiniCard('Compliance vit.', H.map(m => m.compliance_vitamine_pct), labels, 'var(--lime)', '%') +
+      trendMiniCard('Score nutriz.', H.map(m => m.score_nutrizionale), labels, 'var(--info)');
+    nutBlock.style.display = 'block';
+  }
+}
+// ── END SPARKLINE ENGINE ────────────────────────────────────────────
 
 function render() {
   // META
@@ -1179,6 +1354,9 @@ function render() {
   document.getElementById('nut-list').innerHTML =
     nutRows.map(r => `<div class="mr"><div class="mdot" style="background:${r.dot}"></div><div class="mn">${r.name}</div><div class="mv-txt">${r.val}</div><span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span></div>`).join('') +
     pianiRows;
+
+  // TRENDS (richiede H con almeno 2 mesi)
+  renderTrends();
 }
 
 function toggleSec(id) {
