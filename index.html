@@ -404,72 +404,89 @@ html, body {
 }
 
 /* NUTRIZIONE */
-.macro3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.macro3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 6px; }
 .mc {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 10px 8px;
+  padding: 8px 6px;
   text-align: center;
 }
-.mc-v { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1; }
-.mc-l { font-size: 10px; color: var(--text4); margin-top: 3px; }
-.mc-bar { height: 3px; border-radius: 2px; background: var(--surface3); margin-top: 6px; }
+.mc-v { font-family: var(--font-display); font-size: 19px; font-weight: 700; line-height: 1; }
+.mc-l { font-size: 9px; color: var(--text4); margin-top: 2px; }
+.mc-bar { height: 3px; border-radius: 2px; background: var(--surface3); margin-top: 5px; }
 
-/* PIANI CHART */
-.piani-chart {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 8px;
-}
-.pc-bars { display: flex; gap: 8px; height: 90px; align-items: flex-end; margin-bottom: 10px; }
-.pc-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.pc-bar { width: 100%; border-radius: 4px 4px 0 0; }
-.pc-pct { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text1); }
-.pc-divider { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 8px; }
-.pc-legend { display: flex; flex-direction: column; gap: 5px; }
-.pc-leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text3); }
-.pc-leg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-
-/* INTEGRATORI GRID */
-.integ-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-.integ-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 12px;
-}
-.integ-v { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1; }
-.integ-l { font-size: 10px; color: var(--text4); margin-top: 3px; }
-.integ-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
-
-/* COMPLIANCE BAR */
-.comp-bar-wrap { background: var(--surface3); border-radius: 3px; height: 4px; margin-top: 5px; }
-.comp-bar-fill { height: 100%; border-radius: 3px; }
-
-/* HYDRO CARD */
+/* HYDRO — compact */
 .hydro-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 5px;
+  margin-bottom: 6px;
 }
 .hydro-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 10px 12px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.hydro-v { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1; }
-.hydro-l { font-size: 11px; color: var(--text3); margin-top: 3px; }
-.hydro-sub { font-size: 10px; color: var(--text4); margin-top: 2px; }
+.hydro-icon { font-size: 18px; flex-shrink: 0; }
+.hydro-info { flex: 1; min-width: 0; }
+.hydro-v { font-family: var(--font-display); font-size: 20px; font-weight: 700; line-height: 1; }
+.hydro-l { font-size: 10px; color: var(--text3); margin-top: 2px; }
+.hydro-sub { font-size: 9px; color: var(--text4); }
+
+/* INTEGRATORI GRID — compact 2x2 */
+.integ-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+.integ-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 7px 10px;
+}
+.integ-v { font-family: var(--font-display); font-size: 18px; font-weight: 700; line-height: 1; }
+.integ-l { font-size: 9px; color: var(--text4); margin-top: 2px; }
+.integ-sub { font-size: 9px; color: var(--text3); margin-top: 1px; }
+
+/* COMPLIANCE BAR */
+.comp-bar-wrap { background: var(--surface3); border-radius: 3px; height: 3px; margin-top: 4px; }
+.comp-bar-fill { height: 100%; border-radius: 3px; }
+
+/* COLLAPSIBLE SECTION */
+.sec-toggle {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text2);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 12px 0 0;
+  padding: 6px 0 5px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.sec-toggle:hover { color: var(--text1); }
+.sec-toggle-arrow {
+  font-size: 12px;
+  color: var(--text4);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.sec-toggle-arrow.open { transform: rotate(90deg); }
+.sec-collapsible { overflow: hidden; }
+.sec-collapsible.collapsed { display: none; }
+.sec-collapsible.expanded { display: block; padding-top: 6px; }
 
 /* SPORT SUBPANEL detail */
 .spt-detail-kpi {
@@ -672,37 +689,47 @@ html, body {
       <div class="kpi"><div class="kv kv-ok" id="nut-score">—</div><div class="kl">Score nutrizionale</div><div class="ks" id="nut-score-d">—</div></div>
       <div class="kpi"><div class="kv kv-info" id="nut-kcal">—</div><div class="kl">Kcal medie / giorno</div><div class="ks" id="nut-kcal-sub">—</div></div>
     </div>
-    <div class="sec">Macronutrienti medi giornalieri</div>
+    <div class="sec">Macronutrienti</div>
     <div class="macro3">
       <div class="mc"><div class="mc-v" style="color:var(--ok)" id="nut-prot">—</div><div class="mc-l">Proteine</div><div class="mc-bar"><div id="nut-prot-bar" style="height:3px;border-radius:2px;background:var(--ok)"></div></div></div>
       <div class="mc"><div class="mc-v" style="color:var(--info)" id="nut-carb">—</div><div class="mc-l">Carboidrati</div><div class="mc-bar"><div id="nut-carb-bar" style="height:3px;border-radius:2px;background:var(--info)"></div></div></div>
       <div class="mc"><div class="mc-v" style="color:var(--warn)" id="nut-fat">—</div><div class="mc-l">Grassi</div><div class="mc-bar"><div id="nut-fat-bar" style="height:3px;border-radius:2px;background:var(--warn)"></div></div></div>
     </div>
-    <div class="sec">Distribuzione piani alimentari</div>
-    <div class="piani-chart">
-      <div class="pc-bars" id="nut-bars"></div>
-      <div class="pc-divider"></div>
-      <div class="pc-legend" id="nut-legend"></div>
-    </div>
     <div class="sec">Idratazione</div>
     <div class="hydro-row">
       <div class="hydro-card">
-        <div class="hydro-v" id="nut-acqua" style="color:var(--info)">—</div>
-        <div class="hydro-l">Acqua media / giorno</div>
-        <div class="hydro-sub">target ≥2L</div>
+        <div class="hydro-icon">💧</div>
+        <div class="hydro-info">
+          <div class="hydro-v" id="nut-acqua" style="color:var(--info)">—</div>
+          <div class="hydro-l">Acqua media / giorno</div>
+          <div class="hydro-sub">target ≥2L</div>
+        </div>
       </div>
       <div class="hydro-card">
-        <div class="hydro-v" id="nut-idro-warn" style="color:var(--warn)">—</div>
-        <div class="hydro-l">Giorni sotto soglia</div>
-        <div class="hydro-sub" id="nut-idro-warn-pct">—</div>
+        <div class="hydro-icon">⚠️</div>
+        <div class="hydro-info">
+          <div class="hydro-v" id="nut-idro-warn" style="color:var(--warn)">—</div>
+          <div class="hydro-l">Giorni sotto soglia</div>
+          <div class="hydro-sub" id="nut-idro-warn-pct">—</div>
+        </div>
       </div>
     </div>
     <div class="sec">Integratori</div>
     <div class="integ-grid" id="nut-integ-grid"></div>
-    <div class="sec">Vitamine — dettaglio compliance</div>
-    <div class="mlist" id="nut-vitamine-list"></div>
-    <div class="sec">Delta e consistenza</div>
-    <div class="mlist" id="nut-list"></div>
+    <div class="sec-toggle" onclick="toggleSec('delta')">
+      <span>Delta e consistenza</span>
+      <span class="sec-toggle-arrow" id="arrow-delta">›</span>
+    </div>
+    <div class="sec-collapsible collapsed" id="sec-delta">
+      <div class="mlist" id="nut-list" style="margin-top:0"></div>
+    </div>
+    <div class="sec-toggle" onclick="toggleSec('vitamine')">
+      <span>Vitamine — dettaglio compliance</span>
+      <span class="sec-toggle-arrow" id="arrow-vitamine">›</span>
+    </div>
+    <div class="sec-collapsible collapsed" id="sec-vitamine">
+      <div class="mlist" id="nut-vitamine-list" style="margin-top:0"></div>
+    </div>
   </div>
 
   <!-- SUBPANELS -->
@@ -1082,13 +1109,6 @@ function render() {
   document.getElementById('nut-carb-bar').style.width = '70%';
   document.getElementById('nut-fat-bar').style.width = '65%';
 
-  // PIANI CHART
-  const pianiColors = ['var(--ok)', 'var(--info)', 'var(--warn)'];
-  document.getElementById('nut-bars').innerHTML = (D.piani_distribuzione || []).map((p, i) =>
-    `<div class="pc-bar-wrap"><div class="pc-pct" style="color:${pianiColors[i]}">${p.pct}%</div><div class="pc-bar" style="height:${p.pct}px;background:${pianiColors[i]};opacity:0.85"></div></div>`).join('');
-  document.getElementById('nut-legend').innerHTML = (D.piani_distribuzione || []).map((p, i) =>
-    `<div class="pc-leg-item"><div class="pc-leg-dot" style="background:${pianiColors[i]}"></div>${p.nome} · ~${p.giorni} giorni · ${p.note}</div>`).join('');
-
   // IDRATAZIONE
   const acquaColor = (D.acqua_media_l || 0) >= 2 ? 'var(--info)' : 'var(--warn)';
   const acquaEl = document.getElementById('nut-acqua');
@@ -1099,13 +1119,18 @@ function render() {
     : 'giorni < 2L';
   document.getElementById('nut-idro-warn-pct').textContent = idroPct;
 
-  // INTEGRATORI GRID
+  // INTEGRATORI GRID — senza caffeina, con Vit D totale e Omega 3 totale
+  const vitD = D.vitamine_dettaglio ? D.vitamine_dettaglio.find(v => v.nome.includes('Vitamina D')) : null;
+  const omega3 = D.vitamine_dettaglio ? D.vitamine_dettaglio.find(v => v.nome.includes('Omega')) : null;
+  const vitDGrams = vitD ? ((vitD.giorni * 4000) / 1000000).toFixed(2) + 'g' : '—';
+  const omega3Grams = omega3 ? ((omega3.giorni * 2250) / 1000).toFixed(0) + 'mg' : '—';
   const integItems = [
     { label: 'Creatina', giorni: D.creatina_giorni, tot: tot, color: 'var(--ok)' },
     { label: 'Pre-Workout', giorni: D.pre_workout_giorni, tot: tot, color: 'var(--warn)' },
     { label: 'Intra-Workout', giorni: D.intra_workout_giorni, tot: tot, color: 'var(--info)' },
     { label: 'Compliance vit.', giorni: null, pct: D.compliance_vitamine_pct, color: 'var(--lime)' },
-    { label: 'Caffeina media', giorni: null, pct: null, special: (D.caffeina_media_workout || '—') + 'mg', sublabel: 'giorni workout', color: 'var(--warn)' },
+    { label: 'Vit D totale', special: vitDGrams, sublabel: vitD ? vitD.giorni + ' giorni · 4000UI/die' : '—', color: 'var(--warn)' },
+    { label: 'Omega 3 totale', special: omega3Grams, sublabel: omega3 ? omega3.giorni + ' giorni · 2250mg/die' : '—', color: 'var(--info)' },
   ];
   document.getElementById('nut-integ-grid').innerHTML = integItems.map(item => {
     let val, sub, barPct;
@@ -1127,7 +1152,7 @@ function render() {
     </div>`;
   }).join('');
 
-  // VITAMINE DETTAGLIO
+  // VITAMINE DETTAGLIO (sezione collassabile)
   document.getElementById('nut-vitamine-list').innerHTML = (D.vitamine_dettaglio || []).map(v => {
     const col = complianceColor(v.pct);
     return `<div class="mr">
@@ -1138,8 +1163,12 @@ function render() {
     </div>`;
   }).join('');
 
-  // NUTRIZIONE LIST
+  // DELTA E CONSISTENZA — include piani alimentari come righe compatte
+  const pianiColors = ['var(--ok)', 'var(--info)', 'var(--warn)'];
   const delta_cal = D.delta_calorico_medio;
+  const pianiRows = (D.piani_distribuzione || []).map((p, i) =>
+    `<div class="mr"><div class="mdot" style="background:${pianiColors[i]}"></div><div class="mn">Piano ${p.nome}</div><div class="mv">${p.giorni}<span class="mu">gg</span></div><span class="badge b-neu" style="margin-left:auto">${p.pct}% · ${p.note}</span></div>`
+  ).join('');
   const nutRows = [
     { dot: 'var(--ok)', name: 'Delta calorico medio', val: (delta_cal > 0 ? '+' : '') + delta_cal + ' kcal', badge: Math.abs(delta_cal) < 100 ? 'in target' : 'fuori target', bc: Math.abs(delta_cal) < 100 ? 'b-ok' : 'b-warn' },
     { dot: 'var(--info)', name: 'Giorni surplus', val: D.giorni_surplus + ' gg', badge: Math.round(D.giorni_surplus / tot * 100) + '%', bc: 'b-info' },
@@ -1147,8 +1176,19 @@ function render() {
     { dot: 'var(--warn)', name: 'Warning proteine', val: D.giorni_warning_proteine + ' gg', badge: '<140g', bc: 'b-warn' },
     { dot: 'var(--ok)', name: 'Consistency nutrizionale', val: D.consistency_nutrizione + '%', badge: 'ottima', bc: 'b-ok' },
   ];
-  document.getElementById('nut-list').innerHTML = nutRows.map(r =>
-    `<div class="mr"><div class="mdot" style="background:${r.dot}"></div><div class="mn">${r.name}</div><div class="mv-txt">${r.val}</div><span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span></div>`).join('');
+  document.getElementById('nut-list').innerHTML =
+    nutRows.map(r => `<div class="mr"><div class="mdot" style="background:${r.dot}"></div><div class="mn">${r.name}</div><div class="mv-txt">${r.val}</div><span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span></div>`).join('') +
+    pianiRows;
+}
+
+function toggleSec(id) {
+  const sec = document.getElementById('sec-' + id);
+  const arrow = document.getElementById('arrow-' + id);
+  if (!sec) return;
+  const isOpen = sec.classList.contains('expanded');
+  sec.classList.toggle('collapsed', isOpen);
+  sec.classList.toggle('expanded', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
 }
 
 function showTab(id) {
