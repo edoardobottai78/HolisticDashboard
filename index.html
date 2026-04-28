@@ -232,6 +232,10 @@ html, body {
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 .mr:last-child { border-bottom: none; }
+.mr.clickable { cursor: pointer; transition: background 0.15s; }
+.mr.clickable:hover { background: rgba(255,255,255,0.03); }
+.mr.clickable:active { background: rgba(255,255,255,0.06); }
+.mr-arrow { font-size: 14px; color: var(--text4); margin-left: auto; flex-shrink: 0; }
 .mdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 .mn { font-size: 12px; color: var(--text2); flex: 1; }
 .mv { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--text1); }
@@ -361,9 +365,9 @@ html, body {
   margin-bottom: 8px;
 }
 .ww { font-size: 12px; padding: 4px 10px; border-radius: 20px; }
-.wp { background: rgba(200,245,58,0.1); color: #B8E840; }
-.wn { background: rgba(245,58,58,0.1); color: #F08080; }
-.wu { background: rgba(255,255,255,0.06); color: #7080A0; }
+.wpos { background: rgba(200,245,58,0.1); color: #B8E840; }
+.wneg { background: rgba(245,58,58,0.1); color: #F08080; }
+.wneu { background: rgba(255,255,255,0.06); color: #7080A0; }
 .wb { font-size: 14px; font-weight: 500; }
 
 /* HABIT */
@@ -428,6 +432,61 @@ html, body {
 .pc-legend { display: flex; flex-direction: column; gap: 5px; }
 .pc-leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text3); }
 .pc-leg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* INTEGRATORI GRID */
+.integ-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.integ-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+.integ-v { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1; }
+.integ-l { font-size: 10px; color: var(--text4); margin-top: 3px; }
+.integ-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+/* COMPLIANCE BAR */
+.comp-bar-wrap { background: var(--surface3); border-radius: 3px; height: 4px; margin-top: 5px; }
+.comp-bar-fill { height: 100%; border-radius: 3px; }
+
+/* HYDRO CARD */
+.hydro-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.hydro-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+.hydro-v { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1; }
+.hydro-l { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.hydro-sub { font-size: 10px; color: var(--text4); margin-top: 2px; }
+
+/* SPORT SUBPANEL detail */
+.spt-detail-kpi {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.sdt-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 10px;
+  text-align: center;
+}
+.sdt-v { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text1); line-height: 1; }
+.sdt-l { font-size: 9px; color: var(--text4); margin-top: 3px; }
 
 /* LOADING */
 #loading {
@@ -559,13 +618,15 @@ html, body {
   <!-- SPORT -->
   <div class="panel" id="tab-spt">
     <div class="kpi2">
-      <div class="kpi"><div class="kv kv-warn" id="spt-sessioni">—</div><div class="kl">Sessioni</div><div class="ks" id="spt-sessioni-sub">—</div></div>
+      <div class="kpi"><div class="kv kv-warn" id="spt-sessioni">—</div><div class="kl">Sessioni totali</div><div class="ks" id="spt-sessioni-sub">—</div></div>
       <div class="kpi"><div class="kv kv-info" id="spt-durata">—<span style="font-size:16px">min</span></div><div class="kl">Durata media</div><div class="ks">per sessione</div></div>
     </div>
     <div class="kpi2">
       <div class="kpi"><div class="kv kv-ok" id="spt-steps">—</div><div class="kl">Steps / giorno</div><div class="ks">media mensile</div></div>
       <div class="kpi"><div class="kv kv-info" id="spt-volume">—<span style="font-size:16px">h</span></div><div class="kl">Volume totale</div><div class="ks" id="spt-volume-sub">—</div></div>
     </div>
+    <div class="sec">Sessioni per sport</div>
+    <div class="mlist" id="spt-sport-list"></div>
     <div class="sec">Dati Zepp SPORT_DATA</div>
     <div class="mlist" id="spt-list"></div>
     <div class="pat-card">
@@ -623,6 +684,23 @@ html, body {
       <div class="pc-divider"></div>
       <div class="pc-legend" id="nut-legend"></div>
     </div>
+    <div class="sec">Idratazione</div>
+    <div class="hydro-row">
+      <div class="hydro-card">
+        <div class="hydro-v" id="nut-acqua" style="color:var(--info)">—</div>
+        <div class="hydro-l">Acqua media / giorno</div>
+        <div class="hydro-sub">target ≥2L</div>
+      </div>
+      <div class="hydro-card">
+        <div class="hydro-v" id="nut-idro-warn" style="color:var(--warn)">—</div>
+        <div class="hydro-l">Giorni sotto soglia</div>
+        <div class="hydro-sub" id="nut-idro-warn-pct">—</div>
+      </div>
+    </div>
+    <div class="sec">Integratori</div>
+    <div class="integ-grid" id="nut-integ-grid"></div>
+    <div class="sec">Vitamine — dettaglio compliance</div>
+    <div class="mlist" id="nut-vitamine-list"></div>
     <div class="sec">Delta e consistenza</div>
     <div class="mlist" id="nut-list"></div>
   </div>
@@ -686,6 +764,23 @@ html, body {
     </div>
   </div>
 
+  <!-- SPORT DETAIL SUBPANEL (dinamico per sport) -->
+  <div class="subpanel" id="sub-sport-detail">
+    <div class="sp-header">
+      <button class="sp-back" onclick="closeSportDetail()">← Sport</button>
+      <span class="sp-title" id="sub-sport-title">—</span>
+    </div>
+    <div class="sp-body">
+      <div class="spt-detail-kpi" id="sub-sport-kpi"></div>
+      <div class="sec">Dati Zepp (prossimo ZIP)</div>
+      <div class="mlist" id="sub-sport-zepp"></div>
+      <div class="pat-card" id="sub-sport-note-card" style="display:none">
+        <div class="pt">Note</div>
+        <div class="pb" id="sub-sport-note">—</div>
+      </div>
+    </div>
+  </div>
+
   <div class="subpanel" id="sub-temi">
     <div class="sp-header">
       <button class="sp-back sp-back-qual" onclick="closeSub('temi')">← Chiudi</button>
@@ -715,6 +810,7 @@ html, body {
 <script>
 let D = {};
 let activeTab = 'ov';
+const sportColors = ['var(--info)', 'var(--ok)', 'var(--warn)', 'var(--crit)', '#8080A0'];
 
 async function loadData() {
   try {
@@ -752,6 +848,12 @@ function scoreColor(v) {
 function set(id, val) {
   const el = document.getElementById(id);
   if (el) el.textContent = val;
+}
+
+function complianceColor(pct) {
+  if (pct >= 80) return 'var(--ok)';
+  if (pct >= 60) return 'var(--warn)';
+  return 'var(--crit)';
 }
 
 function render() {
@@ -811,20 +913,36 @@ function render() {
   set('rec-fatigue', D.fatigue_prevalente);
   set('rec-fatigue-score', D.fatigue_score + '/5');
 
-  // SPORT
-  set('spt-sessioni', D.sessioni_allenamento);
+  // SPORT — KPI aggregati calcolati da sessioni_sport
+  const sports = D.sessioni_sport || [];
+  const totSess = sports.reduce((s, x) => s + x.sessioni, 0);
+  const totMin = sports.reduce((s, x) => s + x.durata_totale, 0);
+  const avgDurata = totSess > 0 ? Math.round(totMin / totSess) : (D.durata_allenamento_media || 0);
+  const totH = (totMin / 60).toFixed(1);
+
+  set('spt-sessioni', totSess || D.sessioni_allenamento);
   document.getElementById('spt-sessioni-sub').textContent = 'target ' + D.sessioni_allenamento_target + '/mese';
-  set('spt-durata', D.durata_allenamento_media);
+  set('spt-durata', avgDurata);
   const steps = D.steps_giorno_media >= 1000 ? (D.steps_giorno_media / 1000).toFixed(1) + 'k' : D.steps_giorno_media;
   set('spt-steps', steps);
-  const vol = (D.durata_allenamento_totale / 60).toFixed(1);
-  set('spt-volume', vol);
-  document.getElementById('spt-volume-sub').textContent = D.durata_allenamento_totale + ' min/mese';
+  set('spt-volume', totH);
+  document.getElementById('spt-volume-sub').textContent = totMin + ' min/mese';
 
-  const sptColors = { sport: 'var(--info)', durata: 'var(--ok)', calorie: 'var(--warn)', fc_media: 'var(--warn)', fc_max: 'var(--crit)' };
+  // SPORT — Lista per sport cliccabile
+  document.getElementById('spt-sport-list').innerHTML = sports.map((s, i) => {
+    const h = (s.durata_totale / 60).toFixed(1);
+    const color = sportColors[i % sportColors.length];
+    return `<div class="mr clickable" onclick="openSportDetail(${i})">
+      <div class="mdot" style="background:${color}"></div>
+      <div class="mn">${s.sport}</div>
+      <div class="mv">${s.sessioni}<span class="mu"> sess.</span></div>
+      <span class="badge b-info" style="margin-left:8px">${h}h</span>
+      <span class="mr-arrow">›</span>
+    </div>`;
+  }).join('');
+
+  // SPORT — Zepp data rows (dati aggregati ancora null)
   const sptRows = [
-    { dot: 'var(--info)', name: 'Sport prevalente', val: D.tipo_sport_prevalente, badge: D.sessioni_allenamento + ' sess.', bc: 'b-info', empty: false },
-    { dot: 'var(--ok)', name: 'Durata totale mese', val: D.durata_allenamento_totale + ' min', badge: vol + 'h', bc: 'b-ok', empty: false },
     { dot: 'var(--warn)', name: 'Calorie totali', val: D.calorie_allenamento_totali, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.calorie_allenamento_totali === null },
     { dot: 'var(--warn)', name: 'FC media allenamento', val: D.fc_media_allenamento, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.fc_media_allenamento === null },
     { dot: 'var(--crit)', name: 'FC max allenamento', val: D.fc_max_allenamento, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.fc_max_allenamento === null },
@@ -837,9 +955,9 @@ function render() {
       <span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span>
     </div>`).join('');
 
-  const pct = Math.round(D.sessioni_allenamento / D.sessioni_allenamento_target * 100);
+  const pct = Math.round((totSess || D.sessioni_allenamento) / D.sessioni_allenamento_target * 100);
   document.getElementById('spt-consistency-text').textContent =
-    D.sessioni_allenamento + '/' + D.sessioni_allenamento_target + ' sessioni target completate (' + pct + '%). Nessuna settimana sotto le 4 sessioni.';
+    (totSess || D.sessioni_allenamento) + '/' + D.sessioni_allenamento_target + ' sessioni target completate (' + pct + '%). Sport praticati questo mese: ' + sports.map(s => s.sport).join(', ') + '.';
 
   // MENTE scores
   set('men-score-n', D.score_mentale);
@@ -847,7 +965,7 @@ function render() {
 
   // MOOD subpanel
   const moodColors = { pos: 'rgba(200,245,58,', neu: 'rgba(245,166,35,', dif: 'rgba(245,58,58,' };
-  const moodAlpha = [0.6,0.35,0.65,0.5,0.35,0.7,0.45,0.4,0.6,0.8,0.55,0.4,0.6,0.45,0.7,0.6,0.45,0.4,0.75,0.35,0.65,0.5,0.3,0.7,0.8,0.5,0.5,0.6];
+  const moodAlpha = D.mood_giorni || [];
   document.getElementById('mood-strip').innerHTML = (D.mood_tipo || []).map((t, i) =>
     `<div class="md" style="background:${moodColors[t]}${moodAlpha[i] || 0.5})"></div>`).join('');
   document.getElementById('mood-leg').innerHTML = `
@@ -906,7 +1024,7 @@ function render() {
   document.getElementById('proto-list').innerHTML = (D.protocollo_sessioni || []).map((s, i) =>
     `<div class="mr"><div class="mdot" style="background:${dotColors[i]}"></div><div class="mn">${s.nome}</div><div class="mv">${s.count}<span class="mu">sess.</span></div><span class="badge b-info" style="margin-left:auto">${s.pct}%</span></div>`).join('');
 
-  // QUALITATIVO — render testo con paragrafi e quote
+  // QUALITATIVO
   function renderQual(text, quote, bodyId) {
     const el = document.getElementById(bodyId);
     if (!el || !text) return;
@@ -916,7 +1034,6 @@ function render() {
     el.innerHTML = html;
   }
 
-  // Temi
   const temiBody = document.getElementById('sub-temi-body');
   if (temiBody && D.temi_mese) {
     const paras = D.temi_mese.split('\n\n').filter(p => p.trim());
@@ -931,7 +1048,6 @@ function render() {
     temiBody.innerHTML = html;
   }
 
-  // Riflessioni
   const riflexBody = document.getElementById('sub-riflex-body');
   if (riflexBody && D.riflessioni_protocollo) {
     const paras = D.riflessioni_protocollo.split('\n\n').filter(p => p.trim());
@@ -944,7 +1060,6 @@ function render() {
     riflexBody.innerHTML = html;
   }
 
-  // Priorità
   const prioBody = document.getElementById('sub-prio-body');
   if (prioBody && D.azioni_prioritarie) {
     const paras = D.azioni_prioritarie.split('\n\n').filter(p => p.trim());
@@ -973,6 +1088,55 @@ function render() {
     `<div class="pc-bar-wrap"><div class="pc-pct" style="color:${pianiColors[i]}">${p.pct}%</div><div class="pc-bar" style="height:${p.pct}px;background:${pianiColors[i]};opacity:0.85"></div></div>`).join('');
   document.getElementById('nut-legend').innerHTML = (D.piani_distribuzione || []).map((p, i) =>
     `<div class="pc-leg-item"><div class="pc-leg-dot" style="background:${pianiColors[i]}"></div>${p.nome} · ~${p.giorni} giorni · ${p.note}</div>`).join('');
+
+  // IDRATAZIONE
+  const acquaColor = (D.acqua_media_l || 0) >= 2 ? 'var(--info)' : 'var(--warn)';
+  const acquaEl = document.getElementById('nut-acqua');
+  if (acquaEl) { acquaEl.textContent = (D.acqua_media_l || '—') + 'L'; acquaEl.style.color = acquaColor; }
+  set('nut-idro-warn', D.giorni_idratazione_sotto_soglia || '—');
+  const idroPct = D.giorni_idratazione_sotto_soglia && D.habit_giorni_totali
+    ? Math.round(D.giorni_idratazione_sotto_soglia / D.habit_giorni_totali * 100) + '% dei giorni'
+    : 'giorni < 2L';
+  document.getElementById('nut-idro-warn-pct').textContent = idroPct;
+
+  // INTEGRATORI GRID
+  const integItems = [
+    { label: 'Creatina', giorni: D.creatina_giorni, tot: tot, color: 'var(--ok)' },
+    { label: 'Pre-Workout', giorni: D.pre_workout_giorni, tot: tot, color: 'var(--warn)' },
+    { label: 'Intra-Workout', giorni: D.intra_workout_giorni, tot: tot, color: 'var(--info)' },
+    { label: 'Compliance vit.', giorni: null, pct: D.compliance_vitamine_pct, color: 'var(--lime)' },
+    { label: 'Caffeina media', giorni: null, pct: null, special: (D.caffeina_media_workout || '—') + 'mg', sublabel: 'giorni workout', color: 'var(--warn)' },
+  ];
+  document.getElementById('nut-integ-grid').innerHTML = integItems.map(item => {
+    let val, sub, barPct;
+    if (item.special) {
+      val = item.special; sub = item.sublabel; barPct = null;
+    } else if (item.pct !== null && item.pct !== undefined) {
+      val = item.pct + '%'; sub = 'compliance'; barPct = item.pct;
+    } else {
+      val = (item.giorni || '—') + '<span style="font-size:11px;color:var(--text4)"> gg</span>';
+      sub = item.tot ? Math.round((item.giorni || 0) / item.tot * 100) + '% dei giorni' : '';
+      barPct = item.tot ? Math.round((item.giorni || 0) / item.tot * 100) : null;
+    }
+    const barHtml = barPct !== null ? `<div class="comp-bar-wrap"><div class="comp-bar-fill" style="width:${barPct}%;background:${item.color}"></div></div>` : '';
+    return `<div class="integ-card">
+      <div class="integ-v" style="color:${item.color}">${val}</div>
+      <div class="integ-l">${item.label}</div>
+      <div class="integ-sub">${sub}</div>
+      ${barHtml}
+    </div>`;
+  }).join('');
+
+  // VITAMINE DETTAGLIO
+  document.getElementById('nut-vitamine-list').innerHTML = (D.vitamine_dettaglio || []).map(v => {
+    const col = complianceColor(v.pct);
+    return `<div class="mr">
+      <div class="mdot" style="background:${col}"></div>
+      <div class="mn">${v.nome}</div>
+      <div class="mv">${v.giorni}<span class="mu">/${tot}gg</span></div>
+      <span class="badge ${v.pct >= 80 ? 'b-ok' : v.pct >= 60 ? 'b-warn' : 'b-crit'}" style="margin-left:auto">${v.pct}%</span>
+    </div>`;
+  }).join('');
 
   // NUTRIZIONE LIST
   const delta_cal = D.delta_calorico_medio;
@@ -1003,6 +1167,57 @@ function openSub(id) {
 function closeSub(id) {
   document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
   document.getElementById('tab-men').classList.add('on');
+}
+
+function openSportDetail(idx) {
+  const sports = D.sessioni_sport || [];
+  const s = sports[idx];
+  if (!s) return;
+  const color = sportColors[idx % sportColors.length];
+
+  set('sub-sport-title', s.sport);
+
+  const h = (s.durata_totale / 60).toFixed(1);
+  document.getElementById('sub-sport-kpi').innerHTML = `
+    <div class="sdt-card">
+      <div class="sdt-v" style="color:${color}">${s.sessioni}</div>
+      <div class="sdt-l">Sessioni</div>
+    </div>
+    <div class="sdt-card">
+      <div class="sdt-v" style="color:var(--info)">${s.durata_media}<span style="font-size:11px">min</span></div>
+      <div class="sdt-l">Durata media</div>
+    </div>
+    <div class="sdt-card">
+      <div class="sdt-v" style="color:var(--ok)">${h}<span style="font-size:11px">h</span></div>
+      <div class="sdt-l">Volume totale</div>
+    </div>`;
+
+  const zeppRows = [
+    { dot: 'var(--warn)', name: 'Calorie totali', val: s.calorie_totali, empty: s.calorie_totali === null },
+    { dot: 'var(--warn)', name: 'FC media', val: s.fc_media ? s.fc_media + ' bpm' : null, empty: s.fc_media === null },
+    { dot: 'var(--crit)', name: 'FC max', val: s.fc_max ? s.fc_max + ' bpm' : null, empty: s.fc_max === null },
+  ];
+  document.getElementById('sub-sport-zepp').innerHTML = zeppRows.map(r => `
+    <div class="mr">
+      <div class="mdot" style="background:${r.dot}"></div>
+      <div class="mn">${r.name}</div>
+      ${r.empty ? `<div class="mv-empty">—</div><span class="badge b-neu" style="margin-left:auto">prossimo ZIP</span>` : `<div class="mv-txt">${r.val}</div>`}
+    </div>`).join('');
+
+  if (s.note) {
+    document.getElementById('sub-sport-note-card').style.display = 'block';
+    set('sub-sport-note', s.note);
+  } else {
+    document.getElementById('sub-sport-note-card').style.display = 'none';
+  }
+
+  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
+  document.getElementById('sub-sport-detail').classList.add('on');
+}
+
+function closeSportDetail() {
+  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
+  document.getElementById('tab-spt').classList.add('on');
 }
 
 loadData();
