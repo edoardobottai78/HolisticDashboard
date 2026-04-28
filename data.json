@@ -137,7 +137,6 @@
   "pre_workout_giorni": 16,
   "intra_workout_giorni": 16,
   "compliance_vitamine_pct": 89,
-  "caffeina_media_workout": 220,
   "vitamine_dettaglio": [
     {"nome": "Vitamina D 4000UI", "giorni": 24, "pct": 89},
     {"nome": "Spirulina 3000mg", "giorni": 22, "pct": 81},
