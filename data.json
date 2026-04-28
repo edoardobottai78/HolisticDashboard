@@ -1,7 +1,7 @@
 {
   "mese": "Aprile 2026",
   "mese_precedente": "Marzo 2026",
-  "aggiornato_il": "2026-04-27",
+  "aggiornato_il": "2026-04-28",
 
   "score_olistico": 67,
   "score_fisico": 78,
@@ -38,6 +38,29 @@
   "fc_media_allenamento": null,
   "fc_max_allenamento": null,
   "steps_giorno_media": 8240,
+
+  "sessioni_sport": [
+    {
+      "sport": "CrossFit",
+      "sessioni": 16,
+      "durata_media": 55,
+      "durata_totale": 880,
+      "calorie_totali": null,
+      "fc_media": null,
+      "fc_max": null,
+      "note": "4-5x/settimana — obiettivo principale"
+    },
+    {
+      "sport": "Tennis",
+      "sessioni": 2,
+      "durata_media": 75,
+      "durata_totale": 150,
+      "calorie_totali": null,
+      "fc_media": null,
+      "fc_max": null,
+      "note": "Sessioni occasionali"
+    }
+  ],
 
   "mood_giorni": [0.6,0.35,0.65,0.5,0.35,0.7,0.45,0.4,0.6,0.8,0.55,0.4,0.6,0.45,0.7,0.6,0.45,0.4,0.75,0.35,0.65,0.5,0.3,0.7,0.8,0.5,0.5,0.6],
   "mood_tipo": ["pos","pos","pos","neu","dif","pos","pos","neu","pos","pos","pos","dif","neu","pos","pos","pos","dif","pos","pos","neu","pos","pos","dif","pos","pos","pos","neu","pos"],
@@ -106,6 +129,20 @@
     {"nome": "Standard", "pct": 52, "giorni": 14, "note": "mantenimento"},
     {"nome": "Bulk", "pct": 30, "giorni": 8, "note": "+300kcal"},
     {"nome": "Riposo", "pct": 18, "giorni": 5, "note": "-200kcal"}
+  ],
+
+  "acqua_media_l": 2.3,
+  "giorni_idratazione_sotto_soglia": 6,
+  "creatina_giorni": 22,
+  "pre_workout_giorni": 16,
+  "intra_workout_giorni": 16,
+  "compliance_vitamine_pct": 89,
+  "caffeina_media_workout": 220,
+  "vitamine_dettaglio": [
+    {"nome": "Vitamina D 4000UI", "giorni": 24, "pct": 89},
+    {"nome": "Spirulina 3000mg", "giorni": 22, "pct": 81},
+    {"nome": "Omega 3 2250mg", "giorni": 25, "pct": 93},
+    {"nome": "Multi PRZ", "giorni": 20, "pct": 74}
   ],
 
   "sintesi_ai": "Mese positivo su nutrizione e performance fisica, frenato dal deficit di sonno profondo persistente. Pattern chiave: le sessioni CrossFit ad alta intensità correlano con deep sleep più basso nelle 48 ore successive. Nutrizione solida con consistency all'86% e proteine sopra target per 23 giorni su 27. Focus prioritario per maggio: protocollo recupero notturno.",
