@@ -1,0 +1,37 @@
+{
+  "_note": "history.json — dati mensili storici. Aggiungere un oggetto per ogni mese completato. Ordine: dal più vecchio al più recente.",
+  "_schema": {
+    "mese": "Nome completo es. Aprile 2026",
+    "mese_breve": "Abbreviazione per grafici es. Apr",
+    "score_olistico": "0-100",
+    "score_fisico": "0-100",
+    "score_mentale": "0-100",
+    "score_nutrizionale": "0-100",
+    "deep_sleep_pct": "percentuale sonno profondo es. 13.2",
+    "hrv_medio": "ms es. 52",
+    "peso": "kg fine mese es. 82.1",
+    "consistency_journal": "percentuale 0-100",
+    "acqua_media_l": "litri medi giornalieri es. 2.3",
+    "compliance_vitamine_pct": "percentuale 0-100",
+    "sessioni_allenamento": "numero sessioni totali mese",
+    "rating_medio": "rating medio serale 0-10"
+  },
+  "mesi": [
+    {
+      "mese": "Aprile 2026",
+      "mese_breve": "Apr",
+      "score_olistico": 67,
+      "score_fisico": 78,
+      "score_mentale": 61,
+      "score_nutrizionale": 82,
+      "deep_sleep_pct": 13.2,
+      "hrv_medio": 52,
+      "peso": 82.1,
+      "consistency_journal": 89,
+      "acqua_media_l": 2.3,
+      "compliance_vitamine_pct": 89,
+      "sessioni_allenamento": 18,
+      "rating_medio": 7.4
+    }
+  ]
+}
