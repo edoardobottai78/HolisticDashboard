@@ -1,9 +1,4 @@
 {
-  "rewrites": [
-    { "source": "/data.json", "destination": "/data.json" },
-    { "source": "/history.json", "destination": "/history.json" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
   "headers": [
     {
       "source": "/data.json",
