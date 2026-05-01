@@ -6,32 +6,32 @@
     "score_olistico": "0-100",
     "score_fisico": "0-100",
     "score_mentale": "0-100",
-    "score_nutrizionale": "0-100",
-    "deep_sleep_pct": "percentuale sonno profondo es. 13.2",
-    "hrv_medio": "ms es. 52",
-    "peso": "kg fine mese es. 82.1",
+    "score_nutrizionale": "0-100 o null se non disponibile",
+    "deep_sleep_pct": "percentuale sonno profondo es. 15.4",
+    "hrv_medio": "ms es. 29",
+    "peso": "kg fine mese es. 75.95",
     "consistency_journal": "percentuale 0-100",
-    "acqua_media_l": "litri medi giornalieri es. 2.3",
-    "compliance_vitamine_pct": "percentuale 0-100",
-    "sessioni_allenamento": "numero sessioni totali mese",
-    "rating_medio": "rating medio serale 0-10"
+    "acqua_media_l": "litri medi giornalieri — null se non disponibile",
+    "compliance_vitamine_pct": "percentuale 0-100 — null se non disponibile",
+    "sessioni_allenamento": "numero giorni di allenamento del mese",
+    "rating_medio": "rating medio serale 0-5"
   },
   "mesi": [
     {
       "mese": "Aprile 2026",
       "mese_breve": "Apr",
-      "score_olistico": 67,
-      "score_fisico": 78,
-      "score_mentale": 61,
-      "score_nutrizionale": 82,
-      "deep_sleep_pct": 13.2,
-      "hrv_medio": 52,
-      "peso": 82.1,
-      "consistency_journal": 89,
-      "acqua_media_l": 2.3,
-      "compliance_vitamine_pct": 89,
+      "score_olistico": 75,
+      "score_fisico": 81,
+      "score_mentale": 73,
+      "score_nutrizionale": 63,
+      "deep_sleep_pct": 15.4,
+      "hrv_medio": 29,
+      "peso": 75.95,
+      "consistency_journal": 90,
+      "acqua_media_l": 2.12,
+      "compliance_vitamine_pct": null,
       "sessioni_allenamento": 18,
-      "rating_medio": 7.4
+      "rating_medio": 3.2
     }
   ]
 }
