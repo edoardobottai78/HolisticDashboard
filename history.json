@@ -14,7 +14,10 @@
     "acqua_media_l": "litri medi giornalieri — null se non disponibile",
     "compliance_vitamine_pct": "percentuale 0-100 — null se non disponibile",
     "sessioni_allenamento": "numero giorni di allenamento del mese",
-    "rating_medio": "rating medio serale 0-5"
+    "rating_medio": "rating medio serale 0-5",
+    "mindfit_sessioni": "sessioni MindFit totali nel mese — null se non disponibile",
+    "mindfit_mfs": "Mental Fitness Score 0-100 — null se non disponibile",
+    "mindfit_streak_max": "streak massima giorni consecutivi — null se non disponibile"
   },
   "mesi": [
     {
@@ -31,7 +34,10 @@
       "acqua_media_l": 2.12,
       "compliance_vitamine_pct": null,
       "sessioni_allenamento": 18,
-      "rating_medio": 3.2
+      "rating_medio": 3.2,
+      "mindfit_sessioni": null,
+      "mindfit_mfs": null,
+      "mindfit_streak_max": null
     }
   ]
 }
