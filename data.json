@@ -193,6 +193,13 @@
   ],
   "protocollo_sessioni": [],
   "mindfulness_delta_rating": null,
+  "mindfit_sessioni_mese": null,
+  "mindfit_mfs": null,
+  "mindfit_streak_max": null,
+  "mindfit_categoria_top": null,
+  "mindfit_protocollo_mese": null,
+  "mindfit_correlazione_hrv": null,
+  "mindfit_correlazione_deep_sleep": null,
   "parole_frequenti": [
     {
       "parola": "calmo",
