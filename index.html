@@ -32,6 +32,7 @@
   --warn: #F5A623;
   --crit: #F53A3A;
   --info: #3AA8F5;
+  --purple: #A78BFA;
   --font-display: 'Barlow Condensed', Impact, sans-serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
   --radius: 10px;
@@ -595,6 +596,7 @@ html, body {
     <button class="tb" onclick="showTab('spt')">Sport</button>
     <button class="tb" onclick="showTab('men')">Mente</button>
     <button class="tb" onclick="showTab('nut')">Nutriz.</button>
+    <button class="tb" onclick="showTab('tnd')">Trend</button>
   </div>
 
   <!-- OVERVIEW -->
@@ -641,11 +643,6 @@ html, body {
       <div class="sint-l">Sintesi AI</div>
       <div class="sint-t" id="ov-sintesi">—</div>
     </div>
-    <!-- TREND SCORE OLISTICO -->
-    <div id="ov-trend-block" style="display:none">
-      <div class="sec">Trend score olistico</div>
-      <div id="ov-trend-spark-wrap" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px"></div>
-    </div>
   </div>
 
   <!-- RECOVERY -->
@@ -669,11 +666,6 @@ html, body {
     <div class="pat-card crit" id="rec-pattern">
       <div class="pt">Pattern rilevato</div>
       <div class="pb">Nei 3 giorni successivi a sessioni CrossFit intense, deep sleep scende in media del 18%. Considera deload o attività aerobica leggera come recovery attivo.</div>
-    </div>
-    <!-- TREND RECOVERY -->
-    <div id="rec-trend-block" style="display:none">
-      <div class="sec">Trend metriche recovery</div>
-      <div class="trend-grid" id="rec-trend-grid"></div>
     </div>
   </div>
 
@@ -780,11 +772,6 @@ html, body {
       <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">Delta HRV (con vs senza sessione)</div><div class="mv" id="mf-hrv-sub">—</div><span class="mu">ms</span></div>
       <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Delta Deep Sleep (con vs senza)</div><div class="mv" id="mf-ds-sub">—</div><span class="mu">%</span></div>
     </div>
-    <!-- TREND MENTE -->
-    <div id="men-trend-block" style="display:none;margin-top:8px">
-      <div class="sec" style="margin-top:0">Trend mentale</div>
-      <div class="trend-grid" id="men-trend-grid"></div>
-    </div>
   </div>
   <div class="panel" id="tab-nut">
     <div class="kpi2">
@@ -832,10 +819,34 @@ html, body {
     <div class="sec-collapsible collapsed" id="sec-vitamine">
       <div class="mlist" id="nut-vitamine-list" style="margin-top:0"></div>
     </div>
-    <!-- TREND NUTRIZIONE -->
-    <div id="nut-trend-block" style="display:none">
-      <div class="sec">Trend nutrizionale</div>
-      <div class="trend-grid" id="nut-trend-grid"></div>
+    <!-- TREND NUTRIZIONE rimosso — centralizzato in tab Trend -->
+  </div>
+
+  <!-- TREND TAB -->
+  <div class="panel" id="tab-tnd">
+    <div class="sec" style="margin-top:0">Score per dominio</div>
+    <div class="trend-grid" id="tnd-scores"></div>
+
+    <div class="sec">Recovery &amp; sonno</div>
+    <div class="trend-grid" id="tnd-recovery"></div>
+
+    <div class="sec">Corpo &amp; attività</div>
+    <div class="trend-grid" id="tnd-corpo"></div>
+
+    <div class="sec">Mente &amp; journaling</div>
+    <div class="trend-grid" id="tnd-mente"></div>
+    <div id="tnd-mfs-empty" style="display:none;margin-top:6px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:3px;font-weight:500">◈ MindFit — in attesa dati</div>
+      <div style="font-size:10px;color:var(--text4);line-height:1.5">MFS, sessioni e streak appariranno<br>dopo il primo mese completo</div>
+      <div style="display:inline-block;font-size:9px;color:var(--lime);background:rgba(200,245,58,0.1);border:1px solid rgba(200,245,58,0.2);border-radius:20px;padding:3px 10px;margin-top:7px">Struttura pronta · attesa dati</div>
+    </div>
+
+    <div class="sec">Nutrizione</div>
+    <div class="trend-grid" id="tnd-nutriz"></div>
+
+    <div id="tnd-empty" style="display:none;padding:32px 0;text-align:center">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:6px">Dati insufficienti</div>
+      <div style="font-size:11px;color:var(--text4)">Il tab Trend si attiva con almeno 2 mesi di dati in history.json</div>
     </div>
   </div>
 
@@ -1062,53 +1073,90 @@ function trendMiniCard(label, values, labels, color, unit = '') {
   </div>`;
 }
 
-// Renderizza tutti i blocchi trend se H è disponibile
-function renderTrends() {
-  if (!H || H.length < 2) return;
-  const labels = H.map(m => m.mese_breve);
+// ── TAB TREND — card doppio delta (vs 1M e vs 6M) ──────────────────
+function trendDeltaCard(label, vals, color, unit, invertLogic) {
+  // vals = array valori mensili ordinati dal più vecchio al più recente
+  if (!vals || vals.length < 2) return '';
+  // filtra null
+  const clean = vals.filter(v => v !== null && v !== undefined);
+  if (clean.length < 2) return '';
+  const last = clean[clean.length - 1];
+  const prev = clean[clean.length - 2];
+  const first = clean[0];
+  const d1 = +(last - prev).toFixed(1);
+  const d6 = +(last - first).toFixed(1);
+  const n = clean.length;
+  function deltaColor(d, inv) {
+    const good = inv ? d <= 0 : d >= 0;
+    return good ? '#6EE7A0' : '#FF7A7A';
+  }
+  function fmt(d, u) { return (d >= 0 ? '+' : '') + d + (u || ''); }
+  return `<div class="trend-mini">
+    <div class="trend-mini-label">${label}</div>
+    <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:${color};line-height:1;margin:4px 0 6px">${last}${unit || ''}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:9px;font-weight:600;color:${deltaColor(d6, invertLogic)}">${fmt(d6, unit)} vs ${n}M</span>
+      <span style="font-size:9px;font-weight:600;color:${deltaColor(d1, invertLogic)}">${fmt(d1, unit)} vs 1M</span>
+    </div>
+  </div>`;
+}
 
-  // ── OVERVIEW: score olistico wide ──
-  const ovBlock = document.getElementById('ov-trend-block');
-  const ovWrap = document.getElementById('ov-trend-spark-wrap');
-  if (ovBlock && ovWrap) {
-    const vals = H.map(m => m.score_olistico);
-    ovWrap.innerHTML = sparklineWide(vals, labels, { color: 'var(--amber)' });
-    ovBlock.style.display = 'block';
+function renderTrendTab() {
+  const empty = document.getElementById('tnd-empty');
+  if (!H || H.length < 2) {
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  // helper: estrae array valori da H
+  const col = (key) => H.map(m => m[key] !== undefined ? m[key] : null);
+
+  // ── SCORES ──
+  const scoresEl = document.getElementById('tnd-scores');
+  if (scoresEl) scoresEl.innerHTML =
+    trendDeltaCard('Score olistico', col('score_olistico'), 'var(--amber)', '', false) +
+    trendDeltaCard('Score fisico',   col('score_fisico'),   'var(--ok)',    '', false) +
+    trendDeltaCard('Score mentale',  col('score_mentale'),  'var(--warn)',  '', false) +
+    trendDeltaCard('Score nutrizionale', col('score_nutrizionale'), 'var(--info)', '', false);
+
+  // ── RECOVERY ──
+  const recEl = document.getElementById('tnd-recovery');
+  if (recEl) recEl.innerHTML =
+    trendDeltaCard('HRV medio',       col('hrv_medio'),       'var(--ok)',   'ms', false) +
+    trendDeltaCard('Deep sleep %',    col('deep_sleep_pct'),  'var(--crit)', '%',  false) +
+    trendDeltaCard('Ore sonno',       col('ore_sonno_media'), 'var(--info)', 'h',  false) +
+    trendDeltaCard('Score sonno Zepp',col('sleep_score_medio'),'var(--warn)','',   false);
+
+  // ── CORPO & ATTIVITÀ ──
+  const corpoEl = document.getElementById('tnd-corpo');
+  if (corpoEl) corpoEl.innerHTML =
+    trendDeltaCard('Peso',                 col('peso'),               'var(--purple)', 'kg', true) +
+    trendDeltaCard('Sessioni allenamento', col('sessioni_allenamento'),'var(--ok)',    '',   false) +
+    trendDeltaCard('Steps / giorno',       col('steps_medi'),         'var(--info)',  '',   false);
+
+  // ── MENTE & JOURNALING ──
+  const menteEl = document.getElementById('tnd-mente');
+  if (menteEl) menteEl.innerHTML =
+    trendDeltaCard('Journal consistency', col('consistency_journal'), 'var(--lime)', '%', false) +
+    trendDeltaCard('Rating medio serale', col('rating_medio'),        'var(--warn)', '',  false);
+
+  // MFS — placeholder se tutti null
+  const mfsVals = col('mindfit_mfs').filter(v => v !== null);
+  const mfsEmpty = document.getElementById('tnd-mfs-empty');
+  if (mfsVals.length >= 2) {
+    if (mfsEmpty) mfsEmpty.style.display = 'none';
+    if (menteEl) menteEl.innerHTML +=
+      trendDeltaCard('Mental Fitness Score', col('mindfit_mfs'), 'var(--lime)', '', false);
+  } else {
+    if (mfsEmpty) mfsEmpty.style.display = 'block';
   }
 
-  // ── RECOVERY: HRV, deep sleep, peso ──
-  const recBlock = document.getElementById('rec-trend-block');
-  const recGrid = document.getElementById('rec-trend-grid');
-  if (recBlock && recGrid) {
-    recGrid.innerHTML =
-      trendMiniCard('HRV medio', H.map(m => m.hrv_medio), labels, 'var(--ok)', 'ms') +
-      trendMiniCard('Deep Sleep', H.map(m => m.deep_sleep_pct), labels, 'var(--crit)', '%') +
-      trendMiniCard('Peso', H.map(m => m.peso), labels, 'var(--info)', 'kg') +
-      trendMiniCard('Score fisico', H.map(m => m.score_fisico), labels, 'var(--ok)');
-    recBlock.style.display = 'block';
-  }
-
-  // ── MENTE: consistency journal, rating medio ──
-  const menBlock = document.getElementById('men-trend-block');
-  const menGrid = document.getElementById('men-trend-grid');
-  if (menBlock && menGrid) {
-    menGrid.innerHTML =
-      trendMiniCard('Consistency', H.map(m => m.consistency_journal), labels, 'var(--lime)', '%') +
-      trendMiniCard('Rating medio', H.map(m => m.rating_medio), labels, 'var(--warn)') +
-      trendMiniCard('Score mentale', H.map(m => m.score_mentale), labels, 'var(--warn)');
-    menBlock.style.display = 'block';
-  }
-
-  // ── NUTRIZIONE: acqua, compliance vitamine ──
-  const nutBlock = document.getElementById('nut-trend-block');
-  const nutGrid = document.getElementById('nut-trend-grid');
-  if (nutBlock && nutGrid) {
-    nutGrid.innerHTML =
-      trendMiniCard('Acqua media', H.map(m => m.acqua_media_l), labels, 'var(--info)', 'L') +
-      trendMiniCard('Compliance vit.', H.map(m => m.compliance_vitamine_pct), labels, 'var(--lime)', '%') +
-      trendMiniCard('Score nutriz.', H.map(m => m.score_nutrizionale), labels, 'var(--info)');
-    nutBlock.style.display = 'block';
-  }
+  // ── NUTRIZIONE ──
+  const nutEl = document.getElementById('tnd-nutriz');
+  if (nutEl) nutEl.innerHTML =
+    trendDeltaCard('Acqua media',        col('acqua_media_l'),           'var(--info)', 'L',  false) +
+    trendDeltaCard('Compliance vitamine',col('compliance_vitamine_pct'), 'var(--lime)', '%',  false);
 }
 // ── END SPARKLINE ENGINE ────────────────────────────────────────────
 
@@ -1438,7 +1486,7 @@ function render() {
     pianiRows;
 
   // TRENDS (richiede H con almeno 2 mesi)
-  renderTrends();
+  renderTrendTab();
 }
 
 function toggleSec(id) {
@@ -1521,31 +1569,6 @@ function closeSportDetail() {
 }
 
 loadData();
-</script>
-<script>
-if('serviceWorker' in navigator){
-  const swCode=`
-const CACHE='hd-v1';
-const ASSETS=['./','./index.html','./data.json','./history.json'];
-self.addEventListener('install',e=>{
-  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));
-  self.skipWaiting();
-});
-self.addEventListener('activate',e=>{
-  e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
-  self.clients.claim();
-});
-self.addEventListener('fetch',e=>{
-  e.respondWith(fetch(e.request).then(r=>{
-    const clone=r.clone();
-    caches.open(CACHE).then(c=>c.put(e.request,clone));
-    return r;
-  }).catch(()=>caches.match(e.request)));
-});`;
-  const blob=new Blob([swCode],{type:'application/javascript'});
-  const swURL=URL.createObjectURL(blob);
-  navigator.serviceWorker.register(swURL,{scope:'./'}).catch(()=>{});
-}
 </script>
 </body>
 </html>
