@@ -18,10 +18,10 @@
   --surface3: #222228;
   --border: rgba(255,255,255,0.08);
   --border2: rgba(255,255,255,0.12);
-  --text1: #F0F0F0;
-  --text2: #C8C8E0;
-  --text3: #8888B8;
-  --text4: #6060A0;
+  --text1: #FFFFFF;
+  --text2: #E8E8F0;
+  --text3: #B0B0C8;
+  --text4: #7878A0;
   --lime: #C8F53A;
   --lime-dim: rgba(200,245,58,0.12);
   --lime-border: rgba(200,245,58,0.2);
@@ -764,19 +764,6 @@ html, body {
         <button class="msec-btn" style="width:auto;padding:5px 10px" onclick="openSub('mindfit')"><span class="msec-label" style="font-size:11px">Dettaglio ›</span></button>
       </div>
     </div>
-    <!-- SUBPANEL MINDFIT -->
-    <div class="subpanel" id="sub-mindfit">
-      <div class="sub-back" onclick="closeSub('mindfit')">‹ Mente</div>
-      <div class="sub-title">MindFit — Pratica meditativa</div>
-      <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">Mental Fitness Score</div><div class="mv" id="mf-mfs-sub">—</div><span class="mu">/100</span><span class="badge" id="mf-mfs-badge" style="margin-left:auto">—</span></div>
-      <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Sessioni totali mese</div><div class="mv" id="mf-sessioni-sub">—</div></div>
-      <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Streak massima</div><div class="mv" id="mf-streak-sub">—</div><span class="mu">giorni</span></div>
-      <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Categoria prevalente</div><div class="mv-txt" id="mf-cat-sub">—</div></div>
-      <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Protocollo mese</div><div class="mv-txt" id="mf-proto-sub">—</div></div>
-      <div class="sub-title" style="margin-top:16px">Correlazioni biometriche</div>
-      <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">Delta HRV (con vs senza sessione)</div><div class="mv" id="mf-hrv-sub">—</div><span class="mu">ms</span></div>
-      <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Delta Deep Sleep (con vs senza)</div><div class="mv" id="mf-ds-sub">—</div><span class="mu">%</span></div>
-    </div>
   </div>
   <div class="panel" id="tab-nut">
     <div class="kpi2">
@@ -855,7 +842,29 @@ html, body {
     </div>
   </div>
 
-  <!-- SUBPANELS -->
+  <!-- SUBPANEL MINDFIT -->
+  <div class="subpanel" id="sub-mindfit">
+    <div class="sp-header">
+      <button class="sp-back" onclick="closeSub('mindfit')">← Chiudi</button>
+      <span class="sp-title">MindFit — Pratica meditativa</span>
+    </div>
+    <div class="sp-body">
+      <div class="sec" style="margin-top:0">Score & sessioni</div>
+      <div class="mlist">
+        <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">Mental Fitness Score</div><div class="mv" id="mf-mfs-sub">—</div><span class="mu">/100</span><span class="badge" id="mf-mfs-badge" style="margin-left:auto">—</span></div>
+        <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Sessioni totali mese</div><div class="mv" id="mf-sessioni-sub">—</div></div>
+        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Streak massima</div><div class="mv" id="mf-streak-sub">—</div><span class="mu">giorni</span></div>
+        <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Categoria prevalente</div><div class="mv-txt" id="mf-cat-sub">—</div></div>
+        <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Protocollo mese</div><div class="mv-txt" id="mf-proto-sub">—</div></div>
+      </div>
+      <div class="sec">Correlazioni biometriche</div>
+      <div class="mlist">
+        <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">Delta HRV (con vs senza sessione)</div><div class="mv" id="mf-hrv-sub">—</div><span class="mu">ms</span></div>
+        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Delta Deep Sleep (con vs senza)</div><div class="mv" id="mf-ds-sub">—</div><span class="mu">%</span></div>
+      </div>
+    </div>
+  </div>
+
   <div class="subpanel" id="sub-mood">
     <div class="sp-header">
       <button class="sp-back" onclick="closeSub('mood')">← Chiudi</button>
