@@ -19,9 +19,9 @@
   --border: rgba(255,255,255,0.08);
   --border2: rgba(255,255,255,0.12);
   --text1: #F0F0F0;
-  --text2: #A0A0C0;
-  --text3: #6060A0;
-  --text4: #4A4A6A;
+  --text2: #C8C8E0;
+  --text3: #8888B8;
+  --text4: #6060A0;
   --lime: #C8F53A;
   --lime-dim: rgba(200,245,58,0.12);
   --lime-border: rgba(200,245,58,0.2);
@@ -37,6 +37,11 @@
   --font-body: 'DM Sans', system-ui, sans-serif;
   --radius: 10px;
   --radius-lg: 12px;
+  /* alias per compatibilità componenti MindFit */
+  --color-text-primary: var(--text1);
+  --color-text-secondary: var(--text2);
+  --color-background-secondary: var(--surface2);
+  --border-radius-md: var(--radius);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -658,9 +663,6 @@ html, body {
     <div class="sec">Metriche dettaglio</div>
     <div class="mlist">
       <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score sonno Zepp</div><div class="mv" id="rec-score-zepp">—</div><span class="mu">/100</span></div>
-      <div class="mr"><div class="mdot" style="background:var(--purple)"></div><div class="mn">REM %</div><div class="mv" id="rec-rem">—</div><span class="mu">% · Aura</span></div>
-      <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">FC notturna media</div><div class="mv" id="rec-fc-nott">—</div><span class="mu">bpm · Aura</span></div>
-      <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Ipopnea media</div><div class="mv" id="rec-ipopnea">—</div><span class="mu">ev/min · Aura</span></div>
       <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Peso fine mese</div><div class="mv" id="rec-peso">—</div><span class="mu">kg</span><span class="badge b-ok" style="margin-left:auto">on target</span></div>
       <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Slancio Hume medio</div><div class="mv" id="rec-slancio">—</div><span class="mu">/100</span><span class="badge b-warn" style="margin-left:auto">nella media</span></div>
       <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score Hume settimanale</div><div class="mv" id="rec-hume">—</div><span class="mu">/100</span></div>
@@ -1128,7 +1130,6 @@ function renderTrendTab() {
   if (recEl) recEl.innerHTML =
     trendDeltaCard('HRV medio',       col('hrv_medio'),       'var(--ok)',   'ms', false) +
     trendDeltaCard('Deep sleep %',    col('deep_sleep_pct'),  'var(--crit)', '%',  false) +
-    trendDeltaCard('REM %',           col('rem_pct'),         'var(--purple)','%', false) +
     trendDeltaCard('Ore sonno',       col('ore_sonno_media'), 'var(--info)', 'h',  false) +
     trendDeltaCard('Score sonno Zepp',col('sleep_score_medio'),'var(--warn)','',   false);
 
@@ -1215,13 +1216,6 @@ function render() {
   set('rec-sleep', D.deep_sleep_pct + '%');
   set('rec-ore', D.ore_sonno_media + 'h');
   set('rec-score-zepp', D.score_sonno_zepp);
-  // Zepp Aura fields
-  const remVal = D.rem_pct != null ? D.rem_pct + '%' : '—';
-  set('rec-rem', remVal);
-  const fcVal = D.fc_notturna_media != null ? D.fc_notturna_media : '—';
-  set('rec-fc-nott', fcVal);
-  const ipopVal = D.ipopnea_media != null ? D.ipopnea_media : '—';
-  set('rec-ipopnea', ipopVal);
   set('rec-peso', D.peso_fine_mese);
   set('rec-slancio', D.slancio_hume_medio);
   set('rec-hume', D.score_hume_medio);
