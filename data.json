@@ -293,7 +293,7 @@
     }
   ],
   "acqua_media_l": 2.1,
-  "giorni_idratazione_sotto_soglia": null,
+  "giorni_idratazione_sotto_soglia": 10,
   "creatina_giorni": 20,
   "pre_workout_giorni": 20,
   "intra_workout_giorni": 18,
@@ -305,19 +305,14 @@
       "pct": 100
     },
     {
-      "nome": "Creatina",
-      "giorni": 20,
-      "pct": 65
+      "nome": "Vitamina D",
+      "giorni": 19,
+      "pct": 61
     },
     {
-      "nome": "Pre-Workout",
-      "giorni": 20,
-      "pct": 65
-    },
-    {
-      "nome": "Intra-Workout (4FUEL)",
-      "giorni": 18,
-      "pct": 58
+      "nome": "Omega 3",
+      "giorni": 24,
+      "pct": 77
     }
   ],
   "sintesi_ai": "Maggio è il mese della solidità strutturale sotto pressione. Edoardo allena 24 sessioni (record mensile), riflette ogni sera senza eccezioni (31/31), e gestisce un'incertezza professionale crescente con un equilibrio emotivo notevole — zero giorni difficili nel journal. Il sistema tiene. I dati fisici sono i migliori da quando il tracking è iniziato: 24 sessioni vs target 20, steps a 10.576/gg, primo muscle up ripetuto con progressione. Il deep sleep resta il tallone d'Achille strutturale a 14%, immobile rispetto ad aprile (16%). La nutrizione migliora nel tracking (100% consistenza vs 13% aprile) ma il deficit cronico a -236 kcal contrasta ancora con l'obiettivo massa — anche se è un netto miglioramento vs il -571 di aprile. La vera novità di maggio è MindFit: 14 sessioni, protocollo Focus & Clarity completato (5/5), MFS 84. Il corpo è forte. La mente vuole più silenzio.",
