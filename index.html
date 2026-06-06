@@ -1,1588 +1,328 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0A0A0B">
-<title>Holistic Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0A0A0B;
-  --surface: #16161A;
-  --surface2: #1C1C22;
-  --surface3: #222228;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.12);
-  --text1: #FFFFFF;
-  --text2: #F0F0F8;
-  --text3: #C8C8E0;
-  --text4: #9898B8;
-  --lime: #C8F53A;
-  --lime-dim: rgba(200,245,58,0.12);
-  --lime-border: rgba(200,245,58,0.2);
-  --amber: #F5A623;
-  --red: #F53A3A;
-  --blue: #3AA8F5;
-  --ok: #C8F53A;
-  --warn: #F5A623;
-  --crit: #F53A3A;
-  --info: #3AA8F5;
-  --purple: #A78BFA;
-  --font-display: 'Barlow Condensed', Impact, sans-serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
-  --radius: 10px;
-  --radius-lg: 12px;
-  /* alias per compatibilità componenti MindFit */
-  --color-text-primary: var(--text1);
-  --color-text-secondary: var(--text2);
-  --color-background-secondary: var(--surface2);
-  --border-radius-md: var(--radius);
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-html, body {
-  background: var(--bg);
-  color: var(--text1);
-  font-family: var(--font-body);
-  min-height: 100vh;
-  overscroll-behavior: none;
-}
-
-.app {
-  max-width: 430px;
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* HEADER */
-.app-header {
-  padding: 16px 16px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.app-logo {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--lime);
-  letter-spacing: 0.04em;
-}
-.app-meta {
-  font-size: 11px;
-  color: var(--text4);
-}
-
-/* TAB BAR */
-.tab-bar {
-  display: flex;
-  background: #111114;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  margin-top: 12px;
-  flex-shrink: 0;
-}
-.tb {
-  flex: 1;
-  padding: 11px 2px;
-  text-align: center;
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--text3);
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  letter-spacing: 0.03em;
-  border-bottom: 2px solid transparent;
-  transition: color 0.18s, border-color 0.18s;
-  font-family: var(--font-body);
-}
-.tb.on { color: var(--lime); border-bottom-color: var(--lime); }
-
-/* PANELS */
-.panel { display: none; padding: 14px 16px; flex: 1; }
-.panel.on { display: block; }
-.subpanel { display: none; flex: 1; }
-.subpanel.on { display: flex; flex-direction: column; }
-
-/* SECTION LABEL */
-.sec {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text2);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  margin: 16px 0 8px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-.sec:first-child { margin-top: 0; }
-
-/* ALERT */
-.alert-crit {
-  background: #1A0808;
-  border: 1px solid #4A1515;
-  border-radius: var(--radius);
-  padding: 10px 12px;
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  margin-bottom: 12px;
-}
-.alert-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--red);
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-.alert-txt { font-size: 12px; color: #F09090; line-height: 1.55; }
-.alert-txt strong { color: var(--red); font-weight: 500; }
-
-/* KPI GRID */
-.kpi2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-.kpi3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 8px; }
-.kpi {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 12px;
-}
-.kv {
-  font-family: var(--font-display);
-  font-size: 30px;
-  font-weight: 700;
-  color: var(--text1);
-  line-height: 1;
-}
-.kl { font-size: 11px; color: var(--text3); margin-top: 3px; }
-.ks { font-size: 11px; color: var(--text4); margin-top: 2px; }
-.kv-ok { color: var(--ok); }
-.kv-warn { color: var(--warn); }
-.kv-crit { color: var(--crit); }
-.kv-info { color: var(--info); }
-
-/* SCORE 4 */
-.score4 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-.sc {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px;
-}
-.sc-n {
-  font-family: var(--font-display);
-  font-size: 38px;
-  font-weight: 700;
-  line-height: 1;
-}
-.sc-l { font-size: 11px; color: var(--text2); margin-top: 5px; }
-.sc-bar { height: 3px; border-radius: 2px; background: var(--surface3); margin-top: 8px; }
-.sc-fill { height: 100%; border-radius: 2px; }
-.sc-d { font-size: 11px; margin-top: 5px; }
-
-/* OLISTICO BIG */
-.olist-big {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 12px;
-}
-.ob-n {
-  font-family: var(--font-display);
-  font-size: 72px;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--amber);
-}
-.ob-i { flex: 1; }
-.ob-l { font-size: 10px; color: var(--text4); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
-.ob-m { font-size: 13px; color: var(--text1); font-weight: 500; }
-.ob-bar { height: 4px; background: var(--surface3); border-radius: 2px; margin-top: 8px; }
-
-/* SINTESI */
-.sint {
-  background: #13131A;
-  border: 1px solid var(--lime-border);
-  border-radius: var(--radius);
-  padding: 12px;
-  margin-bottom: 8px;
-}
-.sint-l { font-size: 10px; color: var(--lime); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; font-weight: 500; }
-.sint-t { font-size: 12px; color: #B0B0C8; line-height: 1.65; }
-
-/* METRIC LIST */
-.mlist {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-.mr {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.mr:last-child { border-bottom: none; }
-.mr.clickable { cursor: pointer; transition: background 0.15s; }
-.mr.clickable:hover { background: rgba(255,255,255,0.03); }
-.mr.clickable:active { background: rgba(255,255,255,0.06); }
-.mr-arrow { font-size: 14px; color: var(--text4); margin-left: auto; flex-shrink: 0; }
-.mdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.mn { font-size: 12px; color: var(--text2); flex: 1; }
-.mv { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--text1); }
-.mu { font-size: 10px; color: var(--text4); margin-left: 1px; }
-.mv-txt { font-size: 13px; color: #C0C0D0; }
-.mv-empty { font-size: 13px; color: #3A3A5A; }
-
-/* BADGE */
-.badge { font-size: 9px; font-weight: 500; padding: 2px 7px; border-radius: 20px; white-space: nowrap; }
-.b-ok { background: rgba(200,245,58,0.12); color: #A8D830; }
-.b-warn { background: rgba(245,166,35,0.15); color: #F5C060; }
-.b-crit { background: rgba(245,58,58,0.12); color: #F57070; }
-.b-info { background: rgba(58,168,245,0.12); color: #70C0F5; }
-.b-neu { background: rgba(255,255,255,0.06); color: var(--text3); }
-
-/* SPARKLINE */
-.spark { flex-shrink: 0; opacity: 0.75; }
-
-/* TREND CARD */
-.trend-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 12px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.trend-info { flex: 1; min-width: 0; }
-.trend-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
-.trend-val { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1; }
-.trend-delta { font-size: 10px; margin-top: 3px; }
-.trend-spark { flex-shrink: 0; }
-
-/* TREND GRID — 2 colonne */
-.trend-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-.trend-mini {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 9px 10px;
-}
-.trend-mini-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-.trend-mini-val { font-family: var(--font-display); font-size: 18px; font-weight: 700; line-height: 1; }
-.trend-mini-delta { font-size: 9px; margin-top: 2px; }
-.trend-mini-spark { margin-top: 5px; }
-
-/* PATTERN CARD */
-.pat-card {
-  border-left: 3px solid var(--lime);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 10px 12px;
-  margin-bottom: 6px;
-  background: var(--surface);
-}
-.pat-card.warn { border-left-color: var(--warn); }
-.pat-card.crit { border-left-color: var(--crit); }
-.pt { font-size: 12px; color: var(--text1); font-weight: 500; margin-bottom: 3px; }
-.pb { font-size: 12px; color: var(--text3); line-height: 1.6; }
-
-/* MENTE — blocchi affiancati */
-.mente-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.mblock {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-.mblock-qual { border-color: var(--lime-border); background: #13131A; }
-.mblock-head { padding: 12px; }
-.mblock-score-row { display: flex; gap: 6px; margin-bottom: 8px; }
-.mscore {
-  flex: 1;
-  background: #111116;
-  border-radius: 8px;
-  padding: 8px 6px;
-  text-align: center;
-}
-.ms-num { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1; }
-.ms-lbl { font-size: 9px; color: var(--text4); margin-top: 2px; }
-.mblock-title { font-size: 11px; font-weight: 500; color: var(--text2); margin-bottom: 2px; }
-.mblock-sub { font-size: 10px; color: var(--text4); }
-.mblock-title-qual { color: var(--lime); }
-.mblock-sub-qual { color: rgba(200,245,58,0.4); }
-.msec-btn {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 11px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: background 0.15s;
-}
-.msec-btn:hover { background: rgba(255,255,255,0.03); }
-.msec-btn:active { background: rgba(255,255,255,0.06); }
-.msec-btn-qual { border-top-color: rgba(200,245,58,0.08); }
-.msec-btn-qual:hover { background: rgba(200,245,58,0.03); }
-.msec-label { font-size: 11px; color: var(--text2); }
-.msec-label-qual { font-size: 11px; color: var(--lime); }
-.msec-arrow { font-size: 14px; color: var(--text4); }
-.msec-arrow-qual { font-size: 14px; color: rgba(200,245,58,0.4); }
-
-/* SUBPANEL */
-.sp-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  background: #111114;
-  flex-shrink: 0;
-}
-.sp-back {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 11px;
-  color: var(--text2);
-  cursor: pointer;
-  font-family: var(--font-body);
-  white-space: nowrap;
-}
-.sp-back:active { background: rgba(255,255,255,0.14); }
-.sp-back-qual {
-  background: rgba(200,245,58,0.1);
-  border-color: var(--lime-border);
-  color: var(--lime);
-}
-.sp-back-qual:active { background: rgba(200,245,58,0.18); }
-.sp-title { font-size: 13px; font-weight: 500; color: var(--text1); }
-.sp-body { padding: 14px 16px; overflow-y: auto; flex: 1; }
-
-/* MOOD */
-.mood-strip { display: flex; gap: 3px; margin-bottom: 6px; }
-.md { flex: 1; height: 32px; border-radius: 4px; }
-.mood-leg { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-.ml-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text3); }
-.ml-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-
-/* WORD CLOUD */
-.wcloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  margin-bottom: 8px;
-}
-.ww { font-size: 12px; padding: 4px 10px; border-radius: 20px; }
-.wpos { background: rgba(200,245,58,0.1); color: #B8E840; }
-.wneg { background: rgba(245,58,58,0.1); color: #F08080; }
-.wneu { background: rgba(255,255,255,0.06); color: #7080A0; }
-.wb { font-size: 14px; font-weight: 500; }
-
-/* HABIT */
-.hgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-.hcard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 12px;
-}
-.hn { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
-.hs { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--lime); line-height: 1; }
-.hu { font-size: 10px; color: var(--text4); }
-.hdots { display: flex; gap: 3px; margin-top: 6px; }
-.hd { width: 8px; height: 8px; border-radius: 2px; }
-
-/* QUALITATIVO */
-.qs-block { margin-bottom: 20px; }
-.qs-block:last-child { margin-bottom: 0; }
-.qs-title { font-size: 10px; color: var(--lime); font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
-.qs-text { font-size: 13px; color: #C0C0D8; line-height: 1.78; }
-.qs-para { margin-top: 10px; }
-.qs-para:first-child { margin-top: 0; }
-.qs-quote {
-  border-left: 2px solid rgba(200,245,58,0.3);
-  padding: 8px 12px;
-  margin-top: 12px;
-  font-size: 12px;
-  color: #707080;
-  font-style: italic;
-  line-height: 1.65;
-  background: rgba(200,245,58,0.03);
-  border-radius: 0 6px 6px 0;
-}
-
-/* NUTRIZIONE */
-.macro3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 6px; }
-.mc {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 8px 6px;
-  text-align: center;
-}
-.mc-v { font-family: var(--font-display); font-size: 19px; font-weight: 700; line-height: 1; }
-.mc-l { font-size: 9px; color: var(--text4); margin-top: 2px; }
-.mc-bar { height: 3px; border-radius: 2px; background: var(--surface3); margin-top: 5px; }
-
-/* HYDRO — compact */
-.hydro-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  margin-bottom: 6px;
-}
-.hydro-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 8px 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.hydro-icon { font-size: 18px; flex-shrink: 0; }
-.hydro-info { flex: 1; min-width: 0; }
-.hydro-v { font-family: var(--font-display); font-size: 20px; font-weight: 700; line-height: 1; }
-.hydro-l { font-size: 10px; color: var(--text3); margin-top: 2px; }
-.hydro-sub { font-size: 9px; color: var(--text4); }
-
-/* INTEGRATORI GRID — compact 2x2 */
-.integ-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  margin-bottom: 6px;
-}
-.integ-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 7px 10px;
-}
-.integ-v { font-family: var(--font-display); font-size: 18px; font-weight: 700; line-height: 1; }
-.integ-l { font-size: 9px; color: var(--text4); margin-top: 2px; }
-.integ-sub { font-size: 9px; color: var(--text3); margin-top: 1px; }
-
-/* COMPLIANCE BAR */
-.comp-bar-wrap { background: var(--surface3); border-radius: 3px; height: 3px; margin-top: 4px; }
-.comp-bar-fill { height: 100%; border-radius: 3px; }
-
-/* COLLAPSIBLE SECTION */
-.sec-toggle {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text2);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  margin: 12px 0 0;
-  padding: 6px 0 5px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-}
-.sec-toggle:hover { color: var(--text1); }
-.sec-toggle-arrow {
-  font-size: 12px;
-  color: var(--text4);
-  transition: transform 0.2s;
-  flex-shrink: 0;
-}
-.sec-toggle-arrow.open { transform: rotate(90deg); }
-.sec-collapsible { overflow: hidden; }
-.sec-collapsible.collapsed { display: none; }
-.sec-collapsible.expanded { display: block; padding-top: 6px; }
-
-/* SPORT SUBPANEL detail */
-.spt-detail-kpi {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-.sdt-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 9px 10px;
-  text-align: center;
-}
-.sdt-v { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text1); line-height: 1; }
-.sdt-l { font-size: 9px; color: var(--text4); margin-top: 3px; }
-
-/* LOADING */
-#loading {
-  position: fixed; inset: 0;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  gap: 12px;
-}
-.load-logo { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--lime); letter-spacing: 0.06em; }
-.load-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); opacity: 0.5; animation: pulse 1.2s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1)} }
-
-/* ERROR */
-#error-msg {
-  display: none;
-  padding: 20px;
-  text-align: center;
-  font-size: 13px;
-  color: var(--text3);
-  line-height: 1.6;
-}
-
-@media (max-width: 380px) {
-  .sc-n { font-size: 32px; }
-  .ob-n { font-size: 60px; }
-}
-</style>
-</head>
-<body>
-
-<div id="loading">
-  <div class="load-logo">HOLISTIC</div>
-  <div class="load-dot"></div>
-</div>
-
-<div id="error-msg">
-  <p>Impossibile caricare i dati.<br>Verifica che <code>data.json</code> sia presente nel repo.</p>
-</div>
-
-<div class="app" id="app" style="display:none">
-
-  <div class="app-header">
-    <div class="app-logo">HOLISTIC</div>
-    <div class="app-meta" id="app-meta">—</div>
-  </div>
-
-  <div class="tab-bar">
-    <button class="tb on" onclick="showTab('ov')">Overview</button>
-    <button class="tb" onclick="showTab('rec')">Recovery</button>
-    <button class="tb" onclick="showTab('spt')">Sport</button>
-    <button class="tb" onclick="showTab('men')">Mente</button>
-    <button class="tb" onclick="showTab('nut')">Nutriz.</button>
-    <button class="tb" onclick="showTab('tnd')">Trend</button>
-  </div>
-
-  <!-- OVERVIEW -->
-  <div class="panel on" id="tab-ov">
-    <div id="ov-alert" class="alert-crit" style="display:none">
-      <div class="alert-dot"></div>
-      <div class="alert-txt" id="ov-alert-txt"></div>
-    </div>
-    <div class="olist-big">
-      <div class="ob-n" id="ov-olistico">—</div>
-      <div class="ob-i">
-        <div class="ob-l" id="ov-mese">—</div>
-        <div class="ob-m" id="ov-stato">—</div>
-        <div class="ob-bar"><div id="ov-bar" style="height:4px;border-radius:2px;background:var(--amber)"></div></div>
-      </div>
-    </div>
-    <div class="score4">
-      <div class="sc">
-        <div class="sc-n kv-ok" id="ov-fisico">—</div>
-        <div class="sc-l">Fisico</div>
-        <div class="sc-bar"><div class="sc-fill" id="ov-fisico-bar" style="background:var(--ok)"></div></div>
-        <div class="sc-d" id="ov-fisico-d" style="color:var(--ok)"></div>
-      </div>
-      <div class="sc">
-        <div class="sc-n kv-warn" id="ov-mentale">—</div>
-        <div class="sc-l">Mentale</div>
-        <div class="sc-bar"><div class="sc-fill" id="ov-mentale-bar" style="background:var(--warn)"></div></div>
-        <div class="sc-d" id="ov-mentale-d" style="color:var(--warn)"></div>
-      </div>
-      <div class="sc">
-        <div class="sc-n kv-info" id="ov-nutri">—</div>
-        <div class="sc-l">Nutrizionale</div>
-        <div class="sc-bar"><div class="sc-fill" id="ov-nutri-bar" style="background:var(--info)"></div></div>
-        <div class="sc-d" id="ov-nutri-d" style="color:var(--ok)"></div>
-      </div>
-      <div class="sc">
-        <div class="sc-n kv-crit" id="ov-sleep">—</div>
-        <div class="sc-l">Deep Sleep %</div>
-        <div class="sc-bar"><div class="sc-fill" id="ov-sleep-bar" style="background:var(--crit)"></div></div>
-        <div class="sc-d" id="ov-sleep-d" style="color:var(--crit)"></div>
-      </div>
-    </div>
-    <div class="sint">
-      <div class="sint-l">Sintesi AI</div>
-      <div class="sint-t" id="ov-sintesi">—</div>
-    </div>
-  </div>
-
-  <!-- RECOVERY -->
-  <div class="panel" id="tab-rec">
-    <div class="kpi2">
-      <div class="kpi"><div class="kv kv-warn" id="rec-biocharge">—</div><div class="kl">Biocharge medio</div><div class="ks">target ≥80</div></div>
-      <div class="kpi"><div class="kv kv-ok" id="rec-hrv">—</div><div class="kl">HRV medio</div><div class="ks" id="rec-hrv-d">—</div></div>
-    </div>
-    <div class="kpi2">
-      <div class="kpi"><div class="kv kv-crit" id="rec-sleep">—</div><div class="kl">Deep Sleep</div><div class="ks">target 20–25%</div></div>
-      <div class="kpi"><div class="kv kv-info" id="rec-ore">—</div><div class="kl">Ore sonno media</div><div class="ks">accettabile</div></div>
-    </div>
-    <div class="sec">Metriche dettaglio</div>
-    <div class="mlist">
-      <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score sonno Zepp</div><div class="mv" id="rec-score-zepp">—</div><span class="mu">/100</span></div>
-      <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Peso fine mese</div><div class="mv" id="rec-peso">—</div><span class="mu">kg</span><span class="badge b-ok" style="margin-left:auto">on target</span></div>
-      <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Slancio Hume medio</div><div class="mv" id="rec-slancio">—</div><span class="mu">/100</span><span class="badge b-warn" style="margin-left:auto">nella media</span></div>
-      <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score Hume settimanale</div><div class="mv" id="rec-hume">—</div><span class="mu">/100</span></div>
-      <div class="mr"><div class="mdot" style="background:#8080A0"></div><div class="mn">Fatigue prevalente</div><div class="mv-txt" id="rec-fatigue">—</div><span class="badge b-warn" style="margin-left:auto" id="rec-fatigue-score">—</span></div>
-    </div>
-    <div class="pat-card crit" id="rec-pattern">
-      <div class="pt">Pattern rilevato</div>
-      <div class="pb">Nei 3 giorni successivi a sessioni CrossFit intense, deep sleep scende in media del 18%. Considera deload o attività aerobica leggera come recovery attivo.</div>
-    </div>
-  </div>
-
-  <!-- SPORT -->
-  <div class="panel" id="tab-spt">
-    <div class="kpi2">
-      <div class="kpi"><div class="kv kv-warn" id="spt-sessioni">—</div><div class="kl">Sessioni totali</div><div class="ks" id="spt-sessioni-sub">—</div></div>
-      <div class="kpi"><div class="kv kv-info" id="spt-durata">—<span style="font-size:16px">min</span></div><div class="kl">Durata media</div><div class="ks">per sessione</div></div>
-    </div>
-    <div class="kpi2">
-      <div class="kpi"><div class="kv kv-ok" id="spt-steps">—</div><div class="kl">Steps / giorno</div><div class="ks">media mensile</div></div>
-      <div class="kpi"><div class="kv kv-info" id="spt-volume">—<span style="font-size:16px">h</span></div><div class="kl">Volume totale</div><div class="ks" id="spt-volume-sub">—</div></div>
-    </div>
-    <div class="sec">Sessioni per sport</div>
-    <div class="mlist" id="spt-sport-list"></div>
-    <div class="sec">Dati Zepp SPORT_DATA</div>
-    <div class="mlist" id="spt-list"></div>
-    <div class="pat-card">
-      <div class="pt">Consistenza</div>
-      <div class="pb" id="spt-consistency-text">—</div>
-    </div>
-  </div>
-
-  <!-- MENTE -->
-  <div class="panel" id="tab-men">
-    <div class="mente-row">
-      <div class="mblock">
-        <div class="mblock-head">
-          <div class="mblock-score-row">
-            <div class="mscore"><div class="ms-num" style="color:var(--warn)" id="men-score-n">—</div><div class="ms-lbl">Score</div></div>
-            <div class="mscore"><div class="ms-num" style="color:var(--ok)" id="men-rating-n">—</div><div class="ms-lbl">Rating</div></div>
-          </div>
-          <div class="mblock-title">Quantitativo</div>
-          <div class="mblock-sub">Dati e metriche</div>
-        </div>
-        <button class="msec-btn" onclick="openSub('mood')"><span class="msec-label">Mood & Parole</span><span class="msec-arrow">›</span></button>
-        <button class="msec-btn" onclick="openSub('habit')"><span class="msec-label">Habit streak</span><span class="msec-arrow">›</span></button>
-        <button class="msec-btn" onclick="openSub('proto')"><span class="msec-label">Protocolli</span><span class="msec-arrow">›</span></button>
-      </div>
-      <div class="mblock mblock-qual">
-        <div class="mblock-head">
-          <div style="width:34px;height:34px;border-radius:8px;background:rgba(200,245,58,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:8px">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="#C8F53A" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </div>
-          <div class="mblock-title mblock-title-qual">Qualitativo</div>
-          <div class="mblock-sub mblock-sub-qual">Lettura profonda</div>
-        </div>
-        <button class="msec-btn msec-btn-qual" onclick="openSub('temi')"><span class="msec-label-qual">Temi del mese</span><span class="msec-arrow-qual">›</span></button>
-        <button class="msec-btn msec-btn-qual" onclick="openSub('riflex')"><span class="msec-label-qual">Dal protocollo</span><span class="msec-arrow-qual">›</span></button>
-        <button class="msec-btn msec-btn-qual" onclick="openSub('prio')"><span class="msec-label-qual">Priorità maggio</span><span class="msec-arrow-qual">›</span></button>
-      </div>
-    </div>
-    <!-- MINDFIT FULL WIDTH -->
-    <div class="mblock" style="margin-top:8px">
-      <div class="mblock-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div>
-          <div class="mblock-title">MindFit — pratica meditativa</div>
-          <div class="mblock-sub" style="margin-bottom:0">Mental Fitness Score · sessioni · correlazioni</div>
-        </div>
-        <div style="display:flex;gap:12px;align-items:baseline">
-          <div style="text-align:center"><div class="ms-num" style="color:var(--lime);font-size:22px;font-weight:500" id="mf-mfs-n">—</div><div class="ms-lbl" style="font-size:10px;color:var(--color-text-secondary)">MFS</div></div>
-          <div style="text-align:center"><div class="ms-num" style="color:var(--info);font-size:22px;font-weight:500" id="mf-streak-n">—</div><div class="ms-lbl" style="font-size:10px;color:var(--color-text-secondary)">Streak</div></div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
-        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px;text-align:center">
-          <div style="font-size:16px;font-weight:500;color:var(--color-text-primary)" id="mf-sessioni-card">—</div>
-          <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px">sessioni</div>
-        </div>
-        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px;text-align:center">
-          <div style="font-size:16px;font-weight:500;color:var(--info)" id="mf-streak-card">—</div>
-          <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px">streak max</div>
-        </div>
-        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px;text-align:center">
-          <div style="font-size:12px;font-weight:500;color:var(--warn)" id="mf-cat-card">—</div>
-          <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px">categoria top</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
-        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;display:flex;justify-content:space-between;align-items:center">
-          <div style="font-size:11px;color:var(--color-text-secondary)">Delta HRV</div>
-          <div style="font-size:14px;font-weight:500;color:var(--lime)" id="mf-hrv-card">—</div>
-        </div>
-        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;display:flex;justify-content:space-between;align-items:center">
-          <div style="font-size:11px;color:var(--color-text-secondary)">Delta Deep Sleep</div>
-          <div style="font-size:14px;font-weight:500;color:var(--lime)" id="mf-ds-card">—</div>
-        </div>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-size:11px;color:var(--color-text-secondary)" id="mf-proto-card">—</div>
-        <button class="msec-btn" style="width:auto;padding:5px 10px" onclick="openSub('mindfit')"><span class="msec-label" style="font-size:11px">Dettaglio ›</span></button>
-      </div>
-    </div>
-  </div>
-  <div class="panel" id="tab-nut">
-    <div class="kpi2">
-      <div class="kpi"><div class="kv kv-ok" id="nut-score">—</div><div class="kl">Score nutrizionale</div><div class="ks" id="nut-score-d">—</div></div>
-      <div class="kpi"><div class="kv kv-info" id="nut-kcal">—</div><div class="kl">Kcal medie / giorno</div><div class="ks" id="nut-kcal-sub">—</div></div>
-    </div>
-    <div class="sec">Macronutrienti</div>
-    <div class="macro3">
-      <div class="mc"><div class="mc-v" style="color:var(--ok)" id="nut-prot">—</div><div class="mc-l">Proteine</div><div class="mc-bar"><div id="nut-prot-bar" style="height:3px;border-radius:2px;background:var(--ok)"></div></div></div>
-      <div class="mc"><div class="mc-v" style="color:var(--info)" id="nut-carb">—</div><div class="mc-l">Carboidrati</div><div class="mc-bar"><div id="nut-carb-bar" style="height:3px;border-radius:2px;background:var(--info)"></div></div></div>
-      <div class="mc"><div class="mc-v" style="color:var(--warn)" id="nut-fat">—</div><div class="mc-l">Grassi</div><div class="mc-bar"><div id="nut-fat-bar" style="height:3px;border-radius:2px;background:var(--warn)"></div></div></div>
-    </div>
-    <div class="sec">Idratazione</div>
-    <div class="hydro-row">
-      <div class="hydro-card">
-        <div class="hydro-icon">💧</div>
-        <div class="hydro-info">
-          <div class="hydro-v" id="nut-acqua" style="color:var(--info)">—</div>
-          <div class="hydro-l">Acqua media / giorno</div>
-          <div class="hydro-sub">target ≥2L</div>
-        </div>
-      </div>
-      <div class="hydro-card">
-        <div class="hydro-icon">⚠️</div>
-        <div class="hydro-info">
-          <div class="hydro-v" id="nut-idro-warn" style="color:var(--warn)">—</div>
-          <div class="hydro-l">Giorni sotto soglia</div>
-          <div class="hydro-sub" id="nut-idro-warn-pct">—</div>
-        </div>
-      </div>
-    </div>
-    <div class="sec">Integratori</div>
-    <div class="integ-grid" id="nut-integ-grid"></div>
-    <div class="sec-toggle" onclick="toggleSec('delta')">
-      <span>Delta e consistenza</span>
-      <span class="sec-toggle-arrow" id="arrow-delta">›</span>
-    </div>
-    <div class="sec-collapsible collapsed" id="sec-delta">
-      <div class="mlist" id="nut-list" style="margin-top:0"></div>
-    </div>
-    <div class="sec-toggle" onclick="toggleSec('vitamine')">
-      <span>Vitamine — dettaglio compliance</span>
-      <span class="sec-toggle-arrow" id="arrow-vitamine">›</span>
-    </div>
-    <div class="sec-collapsible collapsed" id="sec-vitamine">
-      <div class="mlist" id="nut-vitamine-list" style="margin-top:0"></div>
-    </div>
-    <!-- TREND NUTRIZIONE rimosso — centralizzato in tab Trend -->
-  </div>
-
-  <!-- TREND TAB -->
-  <div class="panel" id="tab-tnd">
-    <div class="sec" style="margin-top:0">Score per dominio</div>
-    <div class="trend-grid" id="tnd-scores"></div>
-
-    <div class="sec">Recovery &amp; sonno</div>
-    <div class="trend-grid" id="tnd-recovery"></div>
-
-    <div class="sec">Corpo &amp; attività</div>
-    <div class="trend-grid" id="tnd-corpo"></div>
-
-    <div class="sec">Mente &amp; journaling</div>
-    <div class="trend-grid" id="tnd-mente"></div>
-    <div id="tnd-mfs-empty" style="display:none;margin-top:6px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center">
-      <div style="font-size:12px;color:var(--text2);margin-bottom:3px;font-weight:500">◈ MindFit — in attesa dati</div>
-      <div style="font-size:10px;color:var(--text4);line-height:1.5">MFS, sessioni e streak appariranno<br>dopo il primo mese completo</div>
-      <div style="display:inline-block;font-size:9px;color:var(--lime);background:rgba(200,245,58,0.1);border:1px solid rgba(200,245,58,0.2);border-radius:20px;padding:3px 10px;margin-top:7px">Struttura pronta · attesa dati</div>
-    </div>
-
-    <div class="sec">Nutrizione</div>
-    <div class="trend-grid" id="tnd-nutriz"></div>
-
-    <div id="tnd-empty" style="display:none;padding:32px 0;text-align:center">
-      <div style="font-size:13px;color:var(--text2);margin-bottom:6px">Dati insufficienti</div>
-      <div style="font-size:11px;color:var(--text4)">Il tab Trend si attiva con almeno 2 mesi di dati in history.json</div>
-    </div>
-  </div>
-
-  <!-- SUBPANEL MINDFIT -->
-  <div class="subpanel" id="sub-mindfit">
-    <div class="sp-header">
-      <button class="sp-back" onclick="closeSub('mindfit')">← Chiudi</button>
-      <span class="sp-title">MindFit — Pratica meditativa</span>
-    </div>
-    <div class="sp-body">
-      <div class="sec" style="margin-top:0">Score & sessioni</div>
-      <div class="mlist">
-        <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">Mental Fitness Score</div><div class="mv" id="mf-mfs-sub">—</div><span class="mu">/100</span><span class="badge" id="mf-mfs-badge" style="margin-left:auto">—</span></div>
-        <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Sessioni totali mese</div><div class="mv" id="mf-sessioni-sub">—</div></div>
-        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Streak massima</div><div class="mv" id="mf-streak-sub">—</div><span class="mu">giorni</span></div>
-        <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Categoria prevalente</div><div class="mv-txt" id="mf-cat-sub">—</div></div>
-        <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Protocollo mese</div><div class="mv-txt" id="mf-proto-sub">—</div></div>
-      </div>
-      <div class="sec">Correlazioni biometriche</div>
-      <div class="mlist">
-        <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">Delta HRV (con vs senza sessione)</div><div class="mv" id="mf-hrv-sub">—</div><span class="mu">ms</span></div>
-        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Delta Deep Sleep (con vs senza)</div><div class="mv" id="mf-ds-sub">—</div><span class="mu">%</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="subpanel" id="sub-mood">
-    <div class="sp-header">
-      <button class="sp-back" onclick="closeSub('mood')">← Chiudi</button>
-      <span class="sp-title">Mood & Parole</span>
-    </div>
-    <div class="sp-body">
-      <div class="sec" style="margin-top:0">Mood — 28 giorni</div>
-      <div class="mood-strip" id="mood-strip"></div>
-      <div class="mood-leg" id="mood-leg"></div>
-      <div class="mlist">
-        <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Energia mattutina media</div><div class="mv" id="sub-energia">—</div><span class="mu">/10</span></div>
-        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Rating medio serale</div><div class="mv" id="sub-rating">—</div><span class="mu">/10</span></div>
-        <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Mood prevalente</div><div class="mv-txt" id="sub-mood-prev">—</div><span class="badge b-ok" style="margin-left:auto">positivo</span></div>
-      </div>
-      <div class="sec">Parole più frequenti nelle sessioni</div>
-      <div class="wcloud" id="wcloud"></div>
-    </div>
-  </div>
-
-  <div class="subpanel" id="sub-habit">
-    <div class="sp-header">
-      <button class="sp-back" onclick="closeSub('habit')">← Chiudi</button>
-      <span class="sp-title">Habit Streak</span>
-    </div>
-    <div class="sp-body">
-      <div class="sec" style="margin-top:0">Streak del mese</div>
-      <div class="hgrid" id="habit-grid"></div>
-      <div class="sec">Consistenza abitudini</div>
-      <div class="mlist" id="habit-list"></div>
-      <div class="pat-card warn" id="habit-pattern" style="margin-top:8px;display:none">
-        <div class="pt">Fotografia sotto target</div>
-        <div class="pb">Solo <span id="habit-foto-n">—</span> giorni su <span id="habit-tot">—</span>. Dai tuoi scritti emerge che è il canale creativo con più impatto sul benessere. Obiettivo maggio: 3 sessioni/settimana.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="subpanel" id="sub-proto">
-    <div class="sp-header">
-      <button class="sp-back" onclick="closeSub('proto')">← Chiudi</button>
-      <span class="sp-title">Protocolli</span>
-    </div>
-    <div class="sp-body">
-      <div class="sec" style="margin-top:0">Protocollo attivo</div>
-      <div class="mlist">
-        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Protocollo</div><div class="mv-txt" id="proto-nome">—</div><span class="badge b-ok" id="proto-fase" style="margin-left:auto">—</span></div>
-        <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Sessioni completate</div><div class="mv" id="proto-sess">—</div><span class="badge b-ok" id="proto-pct" style="margin-left:auto">—</span></div>
-        <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Esercizio prevalente</div><div class="mv-txt" id="proto-esercizio">—</div><span class="badge b-info" id="proto-esercizio-n" style="margin-left:auto">—</span></div>
-        <div class="mr"><div class="mdot" style="background:var(--ok)"></div><div class="mn">Consistency journal</div><div class="mv" id="proto-consistency">—</div><span class="mu">%</span><span class="badge b-ok" style="margin-left:auto">ottima</span></div>
-      </div>
-      <div class="sec">Distribuzione esercizi</div>
-      <div class="mlist" id="proto-list"></div>
-      <div class="pat-card" style="margin-top:8px">
-        <div class="pt">Mindfulness — impatto misurato</div>
-        <div class="pb">Rating post-sessione Mindfulness in media +<span id="proto-mindful-delta">—</span> punti rispetto alle altre modalità. Il respiro 4-7-8 è la tecnica con il maggiore effetto percepito a breve termine.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SPORT DETAIL SUBPANEL (dinamico per sport) -->
-  <div class="subpanel" id="sub-sport-detail">
-    <div class="sp-header">
-      <button class="sp-back" onclick="closeSportDetail()">← Sport</button>
-      <span class="sp-title" id="sub-sport-title">—</span>
-    </div>
-    <div class="sp-body">
-      <div class="spt-detail-kpi" id="sub-sport-kpi"></div>
-      <div class="sec">Dati Zepp (prossimo ZIP)</div>
-      <div class="mlist" id="sub-sport-zepp"></div>
-      <div class="pat-card" id="sub-sport-note-card" style="display:none">
-        <div class="pt">Note</div>
-        <div class="pb" id="sub-sport-note">—</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="subpanel" id="sub-temi">
-    <div class="sp-header">
-      <button class="sp-back sp-back-qual" onclick="closeSub('temi')">← Chiudi</button>
-      <span class="sp-title">Temi ricorrenti del mese</span>
-    </div>
-    <div class="sp-body" id="sub-temi-body"></div>
-  </div>
-
-  <div class="subpanel" id="sub-riflex">
-    <div class="sp-header">
-      <button class="sp-back sp-back-qual" onclick="closeSub('riflex')">← Chiudi</button>
-      <span class="sp-title">Riflessioni dal protocollo</span>
-    </div>
-    <div class="sp-body" id="sub-riflex-body"></div>
-  </div>
-
-  <div class="subpanel" id="sub-prio">
-    <div class="sp-header">
-      <button class="sp-back sp-back-qual" onclick="closeSub('prio')">← Chiudi</button>
-      <span class="sp-title">Azioni prioritarie</span>
-    </div>
-    <div class="sp-body" id="sub-prio-body"></div>
-  </div>
-
-</div>
-
-<script>
-let D = {};
-let H = null; // history data — null se non disponibile
-let activeTab = 'ov';
-const sportColors = ['var(--info)', 'var(--ok)', 'var(--warn)', 'var(--crit)', '#8080A0'];
-
-async function loadData() {
-  try {
-    const v = '?v=' + Date.now();
-    const [rData, rHistory] = await Promise.all([
-      fetch('data.json' + v),
-      fetch('history.json' + v).catch(() => null)
-    ]);
-    if (!rData.ok) throw new Error('data.json fetch failed');
-    D = await rData.json();
-
-    // history.json è opzionale — graceful degradation se mancante
-    if (rHistory && rHistory.ok) {
-      try {
-        const hRaw = await rHistory.json();
-        H = (hRaw.mesi && hRaw.mesi.length >= 2) ? hRaw.mesi : null;
-      } catch(e) { H = null; }
+{
+  "mese": "Maggio 2026",
+  "mese_precedente": "Aprile 2026",
+  "aggiornato_il": "2026-06-01",
+  "score_olistico": 84,
+  "score_fisico": 91,
+  "score_mentale": 80,
+  "score_nutrizionale": 79,
+  "score_sonno": 78,
+  "score_olistico_prec": 75,
+  "score_fisico_prec": 81,
+  "score_mentale_prec": 73,
+  "score_nutrizionale_prec": 63,
+  "biocharge_medio": 80.9,
+  "hrv_medio": 29.1,
+  "hrv_medio_prec": 29,
+  "deep_sleep_pct": 14.0,
+  "deep_sleep_pct_prec": 15.4,
+  "ore_sonno_media": 7.7,
+  "score_sonno_zepp": 78,
+  "peso_fine_mese": 75.0,
+  "peso_inizio_mese": 75.95,
+  "peso_medio": 75.5,
+  "delta_peso": -0.95,
+  "slancio_hume_medio": 78.4,
+  "score_hume_medio": 797,
+  "fatigue_prevalente": "Basso",
+  "fatigue_score": 0,
+  "sessioni_allenamento": 24,
+  "sessioni_allenamento_target": 20,
+  "tipo_sport_prevalente": "CrossFit",
+  "durata_allenamento_media": 52,
+  "durata_allenamento_totale": 1300,
+  "calorie_allenamento_totali": 10372,
+  "calorie_allenamento_medie": 432,
+  "fc_media_allenamento": null,
+  "fc_max_allenamento": null,
+  "steps_giorno_media": 10576,
+  "steps_totali": 327856,
+  "sessioni_sport": [
+    {
+      "sport": "CrossFit/Indoor",
+      "sessioni": 19,
+      "durata_media": 52,
+      "durata_totale": 988,
+      "calorie_totali": 7770,
+      "note": "Tipo 130 Zepp"
+    },
+    {
+      "sport": "Running outdoor",
+      "sessioni": 2,
+      "durata_media": 165,
+      "durata_totale": 330,
+      "calorie_totali": 1290,
+      "note": "Tipo 6 Zepp — inclusa 1 uscita da 216 min"
+    },
+    {
+      "sport": "Running indoor/tapis",
+      "sessioni": 2,
+      "durata_media": 63,
+      "durata_totale": 126,
+      "calorie_totali": 1049,
+      "note": "Tipo 17 Zepp"
+    },
+    {
+      "sport": "Tennis",
+      "sessioni": 1,
+      "durata_media": 26,
+      "durata_totale": 26,
+      "calorie_totali": 263,
+      "note": "Tipo 23 Zepp + sessioni Tenniix (non tracciate Zepp)"
     }
-
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    render();
-  } catch(e) {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('error-msg').style.display = 'block';
-  }
-}
-
-function fmt(v, unit) {
-  if (v === null || v === undefined) return '—';
-  return unit ? v + unit : String(v);
-}
-
-function delta(curr, prev, unit) {
-  if (prev === null || prev === undefined) return '';
-  const d = curr - prev;
-  const sign = d > 0 ? '+' : '';
-  return sign + (unit === '%' ? d.toFixed(1) + 'pp' : d + (unit || ''));
-}
-
-function scoreColor(v) {
-  if (v === null) return 'var(--text4)';
-  if (v >= 75) return 'var(--ok)';
-  if (v >= 60) return 'var(--warn)';
-  return 'var(--crit)';
-}
-
-function set(id, val) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = val;
-}
-
-function complianceColor(pct) {
-  if (pct >= 80) return 'var(--ok)';
-  if (pct >= 60) return 'var(--warn)';
-  return 'var(--crit)';
-}
-
-// ── SPARKLINE ENGINE ────────────────────────────────────────────────
-// Disegna una sparkline SVG inline a partire da un array di valori numerici.
-// w/h = dimensioni SVG, color = stroke color, fillOpacity = area fill
-function sparkline(values, { w = 80, h = 32, color = 'var(--lime)', fillOpacity = 0.15, showDots = true } = {}) {
-  if (!values || values.length < 2) return '';
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-  const pad = 3;
-  const xs = values.map((_, i) => pad + (i / (values.length - 1)) * (w - pad * 2));
-  const ys = values.map(v => pad + (1 - (v - min) / range) * (h - pad * 2));
-  const pts = xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ');
-  const polyline = `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-  const area = `<polygon points="${xs[0].toFixed(1)},${(h-pad).toFixed(1)} ${pts} ${xs[xs.length-1].toFixed(1)},${(h-pad).toFixed(1)}" fill="${color}" fill-opacity="${fillOpacity}"/>`;
-  const lastDot = showDots ? `<circle cx="${xs[xs.length-1].toFixed(1)}" cy="${ys[ys.length-1].toFixed(1)}" r="2.5" fill="${color}"/>` : '';
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">${area}${polyline}${lastDot}</svg>`;
-}
-
-// Sparkline wide con etichette mesi sull'asse X
-function sparklineWide(values, labels, { w = 360, h = 56, color = 'var(--lime)' } = {}) {
-  if (!values || values.length < 2) return '';
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-  const padX = 8, padY = 6, labelH = 14;
-  const drawH = h - labelH;
-  const xs = values.map((_, i) => padX + (i / (values.length - 1)) * (w - padX * 2));
-  const ys = values.map(v => padY + (1 - (v - min) / range) * (drawH - padY * 2));
-  const pts = xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ');
-  const area = `<polygon points="${xs[0].toFixed(1)},${(drawH - padY).toFixed(1)} ${pts} ${xs[xs.length-1].toFixed(1)},${(drawH - padY).toFixed(1)}" fill="${color}" fill-opacity="0.1"/>`;
-  const line = `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-  const dots = xs.map((x, i) => `<circle cx="${x.toFixed(1)}" cy="${ys[i].toFixed(1)}" r="2.5" fill="${color}"/>`).join('');
-  const lbls = labels.map((l, i) => `<text x="${xs[i].toFixed(1)}" y="${h}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.3)" font-family="DM Sans,system-ui">${l}</text>`).join('');
-  const vals = values.map((v, i) => `<text x="${xs[i].toFixed(1)}" y="${(ys[i] - 5).toFixed(1)}" text-anchor="middle" font-size="9" fill="${color}" font-family="DM Sans,system-ui" opacity="0.8">${v}</text>`).join('');
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;max-width:${w}px;overflow:visible">${area}${line}${dots}${vals}${lbls}</svg>`;
-}
-
-// Costruisce una trend-mini card con sparkline
-function trendMiniCard(label, values, labels, color, unit = '') {
-  if (!values || values.length < 2) return '';
-  const last = values[values.length - 1];
-  const prev = values[values.length - 2];
-  const diff = (last - prev);
-  const diffStr = (diff >= 0 ? '+' : '') + (Number.isInteger(diff) ? diff : diff.toFixed(1)) + (unit ? unit : '');
-  const diffColor = diff >= 0 ? 'var(--ok)' : 'var(--crit)';
-  const spark = sparkline(values, { w: 72, h: 28, color, showDots: true });
-  return `<div class="trend-mini">
-    <div class="trend-mini-label">${label}</div>
-    <div style="display:flex;align-items:center;justify-content:space-between">
-      <div>
-        <div class="trend-mini-val" style="color:${color}">${last}${unit}</div>
-        <div class="trend-mini-delta" style="color:${diffColor}">${diffStr} vs mese prec.</div>
-      </div>
-      <div class="trend-mini-spark">${spark}</div>
-    </div>
-  </div>`;
-}
-
-// ── TAB TREND — card doppio delta (vs 1M e vs 6M) ──────────────────
-function trendDeltaCard(label, vals, color, unit, invertLogic) {
-  // vals = array valori mensili ordinati dal più vecchio al più recente
-  if (!vals || vals.length < 2) return '';
-  // filtra null
-  const clean = vals.filter(v => v !== null && v !== undefined);
-  if (clean.length < 2) return '';
-  const last = clean[clean.length - 1];
-  const prev = clean[clean.length - 2];
-  const first = clean[0];
-  const d1 = +(last - prev).toFixed(1);
-  const d6 = +(last - first).toFixed(1);
-  const n = clean.length;
-  function deltaColor(d, inv) {
-    const good = inv ? d <= 0 : d >= 0;
-    return good ? '#6EE7A0' : '#FF7A7A';
-  }
-  function fmt(d, u) { return (d >= 0 ? '+' : '') + d + (u || ''); }
-  return `<div class="trend-mini">
-    <div class="trend-mini-label">${label}</div>
-    <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:${color};line-height:1;margin:4px 0 6px">${last}${unit || ''}</div>
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <span style="font-size:9px;font-weight:600;color:${deltaColor(d6, invertLogic)}">${fmt(d6, unit)} vs ${n}M</span>
-      <span style="font-size:9px;font-weight:600;color:${deltaColor(d1, invertLogic)}">${fmt(d1, unit)} vs 1M</span>
-    </div>
-  </div>`;
-}
-
-function renderTrendTab() {
-  const empty = document.getElementById('tnd-empty');
-  if (!H || H.length < 2) {
-    if (empty) empty.style.display = 'block';
-    return;
-  }
-  if (empty) empty.style.display = 'none';
-
-  // helper: estrae array valori da H
-  const col = (key) => H.map(m => m[key] !== undefined ? m[key] : null);
-
-  // ── SCORES ──
-  const scoresEl = document.getElementById('tnd-scores');
-  if (scoresEl) scoresEl.innerHTML =
-    trendDeltaCard('Score olistico', col('score_olistico'), 'var(--amber)', '', false) +
-    trendDeltaCard('Score fisico',   col('score_fisico'),   'var(--ok)',    '', false) +
-    trendDeltaCard('Score mentale',  col('score_mentale'),  'var(--warn)',  '', false) +
-    trendDeltaCard('Score nutrizionale', col('score_nutrizionale'), 'var(--info)', '', false);
-
-  // ── RECOVERY ──
-  const recEl = document.getElementById('tnd-recovery');
-  if (recEl) recEl.innerHTML =
-    trendDeltaCard('HRV medio',       col('hrv_medio'),       'var(--ok)',   'ms', false) +
-    trendDeltaCard('Deep sleep %',    col('deep_sleep_pct'),  'var(--crit)', '%',  false) +
-    trendDeltaCard('Ore sonno',       col('ore_sonno_media'), 'var(--info)', 'h',  false) +
-    trendDeltaCard('Score sonno Zepp',col('sleep_score_medio'),'var(--warn)','',   false);
-
-  // ── CORPO & ATTIVITÀ ──
-  const corpoEl = document.getElementById('tnd-corpo');
-  if (corpoEl) corpoEl.innerHTML =
-    trendDeltaCard('Peso',                 col('peso'),               'var(--purple)', 'kg', true) +
-    trendDeltaCard('Sessioni allenamento', col('sessioni_allenamento'),'var(--ok)',    '',   false) +
-    trendDeltaCard('Steps / giorno',       col('steps_medi'),         'var(--info)',  '',   false);
-
-  // ── MENTE & JOURNALING ──
-  const menteEl = document.getElementById('tnd-mente');
-  if (menteEl) menteEl.innerHTML =
-    trendDeltaCard('Journal consistency', col('consistency_journal'), 'var(--lime)', '%', false) +
-    trendDeltaCard('Rating medio serale', col('rating_medio'),        'var(--warn)', '',  false);
-
-  // MFS — placeholder se tutti null
-  const mfsVals = col('mindfit_mfs').filter(v => v !== null);
-  const mfsEmpty = document.getElementById('tnd-mfs-empty');
-  if (mfsVals.length >= 2) {
-    if (mfsEmpty) mfsEmpty.style.display = 'none';
-    if (menteEl) menteEl.innerHTML +=
-      trendDeltaCard('Mental Fitness Score', col('mindfit_mfs'), 'var(--lime)', '', false);
-  } else {
-    if (mfsEmpty) mfsEmpty.style.display = 'block';
-  }
-
-  // ── NUTRIZIONE ──
-  const nutEl = document.getElementById('tnd-nutriz');
-  if (nutEl) nutEl.innerHTML =
-    trendDeltaCard('Acqua media',        col('acqua_media_l'),           'var(--info)', 'L',  false) +
-    trendDeltaCard('Compliance vitamine',col('compliance_vitamine_pct'), 'var(--lime)', '%',  false);
-}
-// ── END SPARKLINE ENGINE ────────────────────────────────────────────
-
-function render() {
-  // META
-  document.getElementById('app-meta').textContent = D.mese || '—';
-
-  // ALERT
-  if (D.deep_sleep_pct < 20 && D.alert_critico) {
-    const al = document.getElementById('ov-alert');
-    al.style.display = 'flex';
-    document.getElementById('ov-alert-txt').innerHTML = D.alert_critico;
-  }
-
-  // OVERVIEW
-  set('ov-olistico', D.score_olistico);
-  document.getElementById('ov-mese').textContent = 'Score olistico — ' + D.mese;
-  document.getElementById('ov-stato').textContent = D.score_olistico >= 75 ? 'Buono — continua così' : D.score_olistico >= 60 ? 'Nella media — margini di miglioramento' : 'Attenzione — interventi necessari';
-  document.getElementById('ov-bar').style.width = D.score_olistico + '%';
-  document.getElementById('ov-olistico').style.color = scoreColor(D.score_olistico);
-
-  set('ov-fisico', D.score_fisico);
-  document.getElementById('ov-fisico-bar').style.width = D.score_fisico + '%';
-  const dfisico = D.score_fisico - D.score_fisico_prec;
-  document.getElementById('ov-fisico-d').textContent = (dfisico >= 0 ? '+' : '') + dfisico + ' vs ' + D.mese_precedente.split(' ')[0];
-  document.getElementById('ov-fisico-d').style.color = dfisico >= 0 ? 'var(--ok)' : 'var(--warn)';
-
-  set('ov-mentale', D.score_mentale);
-  document.getElementById('ov-mentale-bar').style.width = D.score_mentale + '%';
-  const dmentale = D.score_mentale - D.score_mentale_prec;
-  document.getElementById('ov-mentale-d').textContent = (dmentale >= 0 ? '+' : '') + dmentale + ' vs ' + D.mese_precedente.split(' ')[0];
-  document.getElementById('ov-mentale-d').style.color = dmentale >= 0 ? 'var(--ok)' : 'var(--warn)';
-
-  set('ov-nutri', D.score_nutrizionale);
-  document.getElementById('ov-nutri-bar').style.width = D.score_nutrizionale + '%';
-  const dnutri = D.score_nutrizionale - D.score_nutrizionale_prec;
-  document.getElementById('ov-nutri-d').textContent = (dnutri >= 0 ? '+' : '') + dnutri + ' vs ' + D.mese_precedente.split(' ')[0];
-  document.getElementById('ov-nutri-d').style.color = dnutri >= 0 ? 'var(--ok)' : 'var(--warn)';
-
-  set('ov-sleep', D.deep_sleep_pct);
-  document.getElementById('ov-sleep-bar').style.width = Math.min(D.deep_sleep_pct * 2, 100) + '%';
-  const dsleep = (D.deep_sleep_pct - D.deep_sleep_pct_prec).toFixed(1);
-  document.getElementById('ov-sleep-d').textContent = (dsleep >= 0 ? '+' : '') + dsleep + 'pp vs ' + D.mese_precedente.split(' ')[0];
-
-  set('ov-sintesi', D.sintesi_ai);
-
-  // RECOVERY
-  set('rec-biocharge', D.biocharge_medio);
-  set('rec-hrv', D.hrv_medio + 'ms');
-  const dhrv = D.hrv_medio - D.hrv_medio_prec;
-  document.getElementById('rec-hrv-d').textContent = (dhrv >= 0 ? '+' : '') + dhrv + 'ms vs mese prec.';
-  set('rec-sleep', D.deep_sleep_pct + '%');
-  set('rec-ore', D.ore_sonno_media + 'h');
-  set('rec-score-zepp', D.score_sonno_zepp);
-  set('rec-peso', D.peso_fine_mese);
-  set('rec-slancio', D.slancio_hume_medio);
-  set('rec-hume', D.score_hume_medio);
-  set('rec-fatigue', D.fatigue_prevalente);
-  set('rec-fatigue-score', D.fatigue_score + '/5');
-
-  // SPORT — KPI aggregati calcolati da sessioni_sport
-  const sports = D.sessioni_sport || [];
-  const totSess = sports.reduce((s, x) => s + x.sessioni, 0);
-  const totMin = sports.reduce((s, x) => s + x.durata_totale, 0);
-  const avgDurata = totSess > 0 ? Math.round(totMin / totSess) : (D.durata_allenamento_media || 0);
-  const totH = (totMin / 60).toFixed(1);
-
-  set('spt-sessioni', totSess || D.sessioni_allenamento);
-  document.getElementById('spt-sessioni-sub').textContent = 'target ' + D.sessioni_allenamento_target + '/mese';
-  set('spt-durata', avgDurata);
-  const steps = D.steps_giorno_media >= 1000 ? (D.steps_giorno_media / 1000).toFixed(1) + 'k' : D.steps_giorno_media;
-  set('spt-steps', steps);
-  set('spt-volume', totH);
-  document.getElementById('spt-volume-sub').textContent = totMin + ' min/mese';
-
-  // SPORT — Lista per sport cliccabile
-  document.getElementById('spt-sport-list').innerHTML = sports.map((s, i) => {
-    const h = (s.durata_totale / 60).toFixed(1);
-    const color = sportColors[i % sportColors.length];
-    return `<div class="mr clickable" onclick="openSportDetail(${i})">
-      <div class="mdot" style="background:${color}"></div>
-      <div class="mn">${s.sport}</div>
-      <div class="mv">${s.sessioni}<span class="mu"> sess.</span></div>
-      <span class="badge b-info" style="margin-left:8px">${h}h</span>
-      <span class="mr-arrow">›</span>
-    </div>`;
-  }).join('');
-
-  // SPORT — Zepp data rows (dati aggregati ancora null)
-  const sptRows = [
-    { dot: 'var(--warn)', name: 'Calorie totali', val: D.calorie_allenamento_totali, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.calorie_allenamento_totali === null },
-    { dot: 'var(--warn)', name: 'FC media allenamento', val: D.fc_media_allenamento, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.fc_media_allenamento === null },
-    { dot: 'var(--crit)', name: 'FC max allenamento', val: D.fc_max_allenamento, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.fc_max_allenamento === null },
-  ];
-  document.getElementById('spt-list').innerHTML = sptRows.map(r => `
-    <div class="mr">
-      <div class="mdot" style="background:${r.dot}"></div>
-      <div class="mn">${r.name}</div>
-      ${r.empty ? `<div class="mv-empty">—</div>` : `<div class="${typeof r.val === 'string' ? 'mv-txt' : 'mv'}">${r.val}</div>`}
-      <span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span>
-    </div>`).join('');
-
-  const pct = Math.round((totSess || D.sessioni_allenamento) / D.sessioni_allenamento_target * 100);
-  document.getElementById('spt-consistency-text').textContent =
-    (totSess || D.sessioni_allenamento) + '/' + D.sessioni_allenamento_target + ' sessioni target completate (' + pct + '%). Sport praticati questo mese: ' + sports.map(s => s.sport).join(', ') + '.';
-
-  // MENTE scores
-  set('men-score-n', D.score_mentale);
-  set('men-rating-n', D.rating_medio);
-
-  // MOOD subpanel
-  const moodColors = { pos: 'rgba(200,245,58,', neu: 'rgba(245,166,35,', dif: 'rgba(245,58,58,' };
-  const moodAlpha = D.mood_giorni || [];
-  document.getElementById('mood-strip').innerHTML = (D.mood_tipo || []).map((t, i) =>
-    `<div class="md" style="background:${moodColors[t]}${moodAlpha[i] || 0.5})"></div>`).join('');
-  document.getElementById('mood-leg').innerHTML = `
-    <div class="ml-item"><div class="ml-sq" style="background:rgba(200,245,58,0.6)"></div>Positivo — ${D.mood_positivi} giorni</div>
-    <div class="ml-item"><div class="ml-sq" style="background:rgba(245,166,35,0.5)"></div>Neutro — ${D.mood_neutri} giorni</div>
-    <div class="ml-item"><div class="ml-sq" style="background:rgba(245,58,58,0.4)"></div>Difficile — ${D.mood_difficili} giorni</div>`;
-  set('sub-energia', D.energia_mattutina_media);
-  set('sub-rating', D.rating_medio);
-  set('sub-mood-prev', D.mood_prevalente);
-
-  // WORD CLOUD
-  document.getElementById('wcloud').innerHTML = (D.parole_frequenti || []).map(w =>
-    `<span class="ww w${w.tipo}${w.peso > 1 ? ' wb' : ''}">${w.parola}</span>`).join('');
-
-  // HABIT
-  const habits = [
-    { nome: 'Vitamins', key: 'vitamins', dots7: 'habit_vitamins_ultimi7' },
-    { nome: 'Stretching', key: 'stretching', dots7: 'habit_stretching_ultimi7' },
-    { nome: 'Reading', key: 'reading', dots7: 'habit_reading_ultimi7' },
-    { nome: 'Fotografia', key: 'fotografia', dots7: 'habit_fotografia_ultimi7' },
-  ];
-  document.getElementById('habit-grid').innerHTML = habits.map(h => {
-    const val = D['habit_' + h.key] || 0;
-    const dots = (D[h.dots7] || []).map(d =>
-      `<div class="hd" style="background:${d ? 'var(--lime)' : 'var(--surface3)'}"></div>`).join('');
-    return `<div class="hcard"><div class="hn">${h.nome}</div><div class="hs">${val} <span class="hu">gg</span></div><div class="hdots">${dots}</div></div>`;
-  }).join('');
-
-  const tot = D.habit_giorni_totali || 27;
-  const habColors = (pct) => pct >= 75 ? 'b-ok' : pct >= 55 ? 'b-warn' : 'b-crit';
-  document.getElementById('habit-list').innerHTML = habits.map(h => {
-    const val = D['habit_' + h.key] || 0;
-    const p = Math.round(val / tot * 100);
-    return `<div class="mr"><div class="mdot" style="background:${p >= 75 ? 'var(--ok)' : p >= 55 ? 'var(--warn)' : 'var(--crit)'}"></div><div class="mn">${h.nome}</div><div class="mv">${val}<span class="mu">/${tot}gg</span></div><span class="badge ${habColors(p)}" style="margin-left:auto">${p}%</span></div>`;
-  }).join('');
-
-  const fotoVal = D.habit_fotografia || 0;
-  if (fotoVal / tot < 0.5) {
-    document.getElementById('habit-pattern').style.display = 'block';
-    set('habit-foto-n', fotoVal);
-    set('habit-tot', tot);
-  }
-
-  // PROTOCOLLI
-  set('proto-nome', D.protocollo_attivo);
-  set('proto-fase', D.protocollo_fase);
-  set('proto-sess', D.sessioni_journal + '/' + D.sessioni_journal_totali);
-  set('proto-pct', D.consistency_journal + '%');
-  set('proto-esercizio', D.esercizio_prevalente);
-  const prevSess = (D.protocollo_sessioni || []).find(s => s.nome === D.esercizio_prevalente);
-  set('proto-esercizio-n', prevSess ? prevSess.count + ' sess.' : '—');
-  set('proto-consistency', D.consistency_journal);
-  set('proto-mindful-delta', D.mindfulness_delta_rating);
-
-  // MINDFIT
-  const mfs = D.mindfit_mfs;
-  set('mf-mfs-n', mfs ?? '—');
-  set('mf-streak-n', D.mindfit_streak_max ?? '—');
-  set('mf-mfs-sub', mfs ?? '—');
-  set('mf-streak-sub', D.mindfit_streak_max ?? '—');
-  set('mf-streak-card', D.mindfit_streak_max ?? '—');
-  set('mf-sessioni-sub', D.mindfit_sessioni_mese ?? '—');
-  set('mf-sessioni-card', D.mindfit_sessioni_mese ?? '—');
-  set('mf-cat-sub', D.mindfit_categoria_top ?? '—');
-  set('mf-cat-card', D.mindfit_categoria_top ?? '—');
-  set('mf-proto-sub', D.mindfit_protocollo_mese ?? '—');
-  set('mf-proto-card', D.mindfit_protocollo_mese ?? '—');
-  const mfHrv = D.mindfit_correlazione_hrv;
-  const mfHrvStr = mfHrv != null ? (mfHrv > 0 ? '+' + mfHrv : mfHrv) + ' ms' : '—';
-  set('mf-hrv-sub', mfHrv != null ? (mfHrv > 0 ? '+' + mfHrv : mfHrv) : '—');
-  set('mf-hrv-card', mfHrvStr);
-  const mfDs = D.mindfit_correlazione_deep_sleep;
-  const mfDsStr = mfDs != null ? (mfDs > 0 ? '+' + mfDs : mfDs) + '%' : '—';
-  set('mf-ds-sub', mfDs != null ? (mfDs > 0 ? '+' + mfDs : mfDs) : '—');
-  set('mf-ds-card', mfDsStr);
-  const mfsBadge = document.getElementById('mf-mfs-badge');
-  if (mfsBadge && mfs != null) {
-    if (mfs >= 70) { mfsBadge.textContent = 'ottimo'; mfsBadge.className = 'badge b-ok'; }
-    else if (mfs >= 50) { mfsBadge.textContent = 'sufficiente'; mfsBadge.className = 'badge b-warn'; }
-    else { mfsBadge.textContent = 'basso'; mfsBadge.className = 'badge b-crit'; }
-  }
-
-  const dotColors = ['var(--warn)', 'var(--info)', 'var(--ok)', '#8080A0'];
-  document.getElementById('proto-list').innerHTML = (D.protocollo_sessioni || []).map((s, i) =>
-    `<div class="mr"><div class="mdot" style="background:${dotColors[i]}"></div><div class="mn">${s.nome}</div><div class="mv">${s.count}<span class="mu">sess.</span></div><span class="badge b-info" style="margin-left:auto">${s.pct}%</span></div>`).join('');
-
-  // QUALITATIVO
-  function renderQual(text, quote, bodyId) {
-    const el = document.getElementById(bodyId);
-    if (!el || !text) return;
-    const paras = text.split('\n\n').filter(p => p.trim());
-    let html = paras.map(p => `<p class="qs-text qs-para">${p}</p>`).join('');
-    if (quote) html += `<div class="qs-quote">"${quote}"</div>`;
-    el.innerHTML = html;
-  }
-
-  const temiBody = document.getElementById('sub-temi-body');
-  if (temiBody && D.temi_mese) {
-    const paras = D.temi_mese.split('\n\n').filter(p => p.trim());
-    let html = '';
-    paras.forEach((p, i) => {
-      const titles = ['Tema centrale', 'Tensione ricorrente', 'Relazioni e supporto'];
-      html += `<div class="qs-block"><div class="qs-title">${titles[i] || ''}</div><div class="qs-text">${p}</div>`;
-      if (i === 0 && D.temi_quote_1) html += `<div class="qs-quote">"${D.temi_quote_1}"</div>`;
-      if (i === 1 && D.temi_quote_2) html += `<div class="qs-quote">"${D.temi_quote_2}"</div>`;
-      html += '</div>';
-    });
-    temiBody.innerHTML = html;
-  }
-
-  const riflexBody = document.getElementById('sub-riflex-body');
-  if (riflexBody && D.riflessioni_protocollo) {
-    const paras = D.riflessioni_protocollo.split('\n\n').filter(p => p.trim());
-    const titles = ['Stress Bucket — sintesi', 'Mindfulness + respiro 4-7-8', 'Cosa manca — pattern'];
-    let html = paras.map((p, i) => {
-      let block = `<div class="qs-block"><div class="qs-title">${titles[i] || ''}</div><div class="qs-text">${p}</div>`;
-      if (i === 1 && D.riflessioni_quote) block += `<div class="qs-quote">"${D.riflessioni_quote}"</div>`;
-      return block + '</div>';
-    }).join('');
-    riflexBody.innerHTML = html;
-  }
-
-  const prioBody = document.getElementById('sub-prio-body');
-  if (prioBody && D.azioni_prioritarie) {
-    const paras = D.azioni_prioritarie.split('\n\n').filter(p => p.trim());
-    const titles = ['1 — Priorità critica: sonno', '2 — Sviluppo creativo', '3 — Consistenza journal'];
-    prioBody.innerHTML = paras.map((p, i) =>
-      `<div class="qs-block"><div class="qs-title">${titles[i] || ''}</div><div class="qs-text">${p}</div></div>`).join('');
-  }
-
-  // NUTRIZIONE
-  set('nut-score', D.score_nutrizionale);
-  const dnutri2 = D.score_nutrizionale - D.score_nutrizionale_prec;
-  document.getElementById('nut-score-d').textContent = (dnutri2 >= 0 ? '+' : '') + dnutri2 + ' vs mese prec.';
-  set('nut-kcal', D.kcal_medie_giornaliere.toLocaleString('it-IT'));
-  document.getElementById('nut-kcal-sub').textContent = 'target ' + D.kcal_target.toLocaleString('it-IT');
-  set('nut-prot', D.proteine_medie + 'g');
-  set('nut-carb', D.carboidrati_medi + 'g');
-  set('nut-fat', D.grassi_medi + 'g');
-  const protPct = Math.round(D.proteine_medie / D.proteine_target * 100);
-  document.getElementById('nut-prot-bar').style.width = Math.min(protPct, 100) + '%';
-  document.getElementById('nut-carb-bar').style.width = '70%';
-  document.getElementById('nut-fat-bar').style.width = '65%';
-
-  // IDRATAZIONE
-  const acquaColor = (D.acqua_media_l || 0) >= 2 ? 'var(--info)' : 'var(--warn)';
-  const acquaEl = document.getElementById('nut-acqua');
-  if (acquaEl) { acquaEl.textContent = (D.acqua_media_l || '—') + 'L'; acquaEl.style.color = acquaColor; }
-  set('nut-idro-warn', D.giorni_idratazione_sotto_soglia || '—');
-  const idroPct = D.giorni_idratazione_sotto_soglia && D.habit_giorni_totali
-    ? Math.round(D.giorni_idratazione_sotto_soglia / D.habit_giorni_totali * 100) + '% dei giorni'
-    : 'giorni < 2L';
-  document.getElementById('nut-idro-warn-pct').textContent = idroPct;
-
-  // INTEGRATORI GRID — senza caffeina, con Vit D totale e Omega 3 totale
-  const vitD = D.vitamine_dettaglio ? D.vitamine_dettaglio.find(v => v.nome.includes('Vitamina D')) : null;
-  const omega3 = D.vitamine_dettaglio ? D.vitamine_dettaglio.find(v => v.nome.includes('Omega')) : null;
-  const vitDGrams = vitD ? ((vitD.giorni * 4000) / 1000000).toFixed(2) + 'g' : '—';
-  const omega3Grams = omega3 ? ((omega3.giorni * 2250) / 1000).toFixed(0) + 'mg' : '—';
-  const integItems = [
-    { label: 'Creatina', giorni: D.creatina_giorni, tot: tot, color: 'var(--ok)' },
-    { label: 'Pre-Workout', giorni: D.pre_workout_giorni, tot: tot, color: 'var(--warn)' },
-    { label: 'Intra-Workout', giorni: D.intra_workout_giorni, tot: tot, color: 'var(--info)' },
-    { label: 'Compliance vit.', giorni: null, pct: D.compliance_vitamine_pct, color: 'var(--lime)' },
-    { label: 'Vit D totale', special: vitDGrams, sublabel: vitD ? vitD.giorni + ' giorni · 4000UI/die' : '—', color: 'var(--warn)' },
-    { label: 'Omega 3 totale', special: omega3Grams, sublabel: omega3 ? omega3.giorni + ' giorni · 2250mg/die' : '—', color: 'var(--info)' },
-  ];
-  document.getElementById('nut-integ-grid').innerHTML = integItems.map(item => {
-    let val, sub, barPct;
-    if (item.special) {
-      val = item.special; sub = item.sublabel; barPct = null;
-    } else if (item.pct !== null && item.pct !== undefined) {
-      val = item.pct + '%'; sub = 'compliance'; barPct = item.pct;
-    } else {
-      val = (item.giorni || '—') + '<span style="font-size:11px;color:var(--text4)"> gg</span>';
-      sub = item.tot ? Math.round((item.giorni || 0) / item.tot * 100) + '% dei giorni' : '';
-      barPct = item.tot ? Math.round((item.giorni || 0) / item.tot * 100) : null;
+  ],
+  "mood_giorni": [
+    0.6,
+    0.6,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.6,
+    0.6,
+    0.8,
+    0.6,
+    0.6,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.6,
+    0.6,
+    0.6,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.6,
+    0.6,
+    0.8,
+    0.6,
+    0.6
+  ],
+  "mood_tipo": [
+    "neu",
+    "neu",
+    "pos",
+    "pos",
+    "pos",
+    "pos",
+    "neu",
+    "neu",
+    "pos",
+    "neu",
+    "neu",
+    "pos",
+    "pos",
+    "pos",
+    "pos",
+    "pos",
+    "pos",
+    "neu",
+    "neu",
+    "neu",
+    "pos",
+    "pos",
+    "pos",
+    "pos",
+    "pos",
+    "pos",
+    "neu",
+    "neu",
+    "pos",
+    "neu",
+    "neu"
+  ],
+  "mood_prevalente": "Calmo",
+  "mood_positivi": 18,
+  "mood_neutri": 13,
+  "mood_difficili": 0,
+  "rating_medio": 3.58,
+  "energia_mattutina_media": 3.61,
+  "sessioni_journal": 31,
+  "sessioni_journal_totali": 31,
+  "consistency_journal": 100,
+  "protocollo_attivo": "Focus & Clarity 5gg",
+  "protocollo_fase": "Completato 29 maggio",
+  "habit_vitamins": 31,
+  "habit_stretching": 16,
+  "habit_reading": 27,
+  "habit_fotografia": 16,
+  "habit_allenamento": 22,
+  "habit_giorni_totali": 31,
+  "habit_vitamins_ultimi7": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "habit_stretching_ultimi7": [
+    0,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0
+  ],
+  "habit_reading_ultimi7": [
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1
+  ],
+  "habit_fotografia_ultimi7": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0
+  ],
+  "protocollo_sessioni": [],
+  "mindfulness_delta_rating": null,
+  "mindfit_sessioni_mese": 14,
+  "mindfit_mfs": 84,
+  "mindfit_streak_max": 5,
+  "mindfit_categoria_top": "Body scan",
+  "mindfit_protocollo_mese": "Focus & Clarity 5gg",
+  "mindfit_correlazione_hrv": 0.3,
+  "mindfit_correlazione_deep_sleep": 1.1,
+  "parole_frequenti": [
+    {
+      "parola": "calmo",
+      "tipo": "pos",
+      "peso": 5
+    },
+    {
+      "parola": "nervoso",
+      "tipo": "neg",
+      "peso": 4
+    },
+    {
+      "parola": "incertezza",
+      "tipo": "neg",
+      "peso": 4
+    },
+    {
+      "parola": "family time",
+      "tipo": "pos",
+      "peso": 4
+    },
+    {
+      "parola": "muscle up",
+      "tipo": "pos",
+      "peso": 3
+    },
+    {
+      "parola": "stanco",
+      "tipo": "neg",
+      "peso": 3
+    },
+    {
+      "parola": "preoccupato",
+      "tipo": "neg",
+      "peso": 3
+    },
+    {
+      "parola": "tranquillo",
+      "tipo": "pos",
+      "peso": 3
+    },
+    {
+      "parola": "ansia",
+      "tipo": "neg",
+      "peso": 3
+    },
+    {
+      "parola": "lavoro",
+      "tipo": "neu",
+      "peso": 3
+    },
+    {
+      "parola": "Claude",
+      "tipo": "neu",
+      "peso": 2
+    },
+    {
+      "parola": "Cecilia",
+      "tipo": "pos",
+      "peso": 2
+    },
+    {
+      "parola": "Federico",
+      "tipo": "pos",
+      "peso": 2
     }
-    const barHtml = barPct !== null ? `<div class="comp-bar-wrap"><div class="comp-bar-fill" style="width:${barPct}%;background:${item.color}"></div></div>` : '';
-    return `<div class="integ-card">
-      <div class="integ-v" style="color:${item.color}">${val}</div>
-      <div class="integ-l">${item.label}</div>
-      <div class="integ-sub">${sub}</div>
-      ${barHtml}
-    </div>`;
-  }).join('');
-
-  // VITAMINE DETTAGLIO (sezione collassabile)
-  document.getElementById('nut-vitamine-list').innerHTML = (D.vitamine_dettaglio || []).map(v => {
-    const col = complianceColor(v.pct);
-    return `<div class="mr">
-      <div class="mdot" style="background:${col}"></div>
-      <div class="mn">${v.nome}</div>
-      <div class="mv">${v.giorni}<span class="mu">/${tot}gg</span></div>
-      <span class="badge ${v.pct >= 80 ? 'b-ok' : v.pct >= 60 ? 'b-warn' : 'b-crit'}" style="margin-left:auto">${v.pct}%</span>
-    </div>`;
-  }).join('');
-
-  // DELTA E CONSISTENZA — include piani alimentari come righe compatte
-  const pianiColors = ['var(--ok)', 'var(--info)', 'var(--warn)', 'var(--red)'];
-  const delta_cal = D.delta_calorico_medio;
-  const pianiRows = (D.piani_distribuzione || []).map((p, i) =>
-    `<div class="mr"><div class="mdot" style="background:${pianiColors[i]}"></div><div class="mn">Piano ${p.nome}</div><div class="mv">${p.giorni}<span class="mu">gg</span></div><span class="badge b-neu" style="margin-left:auto">${p.pct}% · ${p.note}</span></div>`
-  ).join('');
-  const nutRows = [
-    { dot: 'var(--ok)', name: 'Delta calorico medio', val: (delta_cal > 0 ? '+' : '') + delta_cal + ' kcal', badge: Math.abs(delta_cal) < 100 ? 'in target' : 'fuori target', bc: Math.abs(delta_cal) < 100 ? 'b-ok' : 'b-warn' },
-    { dot: 'var(--info)', name: 'Giorni surplus', val: D.giorni_surplus + ' gg', badge: Math.round(D.giorni_surplus / tot * 100) + '%', bc: 'b-info' },
-    { dot: 'var(--crit)', name: 'Giorni deficit', val: D.giorni_deficit + ' gg', badge: 'prevalente', bc: 'b-info' },
-    { dot: 'var(--warn)', name: 'Warning proteine', val: D.giorni_warning_proteine + ' gg', badge: '<140g', bc: 'b-warn' },
-    { dot: 'var(--ok)', name: 'Consistency nutrizionale', val: D.consistency_nutrizione + '%', badge: 'ottima', bc: 'b-ok' },
-  ];
-  document.getElementById('nut-list').innerHTML =
-    nutRows.map(r => `<div class="mr"><div class="mdot" style="background:${r.dot}"></div><div class="mn">${r.name}</div><div class="mv-txt">${r.val}</div><span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span></div>`).join('') +
-    pianiRows;
-
-  // TRENDS (richiede H con almeno 2 mesi)
-  renderTrendTab();
+  ],
+  "kcal_medie_giornaliere": 2233,
+  "kcal_target": 2700,
+  "delta_calorico_medio": -236,
+  "giorni_surplus": 6,
+  "giorni_deficit": 25,
+  "giorni_nutrizione_totali": 31,
+  "proteine_medie": 120,
+  "proteine_target": 160,
+  "giorni_warning_proteine": 23,
+  "giorni_pasto_libero": 5,
+  "consistency_nutrizione": 100,
+  "piano_prevalente": "Bulk",
+  "piani_distribuzione": [
+    {
+      "nome": "Bulk",
+      "pct": 65,
+      "giorni": 20,
+      "note": "piano prevalente"
+    },
+    {
+      "nome": "Riposo",
+      "pct": 35,
+      "giorni": 11,
+      "note": ""
+    }
+  ],
+  "acqua_media_l": 2.1,
+  "giorni_idratazione_sotto_soglia": 10,
+  "creatina_giorni": 20,
+  "pre_workout_giorni": 20,
+  "intra_workout_giorni": 18,
+  "compliance_vitamine_pct": 100,
+  "vitamine_dettaglio": [
+    {
+      "nome": "Vitamine",
+      "giorni": 31,
+      "pct": 100
+    },
+    {
+      "nome": "Vitamina D",
+      "giorni": 19,
+      "pct": 61
+    },
+    {
+      "nome": "Omega 3",
+      "giorni": 24,
+      "pct": 77
+    }
+  ],
+  "sintesi_ai": "Maggio è il mese della solidità strutturale sotto pressione. Edoardo allena 24 sessioni (record mensile), riflette ogni sera senza eccezioni (31/31), e gestisce un'incertezza professionale crescente con un equilibrio emotivo notevole — zero giorni difficili nel journal. Il sistema tiene. I dati fisici sono i migliori da quando il tracking è iniziato: 24 sessioni vs target 20, steps a 10.576/gg, primo muscle up ripetuto con progressione. Il deep sleep resta il tallone d'Achille strutturale a 14%, immobile rispetto ad aprile (16%). La nutrizione migliora nel tracking (100% consistenza vs 13% aprile) ma il deficit cronico a -236 kcal contrasta ancora con l'obiettivo massa — anche se è un netto miglioramento vs il -571 di aprile. La vera novità di maggio è MindFit: 14 sessioni, protocollo Focus & Clarity completato (5/5), MFS 84. Il corpo è forte. La mente vuole più silenzio.",
+  "alert_critico": "Deep Sleep al 14% strutturalmente sotto target (20–25%): nessuna leva di igiene del sonno applicata in modo sistematico a maggio. In parallelo: proteine a 120g (75% del target 160g) con piano Bulk — il meccanismo di recupero muscolare è limitato. Terzo fattore: incertezza lavorativa come driver di mood floor effect — il sistema emotivo regge ma richiede gestione attiva.",
+  "temi_mese": "Il mese è stato attraversato da due tensioni parallele. Sul piano relazionale, i figli Cecilia e Federico sono stati il motore energetico più potente della giornata — ogni momento di qualità con loro corrisponde a un rating alto, indipendentemente dai parametri fisici. Sul piano professionale, il colloquio deludente del 19 maggio ha innescato un mood floor effect: dal 20 maggio l'incertezza lavorativa comprime il range emotivo verso il basso, rendendo impossibile il 5/5 anche nelle giornate più ricche. MindFit emerge come novità strutturale: 14 sessioni organiche, protocollo completato, correlazione positiva con deep sleep.",
+  "temi_quote_1": "Cerco di stare calmo… ma se alzo la testa e provo a guardare avanti mi si stringe lo stomaco.",
+  "temi_quote_2": "Sono giorni in cui riesco a stare calmo e controllare gli scatti di ira.",
+  "riflessioni_protocollo": "Due protocolli completati a maggio. Il primo, relazioni-7, ha coperto 1-10 maggio esplorando temi di audit energetico, qualità vs quantità delle relazioni, gestione del no, presenza attiva e blueprint relazionale. Il secondo, Focus & Clarity 5gg (25-29 maggio), è stato il primo protocollo MindFit completato con sessioni quotidiane: Mindfulness Focused, Box Breathing, Body scan pre-sleep, Breathwork box, Body scan. La streak di 5 giorni consecutivi è il record del mese.",
+  "riflessioni_quote": "Forse meno tempo con Claude… sono andato a letto con fastidio agli occhi.",
+  "azioni_prioritarie": "Priorità 1: Surplus calorico controllato +300 kcal con proteine ≥150g — il deficit -236 è meglio di aprile ma incompatibile con l'obiettivo massa/definizione. Priorità 2: Deep sleep — nessuna leva strutturale applicata a maggio; attivare routine pre-sonno fissa (orario letto ≤23:00, no schermi -60min). Priorità 3: Gestione incertezza lavorativa — pattern chiaro: nei giorni di attesa/preoccupazione il mood scende e la qualità del presente si riduce; protocollo MindFit Ansia & Overthinking come ancora.",
+  "carboidrati_medi": 298,
+  "grassi_medi": 56
 }
-
-function toggleSec(id) {
-  const sec = document.getElementById('sec-' + id);
-  const arrow = document.getElementById('arrow-' + id);
-  if (!sec) return;
-  const isOpen = sec.classList.contains('expanded');
-  sec.classList.toggle('collapsed', isOpen);
-  sec.classList.toggle('expanded', !isOpen);
-  arrow.classList.toggle('open', !isOpen);
-}
-
-function showTab(id) {
-  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.tb').forEach(b => b.classList.remove('on'));
-  document.getElementById('tab-' + id).classList.add('on');
-  activeTab = id;
-  event.currentTarget.classList.add('on');
-}
-
-function openSub(id) {
-  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
-  document.getElementById('sub-' + id).classList.add('on');
-}
-
-function closeSub(id) {
-  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
-  document.getElementById('tab-men').classList.add('on');
-}
-
-function openSportDetail(idx) {
-  const sports = D.sessioni_sport || [];
-  const s = sports[idx];
-  if (!s) return;
-  const color = sportColors[idx % sportColors.length];
-
-  set('sub-sport-title', s.sport);
-
-  const h = (s.durata_totale / 60).toFixed(1);
-  document.getElementById('sub-sport-kpi').innerHTML = `
-    <div class="sdt-card">
-      <div class="sdt-v" style="color:${color}">${s.sessioni}</div>
-      <div class="sdt-l">Sessioni</div>
-    </div>
-    <div class="sdt-card">
-      <div class="sdt-v" style="color:var(--info)">${s.durata_media}<span style="font-size:11px">min</span></div>
-      <div class="sdt-l">Durata media</div>
-    </div>
-    <div class="sdt-card">
-      <div class="sdt-v" style="color:var(--ok)">${h}<span style="font-size:11px">h</span></div>
-      <div class="sdt-l">Volume totale</div>
-    </div>`;
-
-  const zeppRows = [
-    { dot: 'var(--warn)', name: 'Calorie totali', val: s.calorie_totali, empty: s.calorie_totali === null },
-    { dot: 'var(--warn)', name: 'FC media', val: s.fc_media ? s.fc_media + ' bpm' : null, empty: s.fc_media === null },
-    { dot: 'var(--crit)', name: 'FC max', val: s.fc_max ? s.fc_max + ' bpm' : null, empty: s.fc_max === null },
-  ];
-  document.getElementById('sub-sport-zepp').innerHTML = zeppRows.map(r => `
-    <div class="mr">
-      <div class="mdot" style="background:${r.dot}"></div>
-      <div class="mn">${r.name}</div>
-      ${r.empty ? `<div class="mv-empty">—</div><span class="badge b-neu" style="margin-left:auto">prossimo ZIP</span>` : `<div class="mv-txt">${r.val}</div>`}
-    </div>`).join('');
-
-  if (s.note) {
-    document.getElementById('sub-sport-note-card').style.display = 'block';
-    set('sub-sport-note', s.note);
-  } else {
-    document.getElementById('sub-sport-note-card').style.display = 'none';
-  }
-
-  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
-  document.getElementById('sub-sport-detail').classList.add('on');
-}
-
-function closeSportDetail() {
-  document.querySelectorAll('.panel, .subpanel').forEach(p => p.classList.remove('on'));
-  document.getElementById('tab-spt').classList.add('on');
-}
-
-loadData();
-</script>
-</body>
-</html>
