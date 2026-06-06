@@ -19,9 +19,9 @@
   --border: rgba(255,255,255,0.08);
   --border2: rgba(255,255,255,0.12);
   --text1: #FFFFFF;
-  --text2: #E8E8F0;
-  --text3: #B0B0C8;
-  --text4: #7878A0;
+  --text2: #F0F0F8;
+  --text3: #C8C8E0;
+  --text4: #9898B8;
   --lime: #C8F53A;
   --lime-dim: rgba(200,245,58,0.12);
   --lime-border: rgba(200,245,58,0.2);
@@ -95,7 +95,7 @@ html, body {
   text-align: center;
   font-size: 10px;
   font-weight: 500;
-  color: var(--text4);
+  color: var(--text3);
   border: none;
   background: transparent;
   cursor: pointer;
@@ -183,7 +183,7 @@ html, body {
   font-weight: 700;
   line-height: 1;
 }
-.sc-l { font-size: 11px; color: var(--text4); margin-top: 5px; }
+.sc-l { font-size: 11px; color: var(--text2); margin-top: 5px; }
 .sc-bar { height: 3px; border-radius: 2px; background: var(--surface3); margin-top: 8px; }
 .sc-fill { height: 100%; border-radius: 2px; }
 .sc-d { font-size: 11px; margin-top: 5px; }
@@ -1483,7 +1483,7 @@ function render() {
   }).join('');
 
   // DELTA E CONSISTENZA — include piani alimentari come righe compatte
-  const pianiColors = ['var(--ok)', 'var(--info)', 'var(--warn)'];
+  const pianiColors = ['var(--ok)', 'var(--info)', 'var(--warn)', 'var(--red)'];
   const delta_cal = D.delta_calorico_medio;
   const pianiRows = (D.piani_distribuzione || []).map((p, i) =>
     `<div class="mr"><div class="mdot" style="background:${pianiColors[i]}"></div><div class="mn">Piano ${p.nome}</div><div class="mv">${p.giorni}<span class="mu">gg</span></div><span class="badge b-neu" style="margin-left:auto">${p.pct}% · ${p.note}</span></div>`
