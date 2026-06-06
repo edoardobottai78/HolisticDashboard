@@ -1441,15 +1441,13 @@ function render() {
   // INTEGRATORI GRID — senza caffeina, con Vit D totale e Omega 3 totale
   const vitD = D.vitamine_dettaglio ? D.vitamine_dettaglio.find(v => v.nome.includes('Vitamina D')) : null;
   const omega3 = D.vitamine_dettaglio ? D.vitamine_dettaglio.find(v => v.nome.includes('Omega')) : null;
-  const vitDGrams = vitD ? ((vitD.giorni * 4000) / 1000000).toFixed(2) + 'g' : '—';
-  const omega3Grams = omega3 ? ((omega3.giorni * 2250) / 1000).toFixed(0) + 'mg' : '—';
   const integItems = [
     { label: 'Creatina', giorni: D.creatina_giorni, tot: tot, color: 'var(--ok)' },
     { label: 'Pre-Workout', giorni: D.pre_workout_giorni, tot: tot, color: 'var(--warn)' },
     { label: 'Intra-Workout', giorni: D.intra_workout_giorni, tot: tot, color: 'var(--info)' },
     { label: 'Compliance vit.', giorni: null, pct: D.compliance_vitamine_pct, color: 'var(--lime)' },
-    { label: 'Vit D totale', special: vitDGrams, sublabel: vitD ? vitD.giorni + ' giorni · 4000UI/die' : '—', color: 'var(--warn)' },
-    { label: 'Omega 3 totale', special: omega3Grams, sublabel: omega3 ? omega3.giorni + ' giorni · 2250mg/die' : '—', color: 'var(--info)' },
+    { label: 'Vitamina D', giorni: vitD ? vitD.giorni : null, tot: tot, color: 'var(--warn)' },
+    { label: 'Omega 3', giorni: omega3 ? omega3.giorni : null, tot: tot, color: 'var(--info)' },
   ];
   document.getElementById('nut-integ-grid').innerHTML = integItems.map(item => {
     let val, sub, barPct;
