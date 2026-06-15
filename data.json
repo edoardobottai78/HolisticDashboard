@@ -14,6 +14,7 @@
   "biocharge_medio": 80.9,
   "hrv_medio": 29.1,
   "hrv_medio_prec": 29,
+  "hrv4t_medio": null,
   "deep_sleep_pct": 14.0,
   "deep_sleep_pct_prec": 15.4,
   "ore_sonno_media": 7.7,
@@ -38,105 +39,13 @@
   "steps_giorno_media": 10576,
   "steps_totali": 327856,
   "sessioni_sport": [
-    {
-      "sport": "CrossFit/Indoor",
-      "sessioni": 19,
-      "durata_media": 52,
-      "durata_totale": 988,
-      "calorie_totali": 7770,
-      "note": "Tipo 130 Zepp"
-    },
-    {
-      "sport": "Running outdoor",
-      "sessioni": 2,
-      "durata_media": 165,
-      "durata_totale": 330,
-      "calorie_totali": 1290,
-      "note": "Tipo 6 Zepp — inclusa 1 uscita da 216 min"
-    },
-    {
-      "sport": "Running indoor/tapis",
-      "sessioni": 2,
-      "durata_media": 63,
-      "durata_totale": 126,
-      "calorie_totali": 1049,
-      "note": "Tipo 17 Zepp"
-    },
-    {
-      "sport": "Tennis",
-      "sessioni": 1,
-      "durata_media": 26,
-      "durata_totale": 26,
-      "calorie_totali": 263,
-      "note": "Tipo 23 Zepp + sessioni Tenniix (non tracciate Zepp)"
-    }
+    {"sport":"CrossFit/Indoor","sessioni":19,"durata_media":52,"durata_totale":988,"calorie_totali":7770,"note":"Tipo 130 Zepp"},
+    {"sport":"Running outdoor","sessioni":2,"durata_media":165,"durata_totale":330,"calorie_totali":1290,"note":"Tipo 6 Zepp — inclusa 1 uscita da 216 min"},
+    {"sport":"Running indoor/tapis","sessioni":2,"durata_media":63,"durata_totale":126,"calorie_totali":1049,"note":"Tipo 17 Zepp"},
+    {"sport":"Tennis","sessioni":1,"durata_media":26,"durata_totale":26,"calorie_totali":263,"note":"Tipo 23 Zepp + sessioni Tenniix (non tracciate Zepp)"}
   ],
-  "mood_giorni": [
-    0.6,
-    0.6,
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.6,
-    0.6,
-    0.8,
-    0.6,
-    0.6,
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.6,
-    0.6,
-    0.6,
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.6,
-    0.6,
-    0.8,
-    0.6,
-    0.6
-  ],
-  "mood_tipo": [
-    "neu",
-    "neu",
-    "pos",
-    "pos",
-    "pos",
-    "pos",
-    "neu",
-    "neu",
-    "pos",
-    "neu",
-    "neu",
-    "pos",
-    "pos",
-    "pos",
-    "pos",
-    "pos",
-    "pos",
-    "neu",
-    "neu",
-    "neu",
-    "pos",
-    "pos",
-    "pos",
-    "pos",
-    "pos",
-    "pos",
-    "neu",
-    "neu",
-    "pos",
-    "neu",
-    "neu"
-  ],
+  "mood_giorni":[0.6,0.6,0.8,0.8,0.8,0.8,0.6,0.6,0.8,0.6,0.6,0.8,0.8,0.8,0.8,0.8,0.8,0.6,0.6,0.6,0.8,0.8,0.8,0.8,0.8,0.8,0.6,0.6,0.8,0.6,0.6],
+  "mood_tipo":["neu","neu","pos","pos","pos","pos","neu","neu","pos","neu","neu","pos","pos","pos","pos","pos","pos","neu","neu","neu","pos","pos","pos","pos","pos","pos","neu","neu","pos","neu","neu"],
   "mood_prevalente": "Calmo",
   "mood_positivi": 18,
   "mood_neutri": 13,
@@ -154,42 +63,10 @@
   "habit_fotografia": 16,
   "habit_allenamento": 22,
   "habit_giorni_totali": 31,
-  "habit_vitamins_ultimi7": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-  ],
-  "habit_stretching_ultimi7": [
-    0,
-    1,
-    0,
-    1,
-    1,
-    0,
-    0
-  ],
-  "habit_reading_ultimi7": [
-    1,
-    1,
-    1,
-    1,
-    0,
-    1,
-    1
-  ],
-  "habit_fotografia_ultimi7": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0
-  ],
+  "habit_vitamins_ultimi7":[1,1,1,1,1,1,1],
+  "habit_stretching_ultimi7":[0,1,0,1,1,0,0],
+  "habit_reading_ultimi7":[1,1,1,1,0,1,1],
+  "habit_fotografia_ultimi7":[1,1,1,1,1,1,0],
   "protocollo_sessioni": [],
   "mindfulness_delta_rating": null,
   "mindfit_sessioni_mese": 14,
@@ -199,72 +76,14 @@
   "mindfit_protocollo_mese": "Focus & Clarity 5gg",
   "mindfit_correlazione_hrv": 0.3,
   "mindfit_correlazione_deep_sleep": 1.1,
-  "parole_frequenti": [
-    {
-      "parola": "calmo",
-      "tipo": "pos",
-      "peso": 5
-    },
-    {
-      "parola": "nervoso",
-      "tipo": "neg",
-      "peso": 4
-    },
-    {
-      "parola": "incertezza",
-      "tipo": "neg",
-      "peso": 4
-    },
-    {
-      "parola": "family time",
-      "tipo": "pos",
-      "peso": 4
-    },
-    {
-      "parola": "muscle up",
-      "tipo": "pos",
-      "peso": 3
-    },
-    {
-      "parola": "stanco",
-      "tipo": "neg",
-      "peso": 3
-    },
-    {
-      "parola": "preoccupato",
-      "tipo": "neg",
-      "peso": 3
-    },
-    {
-      "parola": "tranquillo",
-      "tipo": "pos",
-      "peso": 3
-    },
-    {
-      "parola": "ansia",
-      "tipo": "neg",
-      "peso": 3
-    },
-    {
-      "parola": "lavoro",
-      "tipo": "neu",
-      "peso": 3
-    },
-    {
-      "parola": "Claude",
-      "tipo": "neu",
-      "peso": 2
-    },
-    {
-      "parola": "Cecilia",
-      "tipo": "pos",
-      "peso": 2
-    },
-    {
-      "parola": "Federico",
-      "tipo": "pos",
-      "peso": 2
-    }
+  "parole_frequenti":[
+    {"parola":"calmo","tipo":"pos","peso":5},{"parola":"nervoso","tipo":"neg","peso":4},
+    {"parola":"incertezza","tipo":"neg","peso":4},{"parola":"family time","tipo":"pos","peso":4},
+    {"parola":"muscle up","tipo":"pos","peso":3},{"parola":"stanco","tipo":"neg","peso":3},
+    {"parola":"preoccupato","tipo":"neg","peso":3},{"parola":"tranquillo","tipo":"pos","peso":3},
+    {"parola":"ansia","tipo":"neg","peso":3},{"parola":"lavoro","tipo":"neu","peso":3},
+    {"parola":"Claude","tipo":"neu","peso":2},{"parola":"Cecilia","tipo":"pos","peso":2},
+    {"parola":"Federico","tipo":"pos","peso":2}
   ],
   "kcal_medie_giornaliere": 2233,
   "kcal_target": 2700,
@@ -278,19 +97,9 @@
   "giorni_pasto_libero": 5,
   "consistency_nutrizione": 100,
   "piano_prevalente": "Bulk",
-  "piani_distribuzione": [
-    {
-      "nome": "Bulk",
-      "pct": 65,
-      "giorni": 20,
-      "note": "piano prevalente"
-    },
-    {
-      "nome": "Riposo",
-      "pct": 35,
-      "giorni": 11,
-      "note": ""
-    }
+  "piani_distribuzione":[
+    {"nome":"Bulk","pct":65,"giorni":20,"note":"piano prevalente"},
+    {"nome":"Riposo","pct":35,"giorni":11,"note":""}
   ],
   "acqua_media_l": 2.1,
   "giorni_idratazione_sotto_soglia": 10,
@@ -298,22 +107,10 @@
   "pre_workout_giorni": 20,
   "intra_workout_giorni": 18,
   "compliance_vitamine_pct": 100,
-  "vitamine_dettaglio": [
-    {
-      "nome": "Vitamine",
-      "giorni": 31,
-      "pct": 100
-    },
-    {
-      "nome": "Vitamina D",
-      "giorni": 19,
-      "pct": 61
-    },
-    {
-      "nome": "Omega 3",
-      "giorni": 24,
-      "pct": 77
-    }
+  "vitamine_dettaglio":[
+    {"nome":"Vitamine","giorni":31,"pct":100},
+    {"nome":"Vitamina D","giorni":19,"pct":61},
+    {"nome":"Omega 3","giorni":24,"pct":77}
   ],
   "sintesi_ai": "Maggio è il mese della solidità strutturale sotto pressione. Edoardo allena 24 sessioni (record mensile), riflette ogni sera senza eccezioni (31/31), e gestisce un'incertezza professionale crescente con un equilibrio emotivo notevole — zero giorni difficili nel journal. Il sistema tiene. I dati fisici sono i migliori da quando il tracking è iniziato: 24 sessioni vs target 20, steps a 10.576/gg, primo muscle up ripetuto con progressione. Il deep sleep resta il tallone d'Achille strutturale a 14%, immobile rispetto ad aprile (16%). La nutrizione migliora nel tracking (100% consistenza vs 13% aprile) ma il deficit cronico a -236 kcal contrasta ancora con l'obiettivo massa — anche se è un netto miglioramento vs il -571 di aprile. La vera novità di maggio è MindFit: 14 sessioni, protocollo Focus & Clarity completato (5/5), MFS 84. Il corpo è forte. La mente vuole più silenzio.",
   "alert_critico": "Deep Sleep al 14% strutturalmente sotto target (20–25%): nessuna leva di igiene del sonno applicata in modo sistematico a maggio. In parallelo: proteine a 120g (75% del target 160g) con piano Bulk — il meccanismo di recupero muscolare è limitato. Terzo fattore: incertezza lavorativa come driver di mood floor effect — il sistema emotivo regge ma richiede gestione attiva.",
