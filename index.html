@@ -37,7 +37,6 @@
   --font-body: 'DM Sans', system-ui, sans-serif;
   --radius: 10px;
   --radius-lg: 12px;
-  /* alias per compatibilità componenti MindFit */
   --color-text-primary: var(--text1);
   --color-text-secondary: var(--text2);
   --color-background-secondary: var(--surface2);
@@ -62,7 +61,6 @@ html, body {
   flex-direction: column;
 }
 
-/* HEADER */
 .app-header {
   padding: 16px 16px 0;
   display: flex;
@@ -81,7 +79,6 @@ html, body {
   color: var(--text4);
 }
 
-/* TAB BAR */
 .tab-bar {
   display: flex;
   background: #111114;
@@ -106,13 +103,11 @@ html, body {
 }
 .tb.on { color: var(--lime); border-bottom-color: var(--lime); }
 
-/* PANELS */
 .panel { display: none; padding: 14px 16px; flex: 1; }
 .panel.on { display: block; }
 .subpanel { display: none; flex: 1; }
 .subpanel.on { display: flex; flex-direction: column; }
 
-/* SECTION LABEL */
 .sec {
   font-size: 11px;
   font-weight: 500;
@@ -125,7 +120,6 @@ html, body {
 }
 .sec:first-child { margin-top: 0; }
 
-/* ALERT */
 .alert-crit {
   background: #1A0808;
   border: 1px solid #4A1515;
@@ -146,7 +140,6 @@ html, body {
 .alert-txt { font-size: 12px; color: #F09090; line-height: 1.55; }
 .alert-txt strong { color: var(--red); font-weight: 500; }
 
-/* KPI GRID */
 .kpi2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
 .kpi3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 8px; }
 .kpi {
@@ -169,7 +162,6 @@ html, body {
 .kv-crit { color: var(--crit); }
 .kv-info { color: var(--info); }
 
-/* SCORE 4 */
 .score4 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
 .sc {
   background: var(--surface);
@@ -188,7 +180,6 @@ html, body {
 .sc-fill { height: 100%; border-radius: 2px; }
 .sc-d { font-size: 11px; margin-top: 5px; }
 
-/* OLISTICO BIG */
 .olist-big {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -211,7 +202,6 @@ html, body {
 .ob-m { font-size: 13px; color: var(--text1); font-weight: 500; }
 .ob-bar { height: 4px; background: var(--surface3); border-radius: 2px; margin-top: 8px; }
 
-/* SINTESI */
 .sint {
   background: #13131A;
   border: 1px solid var(--lime-border);
@@ -222,7 +212,6 @@ html, body {
 .sint-l { font-size: 10px; color: var(--lime); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; font-weight: 500; }
 .sint-t { font-size: 12px; color: #B0B0C8; line-height: 1.65; }
 
-/* METRIC LIST */
 .mlist {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -249,7 +238,6 @@ html, body {
 .mv-txt { font-size: 13px; color: #C0C0D0; }
 .mv-empty { font-size: 13px; color: #3A3A5A; }
 
-/* BADGE */
 .badge { font-size: 9px; font-weight: 500; padding: 2px 7px; border-radius: 20px; white-space: nowrap; }
 .b-ok { background: rgba(200,245,58,0.12); color: #A8D830; }
 .b-warn { background: rgba(245,166,35,0.15); color: #F5C060; }
@@ -257,10 +245,8 @@ html, body {
 .b-info { background: rgba(58,168,245,0.12); color: #70C0F5; }
 .b-neu { background: rgba(255,255,255,0.06); color: var(--text3); }
 
-/* SPARKLINE */
 .spark { flex-shrink: 0; opacity: 0.75; }
 
-/* TREND CARD */
 .trend-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -277,7 +263,6 @@ html, body {
 .trend-delta { font-size: 10px; margin-top: 3px; }
 .trend-spark { flex-shrink: 0; }
 
-/* TREND GRID — 2 colonne */
 .trend-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -295,7 +280,6 @@ html, body {
 .trend-mini-delta { font-size: 9px; margin-top: 2px; }
 .trend-mini-spark { margin-top: 5px; }
 
-/* PATTERN CARD */
 .pat-card {
   border-left: 3px solid var(--lime);
   border-radius: 0 var(--radius) var(--radius) 0;
@@ -308,7 +292,6 @@ html, body {
 .pt { font-size: 12px; color: var(--text1); font-weight: 500; margin-bottom: 3px; }
 .pb { font-size: 12px; color: var(--text3); line-height: 1.6; }
 
-/* MENTE — blocchi affiancati */
 .mente-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .mblock {
   background: var(--surface);
@@ -356,7 +339,6 @@ html, body {
 .msec-arrow { font-size: 14px; color: var(--text4); }
 .msec-arrow-qual { font-size: 14px; color: rgba(200,245,58,0.4); }
 
-/* SUBPANEL */
 .sp-header {
   display: flex;
   align-items: center;
@@ -387,14 +369,12 @@ html, body {
 .sp-title { font-size: 13px; font-weight: 500; color: var(--text1); }
 .sp-body { padding: 14px 16px; overflow-y: auto; flex: 1; }
 
-/* MOOD */
 .mood-strip { display: flex; gap: 3px; margin-bottom: 6px; }
 .md { flex: 1; height: 32px; border-radius: 4px; }
 .mood-leg { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
 .ml-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text3); }
 .ml-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
-/* WORD CLOUD */
 .wcloud {
   display: flex;
   flex-wrap: wrap;
@@ -411,7 +391,6 @@ html, body {
 .wneu { background: rgba(255,255,255,0.06); color: #7080A0; }
 .wb { font-size: 14px; font-weight: 500; }
 
-/* HABIT */
 .hgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
 .hcard {
   background: var(--surface);
@@ -425,7 +404,6 @@ html, body {
 .hdots { display: flex; gap: 3px; margin-top: 6px; }
 .hd { width: 8px; height: 8px; border-radius: 2px; }
 
-/* QUALITATIVO */
 .qs-block { margin-bottom: 20px; }
 .qs-block:last-child { margin-bottom: 0; }
 .qs-title { font-size: 10px; color: var(--lime); font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
@@ -444,7 +422,6 @@ html, body {
   border-radius: 0 6px 6px 0;
 }
 
-/* NUTRIZIONE */
 .macro3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 6px; }
 .mc {
   background: var(--surface);
@@ -457,7 +434,6 @@ html, body {
 .mc-l { font-size: 9px; color: var(--text4); margin-top: 2px; }
 .mc-bar { height: 3px; border-radius: 2px; background: var(--surface3); margin-top: 5px; }
 
-/* HYDRO — compact */
 .hydro-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -479,7 +455,6 @@ html, body {
 .hydro-l { font-size: 10px; color: var(--text3); margin-top: 2px; }
 .hydro-sub { font-size: 9px; color: var(--text4); }
 
-/* INTEGRATORI GRID — compact 2x2 */
 .integ-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -496,11 +471,9 @@ html, body {
 .integ-l { font-size: 9px; color: var(--text4); margin-top: 2px; }
 .integ-sub { font-size: 9px; color: var(--text3); margin-top: 1px; }
 
-/* COMPLIANCE BAR */
 .comp-bar-wrap { background: var(--surface3); border-radius: 3px; height: 3px; margin-top: 4px; }
 .comp-bar-fill { height: 100%; border-radius: 3px; }
 
-/* COLLAPSIBLE SECTION */
 .sec-toggle {
   font-size: 11px;
   font-weight: 500;
@@ -529,7 +502,6 @@ html, body {
 .sec-collapsible.collapsed { display: none; }
 .sec-collapsible.expanded { display: block; padding-top: 6px; }
 
-/* SPORT SUBPANEL detail */
 .spt-detail-kpi {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -546,7 +518,6 @@ html, body {
 .sdt-v { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text1); line-height: 1; }
 .sdt-l { font-size: 9px; color: var(--text4); margin-top: 3px; }
 
-/* LOADING */
 #loading {
   position: fixed; inset: 0;
   background: var(--bg);
@@ -561,7 +532,6 @@ html, body {
 .load-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); opacity: 0.5; animation: pulse 1.2s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1)} }
 
-/* ERROR */
 #error-msg {
   display: none;
   padding: 20px;
@@ -650,19 +620,21 @@ html, body {
     </div>
   </div>
 
-  <!-- RECOVERY -->
+  <!-- RECOVERY — PATCH 1 & 2 APPLIED -->
   <div class="panel" id="tab-rec">
     <div class="kpi2">
       <div class="kpi"><div class="kv kv-warn" id="rec-biocharge">—</div><div class="kl">Biocharge medio</div><div class="ks">target ≥80</div></div>
-      <div class="kpi"><div class="kv kv-ok" id="rec-hrv">—</div><div class="kl">HRV medio</div><div class="ks" id="rec-hrv-d">—</div></div>
+      <div class="kpi"><div class="kv kv-ok" id="rec-hrv">—</div><div class="kl">HRV Zepp</div><div class="ks" id="rec-hrv-d">—</div></div>
     </div>
     <div class="kpi2">
+      <div class="kpi"><div class="kv kv-ok" id="rec-hrv4t">—</div><div class="kl">HRV4T rMSSD</div><div class="ks">mattutino iPhone</div></div>
       <div class="kpi"><div class="kv kv-crit" id="rec-sleep">—</div><div class="kl">Deep Sleep</div><div class="ks">target 20–25%</div></div>
       <div class="kpi"><div class="kv kv-info" id="rec-ore">—</div><div class="kl">Ore sonno media</div><div class="ks">accettabile</div></div>
     </div>
     <div class="sec">Metriche dettaglio</div>
     <div class="mlist">
       <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score sonno Zepp</div><div class="mv" id="rec-score-zepp">—</div><span class="mu">/100</span></div>
+      <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">HRV4Training rMSSD medio</div><div class="mv" id="rec-hrv4t-list">—</div><span class="mu">ms</span><span class="badge b-neu" style="margin-left:auto" id="rec-hrv4t-badge">in attesa dati</span></div>
       <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Peso fine mese</div><div class="mv" id="rec-peso">—</div><span class="mu">kg</span><span class="badge b-ok" style="margin-left:auto">on target</span></div>
       <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Slancio Hume medio</div><div class="mv" id="rec-slancio">—</div><span class="mu">/100</span><span class="badge b-warn" style="margin-left:auto">nella media</span></div>
       <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score Hume settimanale</div><div class="mv" id="rec-hume">—</div><span class="mu">/100</span></div>
@@ -765,6 +737,8 @@ html, body {
       </div>
     </div>
   </div>
+
+  <!-- NUTRIZIONE -->
   <div class="panel" id="tab-nut">
     <div class="kpi2">
       <div class="kpi"><div class="kv kv-ok" id="nut-score">—</div><div class="kl">Score nutrizionale</div><div class="ks" id="nut-score-d">—</div></div>
@@ -811,7 +785,6 @@ html, body {
     <div class="sec-collapsible collapsed" id="sec-vitamine">
       <div class="mlist" id="nut-vitamine-list" style="margin-top:0"></div>
     </div>
-    <!-- TREND NUTRIZIONE rimosso — centralizzato in tab Trend -->
   </div>
 
   <!-- TREND TAB -->
@@ -923,7 +896,6 @@ html, body {
     </div>
   </div>
 
-  <!-- SPORT DETAIL SUBPANEL (dinamico per sport) -->
   <div class="subpanel" id="sub-sport-detail">
     <div class="sp-header">
       <button class="sp-back" onclick="closeSportDetail()">← Sport</button>
@@ -968,7 +940,7 @@ html, body {
 
 <script>
 let D = {};
-let H = null; // history data — null se non disponibile
+let H = null;
 let activeTab = 'ov';
 const sportColors = ['var(--info)', 'var(--ok)', 'var(--warn)', 'var(--crit)', '#8080A0'];
 
@@ -982,7 +954,6 @@ async function loadData() {
     if (!rData.ok) throw new Error('data.json fetch failed');
     D = await rData.json();
 
-    // history.json è opzionale — graceful degradation se mancante
     if (rHistory && rHistory.ok) {
       try {
         const hRaw = await rHistory.json();
@@ -1029,9 +1000,6 @@ function complianceColor(pct) {
   return 'var(--crit)';
 }
 
-// ── SPARKLINE ENGINE ────────────────────────────────────────────────
-// Disegna una sparkline SVG inline a partire da un array di valori numerici.
-// w/h = dimensioni SVG, color = stroke color, fillOpacity = area fill
 function sparkline(values, { w = 80, h = 32, color = 'var(--lime)', fillOpacity = 0.15, showDots = true } = {}) {
   if (!values || values.length < 2) return '';
   const min = Math.min(...values);
@@ -1047,7 +1015,6 @@ function sparkline(values, { w = 80, h = 32, color = 'var(--lime)', fillOpacity 
   return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">${area}${polyline}${lastDot}</svg>`;
 }
 
-// Sparkline wide con etichette mesi sull'asse X
 function sparklineWide(values, labels, { w = 360, h = 56, color = 'var(--lime)' } = {}) {
   if (!values || values.length < 2) return '';
   const min = Math.min(...values);
@@ -1066,7 +1033,6 @@ function sparklineWide(values, labels, { w = 360, h = 56, color = 'var(--lime)' 
   return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;max-width:${w}px;overflow:visible">${area}${line}${dots}${vals}${lbls}</svg>`;
 }
 
-// Costruisce una trend-mini card con sparkline
 function trendMiniCard(label, values, labels, color, unit = '') {
   if (!values || values.length < 2) return '';
   const last = values[values.length - 1];
@@ -1087,11 +1053,8 @@ function trendMiniCard(label, values, labels, color, unit = '') {
   </div>`;
 }
 
-// ── TAB TREND — card doppio delta (vs 1M e vs 6M) ──────────────────
 function trendDeltaCard(label, vals, color, unit, invertLogic) {
-  // vals = array valori mensili ordinati dal più vecchio al più recente
   if (!vals || vals.length < 2) return '';
-  // filtra null
   const clean = vals.filter(v => v !== null && v !== undefined);
   if (clean.length < 2) return '';
   const last = clean[clean.length - 1];
@@ -1123,39 +1086,38 @@ function renderTrendTab() {
   }
   if (empty) empty.style.display = 'none';
 
-  // helper: estrae array valori da H
   const col = (key) => H.map(m => m[key] !== undefined ? m[key] : null);
 
-  // ── SCORES ──
+  // SCORES
   const scoresEl = document.getElementById('tnd-scores');
   if (scoresEl) scoresEl.innerHTML =
     trendDeltaCard('Score olistico', col('score_olistico'), 'var(--amber)', '', false) +
     trendDeltaCard('Score fisico',   col('score_fisico'),   'var(--ok)',    '', false) +
-    trendDeltaCard('Score mentale',  col('score_mentale'),  'var(--warn)',  '', false) +
+    trendDeltaCard('Score mentale',  col('score_mentale)',  'var(--warn)',  '', false) +
     trendDeltaCard('Score nutrizionale', col('score_nutrizionale'), 'var(--info)', '', false);
 
   // ── RECOVERY ──
   const recEl = document.getElementById('tnd-recovery');
   if (recEl) recEl.innerHTML =
-    trendDeltaCard('HRV medio',       col('hrv_medio'),       'var(--ok)',   'ms', false) +
-    trendDeltaCard('Deep sleep %',    col('deep_sleep_pct'),  'var(--crit)', '%',  false) +
-    trendDeltaCard('Ore sonno',       col('ore_sonno_media'), 'var(--info)', 'h',  false) +
-    trendDeltaCard('Score sonno Zepp',col('sleep_score_medio'),'var(--warn)','',   false);
+    trendDeltaCard('HRV Zepp medio',   col('hrv_medio'),       'var(--ok)',   'ms', false) +
+    trendDeltaCard('HRV4T rMSSD',      col('hrv4t_medio'),     'var(--lime)', 'ms', false) +
+    trendDeltaCard('Deep sleep %',     col('deep_sleep_pct'),  'var(--crit)', '%',  false) +
+    trendDeltaCard('Ore sonno',        col('ore_sonno_media'), 'var(--info)', 'h',  false) +
+    trendDeltaCard('Score sonno Zepp', col('sleep_score_medio'),'var(--warn)','',   false);
 
-  // ── CORPO & ATTIVITÀ ──
+  // CORPO & ATTIVITÀ
   const corpoEl = document.getElementById('tnd-corpo');
   if (corpoEl) corpoEl.innerHTML =
     trendDeltaCard('Peso',                 col('peso'),               'var(--purple)', 'kg', true) +
     trendDeltaCard('Sessioni allenamento', col('sessioni_allenamento'),'var(--ok)',    '',   false) +
     trendDeltaCard('Steps / giorno',       col('steps_medi'),         'var(--info)',  '',   false);
 
-  // ── MENTE & JOURNALING ──
+  // MENTE & JOURNALING
   const menteEl = document.getElementById('tnd-mente');
   if (menteEl) menteEl.innerHTML =
     trendDeltaCard('Journal consistency', col('consistency_journal'), 'var(--lime)', '%', false) +
     trendDeltaCard('Rating medio serale', col('rating_medio'),        'var(--warn)', '',  false);
 
-  // MFS — placeholder se tutti null
   const mfsVals = col('mindfit_mfs').filter(v => v !== null);
   const mfsEmpty = document.getElementById('tnd-mfs-empty');
   if (mfsVals.length >= 2) {
@@ -1166,26 +1128,22 @@ function renderTrendTab() {
     if (mfsEmpty) mfsEmpty.style.display = 'block';
   }
 
-  // ── NUTRIZIONE ──
+  // NUTRIZIONE
   const nutEl = document.getElementById('tnd-nutriz');
   if (nutEl) nutEl.innerHTML =
     trendDeltaCard('Acqua media',        col('acqua_media_l'),           'var(--info)', 'L',  false) +
     trendDeltaCard('Compliance vitamine',col('compliance_vitamine_pct'), 'var(--lime)', '%',  false);
 }
-// ── END SPARKLINE ENGINE ────────────────────────────────────────────
 
 function render() {
-  // META
   document.getElementById('app-meta').textContent = D.mese || '—';
 
-  // ALERT
   if (D.deep_sleep_pct < 20 && D.alert_critico) {
     const al = document.getElementById('ov-alert');
     al.style.display = 'flex';
     document.getElementById('ov-alert-txt').innerHTML = D.alert_critico;
   }
 
-  // OVERVIEW
   set('ov-olistico', D.score_olistico);
   document.getElementById('ov-mese').textContent = 'Score olistico — ' + D.mese;
   document.getElementById('ov-stato').textContent = D.score_olistico >= 75 ? 'Buono — continua così' : D.score_olistico >= 60 ? 'Nella media — margini di miglioramento' : 'Attenzione — interventi necessari';
@@ -1225,13 +1183,20 @@ function render() {
   set('rec-sleep', D.deep_sleep_pct + '%');
   set('rec-ore', D.ore_sonno_media + 'h');
   set('rec-score-zepp', D.score_sonno_zepp);
+
+  if (D.hrv4t_medio != null) {
+    set('rec-hrv4t', D.hrv4t_medio + 'ms');
+    set('rec-hrv4t-list', D.hrv4t_medio);
+    const hrv4tBadge = document.getElementById('rec-hrv4t-badge');
+    if (hrv4tBadge) { hrv4tBadge.textContent = D.hrv4t_medio >= 28 ? 'nella norma' : 'sotto baseline'; hrv4tBadge.className = D.hrv4t_medio >= 28 ? 'badge b-ok' : 'badge b-warn'; }
+  }
   set('rec-peso', D.peso_fine_mese);
   set('rec-slancio', D.slancio_hume_medio);
   set('rec-hume', D.score_hume_medio);
   set('rec-fatigue', D.fatigue_prevalente);
   set('rec-fatigue-score', D.fatigue_score + '/5');
 
-  // SPORT — KPI aggregati calcolati da sessioni_sport
+  // SPORT
   const sports = D.sessioni_sport || [];
   const totSess = sports.reduce((s, x) => s + x.sessioni, 0);
   const totMin = sports.reduce((s, x) => s + x.durata_totale, 0);
@@ -1246,7 +1211,6 @@ function render() {
   set('spt-volume', totH);
   document.getElementById('spt-volume-sub').textContent = totMin + ' min/mese';
 
-  // SPORT — Lista per sport cliccabile
   document.getElementById('spt-sport-list').innerHTML = sports.map((s, i) => {
     const h = (s.durata_totale / 60).toFixed(1);
     const color = sportColors[i % sportColors.length];
@@ -1259,7 +1223,6 @@ function render() {
     </div>`;
   }).join('');
 
-  // SPORT — Zepp data rows (dati aggregati ancora null)
   const sptRows = [
     { dot: 'var(--warn)', name: 'Calorie totali', val: D.calorie_allenamento_totali, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.calorie_allenamento_totali === null },
     { dot: 'var(--warn)', name: 'FC media allenamento', val: D.fc_media_allenamento, badge: 'prossimo ZIP', bc: 'b-neu', empty: D.fc_media_allenamento === null },
@@ -1273,6 +1236,7 @@ function render() {
       <span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span>
     </div>`).join('');
 
+  const tot = D.habit_giorni_totali || 27;
   const pct = Math.round((totSess || D.sessioni_allenamento) / D.sessioni_allenamento_target * 100);
   document.getElementById('spt-consistency-text').textContent =
     (totSess || D.sessioni_allenamento) + '/' + D.sessioni_allenamento_target + ' sessioni target completate (' + pct + '%). Sport praticati questo mese: ' + sports.map(s => s.sport).join(', ') + '.';
@@ -1281,7 +1245,7 @@ function render() {
   set('men-score-n', D.score_mentale);
   set('men-rating-n', D.rating_medio);
 
-  // MOOD subpanel
+  // MOOD
   const moodColors = { pos: 'rgba(200,245,58,', neu: 'rgba(245,166,35,', dif: 'rgba(245,58,58,' };
   const moodAlpha = D.mood_giorni || [];
   document.getElementById('mood-strip').innerHTML = (D.mood_tipo || []).map((t, i) =>
@@ -1294,11 +1258,10 @@ function render() {
   set('sub-rating', D.rating_medio);
   set('sub-mood-prev', D.mood_prevalente);
 
-  // WORD CLOUD
   document.getElementById('wcloud').innerHTML = (D.parole_frequenti || []).map(w =>
     `<span class="ww w${w.tipo}${w.peso > 1 ? ' wb' : ''}">${w.parola}</span>`).join('');
 
-  // HABIT
+  // HABITS
   const habits = [
     { nome: 'Vitamins', key: 'vitamins', dots7: 'habit_vitamins_ultimi7' },
     { nome: 'Stretching', key: 'stretching', dots7: 'habit_stretching_ultimi7' },
@@ -1312,8 +1275,7 @@ function render() {
     return `<div class="hcard"><div class="hn">${h.nome}</div><div class="hs">${val} <span class="hu">gg</span></div><div class="hdots">${dots}</div></div>`;
   }).join('');
 
-  const tot = D.habit_giorni_totali || 27;
-  const habColors = (pct) => pct >= 75 ? 'b-ok' : pct >= 55 ? 'b-warn' : 'b-crit';
+  const habColors = (p) => p >= 75 ? 'b-ok' : p >= 55 ? 'b-warn' : 'b-crit';
   document.getElementById('habit-list').innerHTML = habits.map(h => {
     const val = D['habit_' + h.key] || 0;
     const p = Math.round(val / tot * 100);
@@ -1371,15 +1333,6 @@ function render() {
     `<div class="mr"><div class="mdot" style="background:${dotColors[i]}"></div><div class="mn">${s.nome}</div><div class="mv">${s.count}<span class="mu">sess.</span></div><span class="badge b-info" style="margin-left:auto">${s.pct}%</span></div>`).join('');
 
   // QUALITATIVO
-  function renderQual(text, quote, bodyId) {
-    const el = document.getElementById(bodyId);
-    if (!el || !text) return;
-    const paras = text.split('\n\n').filter(p => p.trim());
-    let html = paras.map(p => `<p class="qs-text qs-para">${p}</p>`).join('');
-    if (quote) html += `<div class="qs-quote">"${quote}"</div>`;
-    el.innerHTML = html;
-  }
-
   const temiBody = document.getElementById('sub-temi-body');
   if (temiBody && D.temi_mese) {
     const paras = D.temi_mese.split('\n\n').filter(p => p.trim());
@@ -1428,7 +1381,6 @@ function render() {
   document.getElementById('nut-carb-bar').style.width = '70%';
   document.getElementById('nut-fat-bar').style.width = '65%';
 
-  // IDRATAZIONE
   const acquaColor = (D.acqua_media_l || 0) >= 2 ? 'var(--info)' : 'var(--warn)';
   const acquaEl = document.getElementById('nut-acqua');
   if (acquaEl) { acquaEl.textContent = (D.acqua_media_l || '—') + 'L'; acquaEl.style.color = acquaColor; }
@@ -1438,7 +1390,6 @@ function render() {
     : 'giorni < 2L';
   document.getElementById('nut-idro-warn-pct').textContent = idroPct;
 
-  // INTEGRATORI GRID — senza caffeina, con Vit D totale e Omega 3 totale
   const vitD = D.vitamine_dettaglio ? D.vitamine_dettaglio.find(v => v.nome.includes('Vitamina D')) : null;
   const omega3 = D.vitamine_dettaglio ? D.vitamine_dettaglio.find(v => v.nome.includes('Omega')) : null;
   const integItems = [
@@ -1469,7 +1420,6 @@ function render() {
     </div>`;
   }).join('');
 
-  // VITAMINE DETTAGLIO (sezione collassabile)
   document.getElementById('nut-vitamine-list').innerHTML = (D.vitamine_dettaglio || []).map(v => {
     const col = complianceColor(v.pct);
     return `<div class="mr">
@@ -1480,7 +1430,6 @@ function render() {
     </div>`;
   }).join('');
 
-  // DELTA E CONSISTENZA — include piani alimentari come righe compatte
   const pianiColors = ['var(--ok)', 'var(--info)', 'var(--warn)', 'var(--red)'];
   const delta_cal = D.delta_calorico_medio;
   const pianiRows = (D.piani_distribuzione || []).map((p, i) =>
@@ -1497,7 +1446,6 @@ function render() {
     nutRows.map(r => `<div class="mr"><div class="mdot" style="background:${r.dot}"></div><div class="mn">${r.name}</div><div class="mv-txt">${r.val}</div><span class="badge ${r.bc}" style="margin-left:auto">${r.badge}</span></div>`).join('') +
     pianiRows;
 
-  // TRENDS (richiede H con almeno 2 mesi)
   renderTrendTab();
 }
 
