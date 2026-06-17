@@ -635,6 +635,10 @@ html, body {
     <div class="mlist">
       <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score sonno Zepp</div><div class="mv" id="rec-score-zepp">—</div><span class="mu">/100</span></div>
       <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">HRV4Training rMSSD medio</div><div class="mv" id="rec-hrv4t-list">—</div><span class="mu">ms</span><span class="badge b-neu" style="margin-left:auto" id="rec-hrv4t-badge">in attesa dati</span></div>
+      <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">HRV4T FC mattutina media</div><div class="mv" id="rec-hrv4t-hr">—</div><span class="mu">bpm</span></div>
+      <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">HRV4T Recovery Points</div><div class="mv" id="rec-hrv4t-rp">—</div><span class="mu">/10</span></div>
+      <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">HRV4T Muscle Soreness</div><div class="mv" id="rec-hrv4t-ms">—</div><span class="mu">/10</span></div>
+      <div class="mr"><div class="mdot" style="background:var(--lime)"></div><div class="mn">HRV4T Fatigue mattutino</div><div class="mv" id="rec-hrv4t-fat">—</div><span class="mu">/10</span></div>
       <div class="mr"><div class="mdot" style="background:var(--info)"></div><div class="mn">Peso fine mese</div><div class="mv" id="rec-peso">—</div><span class="mu">kg</span><span class="badge b-ok" style="margin-left:auto">on target</span></div>
       <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Slancio Hume medio</div><div class="mv" id="rec-slancio">—</div><span class="mu">/100</span><span class="badge b-warn" style="margin-left:auto">nella media</span></div>
       <div class="mr"><div class="mdot" style="background:var(--warn)"></div><div class="mn">Score Hume settimanale</div><div class="mv" id="rec-hume">—</div><span class="mu">/100</span></div>
@@ -1189,6 +1193,10 @@ function render() {
     set('rec-hrv4t-list', D.hrv4t_medio);
     const hrv4tBadge = document.getElementById('rec-hrv4t-badge');
     if (hrv4tBadge) { hrv4tBadge.textContent = D.hrv4t_medio >= 28 ? 'nella norma' : 'sotto baseline'; hrv4tBadge.className = D.hrv4t_medio >= 28 ? 'badge b-ok' : 'badge b-warn'; }
+    if (D.hrv4t_hr_mattutino_medio != null) set('rec-hrv4t-hr', D.hrv4t_hr_mattutino_medio);
+    if (D.hrv4t_recovery_points_medio != null) set('rec-hrv4t-rp', D.hrv4t_recovery_points_medio);
+    if (D.hrv4t_muscle_soreness_medio != null) set('rec-hrv4t-ms', D.hrv4t_muscle_soreness_medio);
+    if (D.hrv4t_fatigue_medio != null) set('rec-hrv4t-fat', D.hrv4t_fatigue_medio);
   }
   set('rec-peso', D.peso_fine_mese);
   set('rec-slancio', D.slancio_hume_medio);
