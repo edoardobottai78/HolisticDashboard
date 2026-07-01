@@ -72,6 +72,30 @@
       "mindfit_sessioni": 14,
       "mindfit_mfs": 84,
       "mindfit_streak_max": 5
+    },
+    {
+      "mese": "Giugno 2026",
+      "mese_breve": "Giu",
+      "score_olistico": 84,
+      "score_fisico": 84,
+      "score_mentale": 80,
+      "score_nutrizionale": 88,
+      "deep_sleep_pct": 16.2,
+      "hrv_medio": 28.4,
+      "hrv4t_medio": null,
+      "hrv4t_hr_mattutino_medio": null,
+      "hrv4t_recovery_points_medio": null,
+      "hrv4t_muscle_soreness_medio": null,
+      "hrv4t_fatigue_medio": null,
+      "peso": 75.0,
+      "consistency_journal": 100,
+      "acqua_media_l": 2.18,
+      "compliance_vitamine_pct": 100,
+      "sessioni_allenamento": 22,
+      "rating_medio": 3.53,
+      "mindfit_sessioni": 6,
+      "mindfit_mfs": 39,
+      "mindfit_streak_max": 4
     }
   ]
 }
