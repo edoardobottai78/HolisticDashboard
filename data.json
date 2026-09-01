@@ -31,9 +31,9 @@
     {
       "sport": "Crossfit",
       "sessioni": 17,
-      "durata_totale": null,
-      "durata_media": null,
-      "calorie_totali": null,
+      "durata_totale": 1020.4,
+      "durata_media": 60.0,
+      "calorie_totali": 8056,
       "fc_media": null,
       "fc_max": null,
       "note": "Tipo 130 Zepp"
@@ -41,9 +41,9 @@
     {
       "sport": "Crossfit (altri codici Zepp)",
       "sessioni": 6,
-      "durata_totale": null,
-      "durata_media": null,
-      "calorie_totali": null,
+      "durata_totale": 360.0,
+      "durata_media": 60.0,
+      "calorie_totali": 1977,
       "fc_media": null,
       "fc_max": null,
       "note": "Tipi 6/16/17/52/101 Zepp — HRV4Training conferma \"Crossfit\" come attività di quei giorni, ma Zepp li classifica con codici diversi da 130. Da verificare, come già segnalato per i mesi precedenti."
@@ -52,7 +52,8 @@
   "sessioni_allenamento": 23,
   "sessioni_allenamento_target": 20,
   "steps_giorno_media": 8291,
-  "durata_allenamento_media": 60,
+  "durata_allenamento_media": 60.0,
+  "durata_allenamento_totale": 1380.4,
   "calorie_allenamento_totali": 10033,
   "fc_media_allenamento": null,
   "fc_max_allenamento": null,
