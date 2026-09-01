@@ -39,6 +39,26 @@
       "mindfit_mfs": 8,
       "acqua_media_l": 2.32,
       "compliance_vitamine_pct": 97
+    },
+    {
+      "mese": "Agosto 2026",
+      "score_olistico": 69,
+      "score_fisico": 81,
+      "score_mentale": 74,
+      "score_nutrizionale": 52,
+      "hrv_medio": 27.6,
+      "hrv4t_medio": 24.96,
+      "deep_sleep_pct": 14,
+      "ore_sonno_media": 7.87,
+      "sleep_score_medio": 81.2,
+      "peso": 75.5,
+      "sessioni_allenamento": 23,
+      "steps_medi": 8291,
+      "consistency_journal": 67.7,
+      "rating_medio": 3.43,
+      "mindfit_mfs": null,
+      "acqua_media_l": 1.7,
+      "compliance_vitamine_pct": 77
     }
   ]
 }
