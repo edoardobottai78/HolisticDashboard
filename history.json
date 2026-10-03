@@ -8,7 +8,7 @@
       "score_nutrizionale": 88.2,
       "hrv_medio": 28.4,
       "hrv4t_medio": null,
-      "deep_sleep_pct": 16.2,
+      "deep_sleep_pct": 16.7,
       "ore_sonno_media": 7.48,
       "sleep_score_medio": 78.7,
       "peso": 75,
@@ -28,7 +28,7 @@
       "score_nutrizionale": 88,
       "hrv_medio": 28.2,
       "hrv4t_medio": 23.98,
-      "deep_sleep_pct": 16,
+      "deep_sleep_pct": 16.2,
       "ore_sonno_media": 7.18,
       "sleep_score_medio": 78,
       "peso": 74.6,
@@ -48,7 +48,7 @@
       "score_nutrizionale": 52,
       "hrv_medio": 27.6,
       "hrv4t_medio": 24.96,
-      "deep_sleep_pct": 14,
+      "deep_sleep_pct": 16.7,
       "ore_sonno_media": 7.87,
       "sleep_score_medio": 81.2,
       "peso": 75.5,
@@ -59,6 +59,26 @@
       "mindfit_mfs": null,
       "acqua_media_l": 1.7,
       "compliance_vitamine_pct": 77
+    },
+    {
+      "mese": "Settembre 2026",
+      "score_olistico": 78,
+      "score_fisico": 76,
+      "score_mentale": 79,
+      "score_nutrizionale": 78,
+      "hrv_medio": 27.1,
+      "hrv4t_medio": 22.2,
+      "deep_sleep_pct": 17.7,
+      "ore_sonno_media": 7.17,
+      "sleep_score_medio": 75.4,
+      "peso": 75.5,
+      "sessioni_allenamento": 20,
+      "steps_medi": 8173,
+      "consistency_journal": 93.3,
+      "rating_medio": 3.57,
+      "mindfit_mfs": 29,
+      "acqua_media_l": 2.3,
+      "compliance_vitamine_pct": 96
     }
   ]
 }
